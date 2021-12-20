@@ -122,7 +122,7 @@ String hypenstring=String.join("-",inputStrArray);
 
 return hypenstring ;
 }
-private void checkingStringArray(String[] inputStrArray)throws Exception{
+public void checkingStringArray(String[] inputStrArray)throws Exception{
 for(String wordStr:inputStrArray){
   stringCheck(wordStr);
   }
