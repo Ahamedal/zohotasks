@@ -230,9 +230,9 @@ try{
    System.out.println("enter replace String");
    String repStr=sc.nextLine();
    StringBuilder firstStr1=task2Obj.createBuilder(stringName8);
-   System.out.println("length of before reverse:"+task2Obj.getLength(firstStr1));
+   System.out.println("length of before replace:"+task2Obj.getLength(firstStr1));
    StringBuilder aftRepStr=task2Obj.repString(firstStr1,startPosition1,endPosition1,repStr);
-   System.out.println("length of after revese:"+task2Obj.getLength(aftRepStr));
+   System.out.println("length of after replace:"+task2Obj.getLength(aftRepStr));
    System.out.println(aftRepStr);
    }
    catch(Exception e8){
