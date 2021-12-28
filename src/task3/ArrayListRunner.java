@@ -113,8 +113,8 @@ try{
    int size53=sc.nextInt();
    Object objArray5[]=new Object[size53];
    for(int i=0;i<size53;i++){
-  ArrayListLogic customObject2=new ArrayListLogic();
-   objArray5[i]=customObject2;
+  ArrayListLogic customObject=new ArrayListLogic();
+   objArray5[i]=customObject;
      }
    try{
    List myList51=objForArrayList.createList();
