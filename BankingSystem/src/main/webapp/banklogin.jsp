@@ -18,10 +18,19 @@
 <label for="pass">Password:</label><br>
 <input type="password" placeholder="enter password" name="pass"><br>
 
-<button name="page" value="login" type="submit">login</button>
+<button name="page" value="login"  type="submit" id="b">login</button>
 
 </div>
+
 </form>
+<div style="center">
+<%
+ String a=(String)request.getAttribute("login");
+if(a!=null){
+	out.print(a);
+}
+%>
+</div>
 
 </body>
 </html>

@@ -1,8 +1,7 @@
 
 
 import java.io.IOException;
-
-
+import java.io.PrintWriter;
 import java.util.*;
 import com.logiclayer.*;
 import level3.*;
@@ -48,6 +47,7 @@ public class AccountServelets extends HttpServlet {
 		String id=request.getParameter("uname");
 		String pass=request.getParameter("pass");
 		String page=request.getParameter("page");
+		PrintWriter out=response.getWriter();
 		try {
 			Utility.stringCheck(page);
 			Utility.stringCheck(id);
@@ -102,7 +102,11 @@ public class AccountServelets extends HttpServlet {
 			
 		}
 		else {
-			System.out.println("error oocured");
+			request.setAttribute("login", "*your user id and password is wrong");
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+			
+			
 		}
 			} catch (ClassNotFoundException | CustomException e) {
 				// TODO Auto-generated catch block
@@ -143,7 +147,12 @@ public class AccountServelets extends HttpServlet {
 
 		}
 		
-		
+	   if(page.equals("logout")) {
+		   HttpSession session1=request.getSession();
+		   session1.invalidate();
+		   RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+	   }
 	}
 
 }

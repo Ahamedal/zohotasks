@@ -11,6 +11,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+function myconfirm(){
+	var result=confirm("want to delete");
+	if(result==true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+</script> 
 <meta charset="UTF-8">
 <title>AccountDetails</title>
 
@@ -18,19 +29,14 @@
 
 </head>
 <body>
-<center><h2>AccountDetails</h2></center>
-<form action="AccountServelets" method="post">
-<button name="page" value="customerdetails" type="submit">Customer Details</button>
-<button name="page" value="accountdetails"  type="submit">Account Details</button>
-<button type="submit" formaction="Deposit.jsp" >Deposit</button>
-<button type="submit" formaction="WithDraw.jsp">WithDraw</button>
-<button type="submit" formaction="Transfer to Another Account.jsp">Transfer To Another Account</button>
-<button type="submit" formaction="banklogin.jsp">LogOut</button>
+
+<jsp:include page="adminloginpage.jsp"></jsp:include>
 
 
 
 <a href="AddAccount.jsp" type="submit" style="float:right">AddAccount</a>
 </form>
+<center><h2>AccountDetails</h2></center>
 <form >
 <table style="width:100%">
 <tr>
@@ -49,7 +55,7 @@
    <td><c:out value="${current1.value.getBalance()}"/></td>
   
     
-    <td><button type="submit" name="aId" value="<c:out value="${current1.key}"/>" formaction="Deactivate" formmethod="post">Delete</button></td>     
+    <td><button onclick="return myconfirm()" type="submit" name="aId" value="<c:out value="${current1.key}"/>" formaction="Deactivate" formmethod="post">Delete</button></td>     
  
 </tr>
 </c:forEach>

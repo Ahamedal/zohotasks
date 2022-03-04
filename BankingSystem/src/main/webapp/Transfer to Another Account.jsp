@@ -8,8 +8,8 @@
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 </head>
 <body>
-<a href="banklogin.jsp" type="submit" style="float:right">LogOut</a>
-<br><br><br><br><br>
+<jsp:include page="adminloginpage.jsp" ></jsp:include>
+<br><br>
 <form action="TransferToAnotherAccount" method="post">
 
 <div>
@@ -27,7 +27,7 @@
 <label for="uDep"></label>
 <input type="text" placeholder="enter deposit" name="uDep"><br>
 
-<button type="submit">submit</button>
+<button type="submit" id="b">submit</button>
 </div>
 </form>
 </body>

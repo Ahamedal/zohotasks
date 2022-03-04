@@ -10,6 +10,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+function myconfirm(){
+	var result=confirm("want to delete");
+	if(result==true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+</script>  
 <meta charset="UTF-8">
 <title>Customer Login Page</title>
 
@@ -17,17 +28,12 @@
 
 </head>
 <body>
-<center><h2>CustomerDetails</h2></center>
+<jsp:include page="adminloginpage.jsp"></jsp:include>
 <div>
-<form action="AccountServelets" method="post">
-<button name="page" value="customerdetils" type="submit">Customer Details</button>
-<button name="page" value="accountdetails"  type="submit">Account Details</button>
-<button type="submit" formaction="Deposit.jsp" >Deposit</button>
-<button type="submit" formaction="WithDraw.jsp">WithDraw</button>
-<button type="submit" formaction="Transfer to Another Account.jsp">Transfer To Another Account</button>
-<button type="submit" formaction="banklogin.jsp">LogOut</button>
-<a href="addCustomer.jsp" type="submit" style="float:right">AddCustomer</a>
 
+<a href="addCustomer.jsp" type="submit" style="float:right">AddCustomer</a>
+<center><h2>CustomerDetails</h2></center>
+<form>
 <table style="width:100%">
 <tr>
 <th>CustomerID</th><th>Name</th><th>Address</th><th>MobileNo</th><th>Deactivate</th>
@@ -37,19 +43,20 @@
   
 <tr>
   
-   <td><button name="userId" value="<c:out value="${current.key}"/>" formaction="addCustomer.jsp" type="submit"><c:out value="${current.key}"/></button></td>
+   <td><button name="userId" value="<c:out value="${current.key}"/>" formaction="AutoFill" formmethod="post" type="submit"><c:out value="${current.key}"/></button></td>
  
    <td><c:out value="${current.value.getName()}"/></td>
    <td><c:out value="${current.value.getAddress()}"/></td>
    <td><c:out value="${current.value.getMobileNo()}"/></td>
 
-   <td><button type="submit" name="userId" value="<c:out value="${current.key}"/>"  formaction="Deactivate" formmethod="post">Delete</button></td>  
+   <td><button onclick="return myconfirm()" type="submit" name="userId" value="<c:out value="${current.key}"/>"  formaction="Deactivate" formmethod="post">Delete</button></td>
+
 </tr>
-<input type="hidden" name="uname" value="<c:out value="${current.value.getName()}"/>">
-  <input type="hidden" name="uadd" value="<c:out value="${current.value.getAddress()}"/>">
-  <input type="hidden" name="umob" value="<c:out value="${current.value.getMobileNo()}"/>">
+
 </c:forEach>
+
 </table>
+</form>
 <br><br>
 <table style="width:100%">
 <tr>
@@ -64,8 +71,9 @@
 
 
 </table>
-</form>
+
 
 </div>
+
 </body>
 </html>

@@ -32,7 +32,7 @@ else{
 <label for="uBr">Branch:</label><br>
 <input type="text" placeholder="enter branch" name="uBr"><br>
 
-<button name="userId1" value="<%out.print(id);%>" type="submit">register</button>
+<button name="userId1" value="<%out.print(id);%>" type="submit" id="b">register</button>
 </div>
 </form>
 </body>
