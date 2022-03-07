@@ -15,19 +15,15 @@
 <div>
 <center><h2>Transfer to another Account</h2></center>
 <h3>From account:</h3>
-<label for="uId"></label>
-<input type="text" placeholder="enter userId" name="uId"> <br>
 <label for="uAccNo"></label>
 <input type="text" placeholder="enter AccountNo" name="uAccNo"> <br>
 <h3>To account:</h3>
-<label for="uId1"></label>
-<input type="text" placeholder="enter userId" name="uId1"> <br>
 <label for="uaccNo"></label>
 <input type="text" placeholder="enter AccountNo" name="uaccNo"><br>
 <label for="uDep"></label>
 <input type="text" placeholder="enter deposit" name="uDep"><br>
 
-<button type="submit" id="b">submit</button>
+<button type="submit" id="b" name="page" value="admin">submit</button>
 </div>
 </form>
 </body>

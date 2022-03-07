@@ -38,6 +38,7 @@ public class AddAccount extends HttpServlet {
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
 		Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();
 		if(!id.equals("null")) {
+			System.out.println("hello");
 			  int k=Integer.parseInt(id);
 				DBLayer o=new DBLayer();
 				String query="update accountInfo set customerID="+a+",accountType='"+accountType+"',branchName='"+branchName+"' where accountID="+k+";";

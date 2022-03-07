@@ -88,6 +88,19 @@ public class DBLayer implements PersistantLayer{
 		}
 		return map;
 	}
+	public int getCusId(String query) throws CustomException{
+		try(java.sql.Connection con=DriverManager.getConnection(url, uName, pass);
+    			Statement st=con.createStatement();){
+			ResultSet rs=st.executeQuery(query);
+			rs.next();
+			int cusId=rs.getInt(1);
+			return cusId;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	public void updateTable(String query) {
 		try(java.sql.Connection con=DriverManager.getConnection(url, uName, pass);
     			Statement st=con.createStatement();){

@@ -48,14 +48,16 @@ public class AccountServelets extends HttpServlet {
 		String pass=request.getParameter("pass");
 		String page=request.getParameter("page");
 		PrintWriter out=response.getWriter();
+		Map<Integer,AccountInfo> acc=new HashMap<>();
 		try {
 			Utility.stringCheck(page);
-			Utility.stringCheck(id);
+			
 
 		} catch (CustomException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		if(page.equals("login")) {
 			int id1=Integer.valueOf(id);
 			String check=null;
@@ -86,7 +88,7 @@ public class AccountServelets extends HttpServlet {
 			request.setAttribute("AccountServelets", accMap);
 			RequestDispatcher rd=request.getRequestDispatcher("customerloginpage.jsp");
 			
-			Map<Integer,AccountInfo> acc=new HashMap<>();
+			
 			
 			try {
 				acc=logic.getForAccId(id2);
@@ -150,9 +152,13 @@ public class AccountServelets extends HttpServlet {
 	   if(page.equals("logout")) {
 		   HttpSession session1=request.getSession();
 		   session1.invalidate();
-		   RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
-			rd.forward(request, response);
+		   response.sendRedirect("banklogin.jsp");
+		   //RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			//rd.forward(request, response);
 	   }
+	   if(page.equals("drop")) {
+			request.setAttribute("map", acc);
+		}
 	}
 
 }

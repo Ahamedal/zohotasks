@@ -27,9 +27,13 @@ public class AutoFill extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   String id=request.getParameter("userId");
-	   int id2=Integer.valueOf(id);
+	   
+	  
 	   APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
+	   
+		   String id=request.getParameter("userId");
+	   int id2=Integer.valueOf(id);
+	  
 	   try {
 		CustomerInfo c=logic.getCusInfoFromFile(id2);
 		request.setAttribute("name", c.getName());
@@ -42,5 +46,5 @@ public class AutoFill extends HttpServlet {
 		e.printStackTrace();
 	}
 	}
+	}
 
-}

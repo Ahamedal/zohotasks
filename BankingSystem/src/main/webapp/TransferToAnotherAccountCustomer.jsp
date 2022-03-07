@@ -8,24 +8,23 @@
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 </head>
 <body>
-<a href="banklogin.jsp" type="submit" style="float:right">LogOut</a>
-<br><br><br><br><br>
-<form action="TransferToAnotherAccount" method="post">
 
+<form action="TransferToAnotherAccount" method="post">
+<button formaction="AccountServelets" formmethod="post" type="submit" style="float:right">LogOut</button>
+<br><br><br><br><br>
 <div>
-<center><h2>Transfer to another Account</h2></center>
+<h2>Transfer to another Account</h2>
 <h3>From account:</h3>
-<label for="uAccNo"></label>
-<input type="text" placeholder="enter AccountNo" name="uAccNo"> <br>
+<select name="uAccNo">
+<option><%%></option> 
+</select>
 <h3>To account:</h3>
-<label for="uId1"></label>
-<input type="text" placeholder="enter userId" name="uId1"> <br>
 <label for="uaccNo"></label>
 <input type="text" placeholder="enter AccountNo" name="uaccNo"><br>
 <label for="uDep"></label>
 <input type="text" placeholder="enter deposit" name="uDep"><br>
 
-<button type="submit">submit</button>
+<button type="submit" id="b" name="page" value="customer">submit</button>
 </div>
 </form>
 </body>

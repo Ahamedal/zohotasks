@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
      <%@ page import="java.util.*"
     %>
+    <%@ page import="java.lang.*"
+    %>
     <%@ page import="level3.*"
     %>
      <%@ page import="javax.servlet.*"
@@ -17,9 +19,9 @@
 </head>
 <body>
 <center><h1>Customer Home Page</h1></center>
-
+<form>
 <div>
-<a href="TransferToAnotherAccountCustomer.jsp" type="submit">Transfer To Another Account</a>
+<button formaction="AccountServelets" formmethod="post" name="page" value="drop" type="submit">Transfer To Another Account</button>
 <a href="banklogin.jsp " type="submit">LogOut</a>
 <br>
 <br><br><br>
@@ -43,6 +45,7 @@
 </tr>
 
 </c:forEach>
+
 </table>
 <br><br><br>
 <table style="width:100%">
@@ -64,6 +67,12 @@
    
  
 </tr>
+
+
+
+
+
+
 </c:forEach>
 
 
@@ -83,5 +92,6 @@
 
 </table>
 </div>
+</form>
 </body>
 </html>

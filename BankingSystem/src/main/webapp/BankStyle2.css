@@ -57,10 +57,14 @@ input[type=text], input[type=password] {
  }
 div{
  background-color:lightblue;
- margin-left:200px;
- margin-right:200px;
+ margin-left:300px;
+ margin-right:300px;
   border: 1px solid blue;
   box-sizing: border-box;
-  text-left:10px;
+ 
    font-size:23px;
+ }
+ #d{
+ color:red;
+ font-size:20px;
  }

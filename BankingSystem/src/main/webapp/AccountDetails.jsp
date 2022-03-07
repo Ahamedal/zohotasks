@@ -49,7 +49,7 @@ function myconfirm(){
 <tr>
    
    <td><c:out value="${current.key}"/></td>
-   <td><button  type="submit" name="userId" value="<c:out value="${current1.key}"/>" formaction="AddAccount.jsp" ><c:out value="${current1.key}"/></button></td>
+   <td><a  type="submit"  href="AddAccount.jsp?userId=<c:out value="${current.key}"/>&accType=<c:out value="${current1.value.getAccountType()}"/>&branch=<c:out value="${current1.value.getBranchName()}"/>&accId=<c:out value="${current1.key}"/>"><c:out value="${current1.key}"/></a></td>
    <td><c:out value="${current1.value.getAccountType()}"/></td>
    <td><c:out value="${current1.value.getBranchName()}"/></td>
    <td><c:out value="${current1.value.getBalance()}"/></td>

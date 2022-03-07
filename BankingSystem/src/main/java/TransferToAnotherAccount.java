@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.logiclayer.CustomException;
 import level3.APILayer;
 import level3.AccountInfo;
 import level3.CustomerInfo;
+import level3.DBLayer;
 
 /**
  * Servlet implementation class TransferToAnotherAccount
@@ -32,43 +34,55 @@ public class TransferToAnotherAccount extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String fCusId=request.getParameter("uId");
+		String page=request.getParameter("page");
         String fAccId=request.getParameter("uAccNo");
-		String tcusId=request.getParameter("uId1");
+		
 		String tAccId=request.getParameter("uaccNo");
 		String dep=request.getParameter("uDep");
 		HttpSession session=request.getSession();
-		String userId=(String) session.getAttribute("id");
-		if(fCusId!=null) {
-		int cId=Integer.valueOf(fCusId);
+		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
+		if(page.equals("admin")) {
+			Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();;
 		int aId=Integer.valueOf(fAccId);
-		int cId1=Integer.valueOf(tcusId);
+		
 		int aId1=Integer.valueOf(tAccId);
 		long deposit=Long.valueOf(dep);
-		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
-		Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();
+		DBLayer o=new DBLayer();
+		String query="select * from accountInfo where accountID="+aId+";";
+		String query1="select * from accountInfo where accountID="+aId1+";";
 		try {
+			int cId=o.getCusId(query);
+			int cId1=o.getCusId(query1);
+			System.out.println(cId+" "+cId1);
 			logic.depositMoney(cId1, aId1, deposit);
 			logic.withDrawMoney(cId, aId, deposit);
 		
 			accMap=logic.readAccInfo();
-		} catch (Exception e) {
+		} catch (CustomException | ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+
 		request.setAttribute("AccountServelets", accMap);
 		RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
 		rd.forward(request, response);
 		}
-		else {
+		if(page.equals("customer")){
 			Map<Integer,CustomerInfo> cusMap=new HashMap<>();
-			int cId=Integer.valueOf(userId);
+		
 			int aId=Integer.valueOf(fAccId);
-			int cId1=Integer.valueOf(tcusId);
+		
 			int aId1=Integer.valueOf(tAccId);
 			long deposit=Long.valueOf(dep);
-			APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
+			DBLayer o=new DBLayer();
+		
+			String query1="select * from accountInfo where accountID="+aId1+";";
+			int cId=0;
+			int cId1=0;
 			try {
+			    cId=Integer.valueOf((String) session.getAttribute("id"));
+			    System.out.println(cId);
+				cId1=o.getCusId(query1);
 				logic.depositMoney(cId1, aId1, deposit);
 				logic.withDrawMoney(cId, aId, deposit);
 				

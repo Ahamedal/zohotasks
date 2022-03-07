@@ -20,16 +20,17 @@
 
 <button name="page" value="login"  type="submit" id="b">login</button>
 
-</div>
 
+</div>
 </form>
-<div style="center">
+<div id="d">
 <%
  String a=(String)request.getAttribute("login");
 if(a!=null){
 	out.print(a);
 }
 %>
+
 </div>
 
 </body>
