@@ -18,6 +18,7 @@ select{
 	text-align:center;
 	color:red;
 }
+
 input[type=text], input[type=password] { 
         width: 90%;
         margin: 34px ;

@@ -19,10 +19,10 @@
 </head>
 <body>
 <center><h1>Customer Home Page</h1></center>
-<form>
+<form action="TransferToAnotherAccountCustomer.jsp">
 <div>
-<button formaction="AccountServelets" formmethod="post" name="page" value="drop" type="submit">Transfer To Another Account</button>
-<a href="banklogin.jsp " type="submit">LogOut</a>
+<button  type="submit">Transfer To Another Account</button>
+<button formaction="AccountServelets" formmethod="post" type="submit" name="page" value="logout">LogOut</button>
 <br>
 <br><br><br>
 <table style="width:100%">

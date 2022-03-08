@@ -49,19 +49,12 @@ public class AccountServelets extends HttpServlet {
 		String page=request.getParameter("page");
 		PrintWriter out=response.getWriter();
 		Map<Integer,AccountInfo> acc=new HashMap<>();
-		try {
-			Utility.stringCheck(page);
-			
-
-		} catch (CustomException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		HttpSession session=request.getSession();
 		
 		if(page.equals("login")) {
 			int id1=Integer.valueOf(id);
 			String check=null;
-			HttpSession session=request.getSession();
+			
 			session.setAttribute("id", id);
 			
 			try {
@@ -78,29 +71,37 @@ public class AccountServelets extends HttpServlet {
              Map<Integer,CustomerInfo> accMap=new HashMap<>();
 			
 			try {
-				CustomerInfo c=logic.getCusInfoFromFile(id2);
+				CustomerInfo c=logic.getCusInfoFromCache(id2);
 				accMap.put(id2, c);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println(accMap);
-			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("customerloginpage.jsp");
-			
-			
-			
-			try {
+				System.out.println(accMap);
+				request.setAttribute("AccountServelets", accMap);
 				acc=logic.getForAccId(id2);
-				
+				session.setAttribute("map", acc);
+				System.out.println(acc);
+				request.setAttribute("AccountServelet", acc);
+				RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp");
+				rd1.forward(request, response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println(acc);
-			request.setAttribute("AccountServelet", acc);
-			RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp");
-			rd1.forward(request, response);
+			
+			
+			
+			
+//			
+//			try {
+//				acc=logic.getForAccId(id2);
+//				session.setAttribute("map", acc);
+//				
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			System.out.println(acc);
+//			request.setAttribute("AccountServelet", acc);
+//			RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp");
+//			rd1.forward(request, response);
 			
 		}
 		else {
@@ -120,7 +121,7 @@ public class AccountServelets extends HttpServlet {
 			
 			
 			try {
-				accMap=logic.readAccInfo();
+				accMap=logic.getAccountInfoCache();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -132,11 +133,13 @@ public class AccountServelets extends HttpServlet {
 			
 
 		}
+		
 		if(page.equals("customerdetails")) {
 			Map<Integer,CustomerInfo> accMap=new HashMap<>();
 			
 			try {
-				accMap=logic.readCusInfo();
+				accMap=logic.getCustomerInfoCache();
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -156,8 +159,29 @@ public class AccountServelets extends HttpServlet {
 		   //RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			//rd.forward(request, response);
 	   }
-	   if(page.equals("drop")) {
-			request.setAttribute("map", acc);
+	  
+	
+	if(page.equals("drop")) {
+		session.setAttribute("map", acc);
+		RequestDispatcher rd=request.getRequestDispatcher("TransferToAnotherAccountCustomer.jsp");
+		rd.forward(request, response);
+	}
+	if(page.equals("deactivatedetails")) {
+        Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();
+			
+			
+			try {
+				accMap=logic.getAccountInfoCache();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println(accMap);
+			request.setAttribute("AccountServelets", accMap);
+			RequestDispatcher rd=request.getRequestDispatcher("DeactivateAccountDetails.jsp");
+			rd.forward(request, response);
+			
+
 		}
 	}
 

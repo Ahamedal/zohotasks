@@ -11,48 +11,40 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.logiclayer.CustomException;
-
-import level3.*;
+import level3.APILayer;
+import level3.AccountInfo;
+import level3.DBLayer;
 
 /**
- * Servlet implementation class Deposit
+ * Servlet implementation class Activate
  */
-@WebServlet("/Deposit")
-public class Deposit extends HttpServlet {
+@WebServlet("/Activate")
+public class Activate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
+   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String cusId=request.getParameter("uId");
-		String accId=request.getParameter("uAccNo");
-		String depositAmmount=request.getParameter("uDep");
-		int cId=Integer.valueOf(cusId);
-		int aId=Integer.valueOf(accId);
-		long deposit=Long.valueOf(depositAmmount);
+		String accId=request.getParameter("aId");
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
+		int aId=Integer.valueOf(accId);
 		Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();
+		DBLayer db=new DBLayer();
 		try {
-			logic.depositMoney(cId, aId, deposit);
+			db.setAccountStatus(aId, 1);
 		
 			accMap=logic.readAccInfo();
-			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
-			rd.forward(request, response);
-		} catch (CustomException |ClassNotFoundException e) {
+		} catch (Exception e) {
 			
-			 request.setAttribute("deposit",e.getMessage());
-			    RequestDispatcher rd=request.getRequestDispatcher("Deposit.jsp");
-				rd.forward(request, response);
+			e.printStackTrace();
 		}
-		
+	  
+		request.setAttribute("AccountServelets", accMap);
+		RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+		rd.forward(request, response);
 	}
 
 }

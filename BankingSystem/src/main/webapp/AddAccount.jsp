@@ -22,14 +22,14 @@ else{
 <h5>*please fill all details to below here</h5>
 
 <label for="userId">UserId:</label><br>
-<input type="text" placeholder="enter userId" name="userId" <% if(id!=null){%>value="<%out.print(request.getParameter("userId")); %>"<%} %> > <br>
+<input type="text" placeholder="enter userId" name="userId" <% if(id!=null){%> readonly="readonly" value="<%out.print(request.getParameter("userId")); %>" <%}%> required> <br>
 <label for="uAT">AccountType:</label><br>
-<select name="uAT" >
+<select name="uAT" required>
    <option><% if(id!=null){%><%out.print(request.getParameter("accType")); %><%} else{%>Select Account Type<%} %> </option>
    <option>Savings</option>
    <option>Current</option>
 </select>   
-<select name="uBr">
+<select name="uBr" required>
 <option><% if(id!=null){%><%out.print(request.getParameter("branch")); %><%} else{%>Select Branch<%} %> </option>
 <option>Karaikudi</option>
 <option>Chennai</option>

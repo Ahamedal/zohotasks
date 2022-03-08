@@ -46,10 +46,12 @@ public class WithDraw extends HttpServlet {
 	        request.setAttribute("AccountServelets", accMap);
 			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
 			rd.forward(request, response);
-		} catch (Exception e) {
-		    out.print("your amount is out of range");
+		} catch (CustomException |ClassNotFoundException e) {
+		    request.setAttribute("withdraw",e.getMessage());
+		    RequestDispatcher rd=request.getRequestDispatcher("WithDraw.jsp");
+			rd.forward(request, response);
 		    
-		}
+		} 
 		
 	}
 

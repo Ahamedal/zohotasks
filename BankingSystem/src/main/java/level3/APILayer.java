@@ -55,7 +55,7 @@ public Map<Integer,Map<Integer,AccountInfo>> readAccInfo()throws CustomException
  	return accountInfo;
  }
  
-public CustomerInfo getCusInfoFromFile(int cusId)throws CustomException{
+public CustomerInfo getCusInfoFromFile(int cusId)throws CustomException, ClassNotFoundException{
 	CustomerInfo cusInfo=objForFile1.getMap(cusId);
 	return cusInfo;
 }
@@ -65,7 +65,7 @@ public CustomerInfo getCusInfoFromCache(int cusId)throws CustomException{
 }
 
 
-public AccountInfo getAccForAccIdFromFile(int cusId,int accId)throws CustomException{
+public AccountInfo getAccForAccIdFromFile(int cusId,int accId)throws CustomException, ClassNotFoundException{
 	AccountInfo acc=objForFile1.getForAccountId(cusId, accId);
 	return acc;
 }
@@ -74,7 +74,7 @@ public AccountInfo getAccForAccIdFromCache(int cusId,int accId)throws CustomExce
 	return acc;
 }
  
- public Map<Integer,AccountInfo> getForAccId(int id)throws CustomException{
+ public Map<Integer,AccountInfo> getForAccId(int id)throws CustomException, ClassNotFoundException{
 	 Map<Integer,AccountInfo> map=objForFile1.getForAccountId(id);
 	 return map;
  }
@@ -117,13 +117,13 @@ public void addMultipleAccount(AccountInfo value) throws CustomException{
 	
 	
 
- public void getForAccountId(int customerId,int accountId)throws CustomException {
+ public void getForAccountId(int customerId,int accountId)throws CustomException, ClassNotFoundException {
 	 objForFile1.getForAccountId(customerId, accountId);
 	 cache.getForAccountId(customerId, accountId);
 
 	}
 	
-   public void depositMoney(int cusID,int accID,long deposit)throws CustomException{
+   public void depositMoney(int cusID,int accID,long deposit)throws CustomException, ClassNotFoundException{
 	   objForFile1.depositMoney(cusID, accID, deposit);
 	   cache.depositMoney(cusID, accID, deposit);
     
@@ -131,7 +131,7 @@ public void addMultipleAccount(AccountInfo value) throws CustomException{
     
     	
     }
-  public void withDrawMoney(int cusID,int accID,long withDraw)throws CustomException{
+  public void withDrawMoney(int cusID,int accID,long withDraw)throws CustomException, ClassNotFoundException{
 	  objForFile1.withDrawMoney(cusID, accID, withDraw);
 	  cache.withDrawMoney(cusID, accID, withDraw);
     

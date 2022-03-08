@@ -14,24 +14,24 @@
 <form action="AccountServelets"method="post">
 <div>
 <label for="uname">UserID:</label><br>
-<input type="text" placeholder="enter userid" name="uname"> <br>
+<input type="text" placeholder="enter userid" name="uname" required> <br>
 <label for="pass">Password:</label><br>
-<input type="password" placeholder="enter password" name="pass"><br>
+<input type="password" placeholder="enter password" name="pass" required><br>
 
 <button name="page" value="login"  type="submit" id="b">login</button>
 
 
-</div>
-</form>
-<div id="d">
+<br>
+
 <%
  String a=(String)request.getAttribute("login");
 if(a!=null){
-	out.print(a);
+	out.print("<label id=d>*"+a+"</label>");
 }
 %>
-
 </div>
+</form>
+
 
 </body>
 </html>

@@ -23,11 +23,11 @@ else{
 <div>
 <h5>*please fill all details to below here</h5>
 <label for="uname">username:</label><br>
-<input type="text" placeholder="enter username" name="uname" <% if(id!=null){%>value="<%out.print((String)(request.getAttribute("name"))); %>"<%} %>  > <br>
+<input type="text" placeholder="enter username" name="uname" <% if(id!=null){%>value="<%out.print((String)(request.getAttribute("name"))); %>"<%} %> required > <br>
 <label for="uadd">useraddress:</label><br>
-<input type="text" placeholder="enter useradress" name="uadd" <% if(id!=null){%> value="<%out.print((String)(request.getAttribute("address"))); %>"<%} %>  ><br>
+<input type="text" placeholder="enter useradress" name="uadd" <% if(id!=null){%> value="<%out.print((String)(request.getAttribute("address"))); %>"<%} %> required ><br>
 <label for="umob">mobileno:</label><br>
-<input type="text" placeholder="enter usermobileno" name="umob" <% if(id!=null){%> value="<%out.print((Long)(request.getAttribute("mobileno"))); %>" <%} %> ><br>
+<input type="text" placeholder="enter usermobileno" name="umob" <% if(id!=null){%> value="<%out.print((Long)(request.getAttribute("mobileno"))); %>" <%} %>required ><br>
 
 
 <button name="userId1" value="<%out.print(id);%>" type="submit" id="b">register</button>

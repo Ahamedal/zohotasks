@@ -41,7 +41,7 @@ public class AutoFill extends HttpServlet {
 		request.setAttribute("mobileno",c.getMobileNo());
 		RequestDispatcher rd=request.getRequestDispatcher("addCustomer.jsp");
 		rd.forward(request, response);
-	} catch (CustomException e) {
+	} catch (CustomException | ClassNotFoundException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}

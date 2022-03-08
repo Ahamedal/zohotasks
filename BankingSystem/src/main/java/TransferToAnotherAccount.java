@@ -58,17 +58,20 @@ public class TransferToAnotherAccount extends HttpServlet {
 			logic.withDrawMoney(cId, aId, deposit);
 		
 			accMap=logic.readAccInfo();
-		} catch (CustomException | ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			request.setAttribute("AccountServelets", accMap);
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+			rd.forward(request, response);
+		} catch (CustomException | ClassNotFoundException e) {
+			request.setAttribute("transfers",e.getMessage());
+		    RequestDispatcher rd=request.getRequestDispatcher("Transfer to Another Account.jsp");
+			rd.forward(request, response);
 		}
 
-		request.setAttribute("AccountServelets", accMap);
-		RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
-		rd.forward(request, response);
 		}
+	
+		
 		if(page.equals("customer")){
-			Map<Integer,CustomerInfo> cusMap=new HashMap<>();
+			
 		
 			int aId=Integer.valueOf(fAccId);
 		
@@ -79,43 +82,32 @@ public class TransferToAnotherAccount extends HttpServlet {
 			String query1="select * from accountInfo where accountID="+aId1+";";
 			int cId=0;
 			int cId1=0;
+			 Map<Integer,CustomerInfo> accMap=new HashMap<>();
+			 Map<Integer,AccountInfo> acc=new HashMap<>();
 			try {
 			    cId=Integer.valueOf((String) session.getAttribute("id"));
 			    System.out.println(cId);
 				cId1=o.getCusId(query1);
 				logic.depositMoney(cId1, aId1, deposit);
 				logic.withDrawMoney(cId, aId, deposit);
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			  Map<Integer,CustomerInfo> accMap=new HashMap<>();
-				
-				try {
-					CustomerInfo c=logic.getCusInfoFromFile(cId);
-					accMap.put(cId, c);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				CustomerInfo c=logic.getCusInfoFromFile(cId);
+				accMap.put(cId, c);
 				System.out.println(accMap);
 				request.setAttribute("AccountServelets", accMap);
-				RequestDispatcher rd=request.getRequestDispatcher("customerloginpage.jsp");
-				
-				Map<Integer,AccountInfo> acc=new HashMap<>();
-				
-				try {
-					acc=logic.getForAccId(cId);
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				acc=logic.getForAccId(cId);
 				System.out.println(acc);
 				request.setAttribute("AccountServelet", acc);
 				RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp");
 				rd1.forward(request, response);
+				
+			} catch (CustomException | ClassNotFoundException e) {
+				request.setAttribute("transfers",e.getMessage());
+			    RequestDispatcher rd=request.getRequestDispatcher("TransferToAnotherAccountCustomer.jsp");
+				rd.forward(request, response);
+			}
+			 
+				
+	
 				
 		}
 	}

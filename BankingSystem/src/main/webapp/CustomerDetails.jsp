@@ -12,17 +12,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script>
-function myconfirm(){
-	var result=confirm("want to delete");
-	if(result==true){
-		return true;
-	}
-	else{
-		return false;
-	}
-}
-</script>  
+
 <meta charset="UTF-8">
 <title>Customer Login Page</title>
 
@@ -38,7 +28,7 @@ function myconfirm(){
 <form>
 <table style="width:100%">
 <tr>
-<th>CustomerID</th><th>Name</th><th>Address</th><th>MobileNo</th><th>Deactivate</th>
+<th>CustomerID</th><th>Name</th><th>Address</th><th>MobileNo</th>
 </tr>
 
 <c:forEach items="${AccountServelets}" var="current">
@@ -51,8 +41,7 @@ function myconfirm(){
    <td><c:out value="${current.value.getAddress()}"/></td>
    <td><c:out value="${current.value.getMobileNo()}"/></td>
 
-   <td><button onclick="return myconfirm()" type="submit" name="userId" value="<c:out value="${current.key}"/>"  formaction="Deactivate" formmethod="post">Delete</button></td>
-
+   
 </tr>
 
 </c:forEach>

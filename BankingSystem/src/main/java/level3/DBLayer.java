@@ -89,6 +89,7 @@ public class DBLayer implements PersistantLayer{
 		return map;
 	}
 	public int getCusId(String query) throws CustomException{
+		
 		try(java.sql.Connection con=DriverManager.getConnection(url, uName, pass);
     			Statement st=con.createStatement();){
 			ResultSet rs=st.executeQuery(query);
@@ -134,7 +135,7 @@ public class DBLayer implements PersistantLayer{
 	@SuppressWarnings("unused")
     public int addMap(CustomerInfo value) throws CustomException{
     	
-    				
+		Utility.nullCheck(value,"customerInfo");
 					
     				String name=value.getName();
     				String address=value.getAddress();
@@ -150,12 +151,13 @@ public class DBLayer implements PersistantLayer{
     }
 	
 	@Override
-	public CustomerInfo getMap(int key) throws CustomException {
-		
+	public CustomerInfo getMap(int key) throws CustomException, ClassNotFoundException{
+		checkCusId(key);
 		return selectCustomerTable("select * from customerInfo where customerID="+key+";");
 	}
 	@Override
 	public int addMultipleAccount(AccountInfo value) throws CustomException {
+		Utility.nullCheck(value+"AccountInfo");
 		int customerId=value.getCustomerID();
 	
 		String accountType=value.getAccountType();
@@ -169,24 +171,27 @@ public class DBLayer implements PersistantLayer{
 	
 	
 	@Override
-	public AccountInfo getForAccountId(int customerId, int accountId) throws CustomException {
-		
+	public AccountInfo getForAccountId(int customerId, int accountId) throws CustomException, ClassNotFoundException {
+		 checkCusId(customerId);
 		return selectAccountTable("select * from accountInfo where accountID="+accountId+" and customerID="+customerId+";");
 	}
-     public Map<Integer,AccountInfo> getForAccountId(int customerId) throws CustomException {
-		
-		return selectAccountTable1("select * from accountInfo where customerID="+customerId+";");
+     public Map<Integer,AccountInfo> getForAccountId(int customerId) throws CustomException, ClassNotFoundException {
+    	 checkCusId(customerId);
+		return selectAccountTable1("select * from accountInfo where customerID="+customerId+" and status=true;");
 	}
 	@Override
-	public void depositMoney(int cusID, int accID, long deposit) throws CustomException {
+	public void depositMoney(int cusID, int accID, long deposit) throws CustomException, ClassNotFoundException {
 		AccountInfo accountInfo=getForAccountId(cusID,accID);
+		
+	    activationCheck(accountInfo);
 		deposit=accountInfo.getBalance()+deposit;
 		updateTable("update accountInfo set balance="+deposit+" where accountID="+accID+" and customerID="+cusID+";");
 		
 	}
 	@Override
-	public void withDrawMoney(int cusID, int accID, long withDraw) throws CustomException {
+	public void withDrawMoney(int cusID, int accID, long withDraw) throws CustomException, ClassNotFoundException {
 		AccountInfo accountInfo=getForAccountId(cusID,accID);
+		activationCheck(accountInfo);
 		if(accountInfo.getBalance()>=withDraw) {
         withDraw=accountInfo.getBalance()-withDraw;
         updateTable("update accountInfo set balance="+withDraw+" where accountID="+accID+" and customerID="+cusID+";");
@@ -214,7 +219,7 @@ public class DBLayer implements PersistantLayer{
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		try(java.sql.Connection con=DriverManager.getConnection(url, uName, pass);
 				Statement st=con.createStatement();){
-			 String sql="select * from customerInfo where status=true;";
+			 String sql="select * from customerInfo;";
 			 ResultSet result=st.executeQuery(sql);
 			 Map<Integer,CustomerInfo> customerData=new HashMap<>();
 			 while(result.next())
@@ -243,7 +248,7 @@ public class DBLayer implements PersistantLayer{
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		try(java.sql.Connection con=DriverManager.getConnection(url, uName, pass);
 				Statement st=con.createStatement();){
-			 String sql="select * from accountInfo where status=true;";
+			 String sql="select * from accountInfo;";
 			 ResultSet rs=st.executeQuery(sql);
 			 
 			 Map<Integer,Map<Integer,AccountInfo>> accountData=new HashMap<>();
@@ -277,6 +282,32 @@ public class DBLayer implements PersistantLayer{
 		}
 		
 	}
+	private void activationCheck(CustomerInfo customerInfo)throws CustomException {
+		  if(!customerInfo.isStatus()) {
+			  throw new CustomException("customer is deactivated");
+		  }
+	  }
+	  private void activationCheck(AccountInfo accountInfo)throws CustomException {
+		  if(accountInfo==null) {
+			 throw new CustomException("Account is not found") ;
+		  }
+		  else {
+		  if(!accountInfo.isStatus()) {
+			  throw new CustomException("account is deactivated");
+		  }
+		  }
+	  }
+	  private void checkCusId(int cusId)throws CustomException, ClassNotFoundException {
+		  Map<Integer,CustomerInfo> customerInfo=fileToMap();
+		  if(cusId!=0) {
+		  if(customerInfo.get(cusId)==null) {
+			  throw new CustomException("this customer id is does not exist");
+		  }
+		  }
+		  else {
+			  throw new CustomException("Account is not found");
+		  }
+	  }
 	public String getLogin(int cusId,String pass1) throws CustomException,ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		int check=0;
