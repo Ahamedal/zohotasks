@@ -12,12 +12,30 @@ button{
 	 font-size:20px;
 }
 </style>
+<script>  
+function Numeric(evt)
+{
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && ( charCode < 48 || charCode > 57))
+        {
+            document.getElementById("span").innerHTML = "*Please enter Numeric value only!";
+            return false;
+        }
+        else
+        {
+            document.getElementById("span").innerHTML = "";
+           
+            return true;
+        }
+}
+ 
+</script>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 </head>
 <body>   
 
 <jsp:include page="adminloginpage.jsp" ></jsp:include>
-<br><br><br>
+
 <form  >
 
 <div >
@@ -25,13 +43,14 @@ button{
 
 <h5>*please fill all details to below here</h5>
 <label for="uId">userId:</label><br>
-<input type="text" placeholder="enter userId" name="uId" required> <br>
+<input type="text" placeholder="enter userId" name="uId" onkeypress="return Numeric(event)" required> <br>
 <label for="uAccNo">Account No:</label><br>
-<input type="text" placeholder="enter AccountNo" name="uAccNo" required><br>
+<input type="text" placeholder="enter AccountNo" name="uAccNo" onkeypress="return Numeric(event)" required><br>
 <label for="uDep">Deposit Money:</label><br>
-<input type="text" placeholder="enter deposit" name="uDep" required><br>
+<input type="text" placeholder="enter deposit" name="uDep" onkeypress="return Numeric(event)" required><br>
 
 <button formaction="Deposit" formmethod="post" type="submit" id="b">submit</button>
+<label id="d"><span id="span"></span></label>
 <br><br>
 <%
  String a=(String)request.getAttribute("deposit");

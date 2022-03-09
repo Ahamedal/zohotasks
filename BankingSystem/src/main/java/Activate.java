@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import level3.APILayer;
 import level3.AccountInfo;
+import level3.CustomerInfo;
 import level3.DBLayer;
 
 /**
@@ -30,8 +31,11 @@ public class Activate extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String accId=request.getParameter("aId");
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
+		Map<Integer,CustomerInfo> cus=new HashMap<>();
+		if(accId!=null) {
 		int aId=Integer.valueOf(accId);
 		Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();
+		
 		DBLayer db=new DBLayer();
 		try {
 			db.setAccountStatus(aId, 1);
@@ -45,6 +49,26 @@ public class Activate extends HttpServlet {
 		request.setAttribute("AccountServelets", accMap);
 		RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
 		rd.forward(request, response);
+		}
+		else {
+			String cusId=request.getParameter("userId");
+			int cId=Integer.valueOf(cusId);
+			
+			try {
+				logic.setCustomerStatus(cId, 1);;
+			
+				cus=logic.readCusInfo();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  
+			request.setAttribute("AccountServelets", cus);
+			RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp");
+			rd.forward(request, response);
+		
+			
+		}
 	}
-
+	
 }

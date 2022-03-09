@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.logiclayer.*;
 
@@ -32,7 +33,12 @@ public class AddAccount extends HttpServlet {
 		String userId=request.getParameter("userId");
 		String accountType=request.getParameter("uAT");
 		String branchName=request.getParameter("uBr");
-		
+		HttpSession session=request.getSession();
+		if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}
+		else {
 		int a=Integer.valueOf(userId);
 		String id=request.getParameter("userId1");
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
@@ -74,5 +80,5 @@ public class AddAccount extends HttpServlet {
 		rd.forward(request, response);
 		}
 	}
-
+	}
 }

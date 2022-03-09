@@ -116,6 +116,10 @@ public class AccountServelets extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}
 		if(page.equals("accountdetails")) {
 			Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();
 			
@@ -153,8 +157,8 @@ public class AccountServelets extends HttpServlet {
 		}
 		
 	   if(page.equals("logout")) {
-		   HttpSession session1=request.getSession();
-		   session1.invalidate();
+		   
+		   session.invalidate();
 		   response.sendRedirect("banklogin.jsp");
 		   //RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			//rd.forward(request, response);
@@ -179,6 +183,23 @@ public class AccountServelets extends HttpServlet {
 			System.out.println(accMap);
 			request.setAttribute("AccountServelets", accMap);
 			RequestDispatcher rd=request.getRequestDispatcher("DeactivateAccountDetails.jsp");
+			rd.forward(request, response);
+			
+
+		}
+	if(page.equals("deactivatedetailscustomer")) {
+        Map<Integer,CustomerInfo> accMap=new HashMap<>();
+			
+			
+			try {
+				accMap=logic.getCustomerInfoCache();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println(accMap);
+			request.setAttribute("AccountServelets", accMap);
+			RequestDispatcher rd=request.getRequestDispatcher("DeactivatedAccountDetails.jsp");
 			rd.forward(request, response);
 			
 

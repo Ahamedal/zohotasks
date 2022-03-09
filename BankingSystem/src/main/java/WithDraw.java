@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.logiclayer.CustomException;
 
@@ -31,15 +32,22 @@ public class WithDraw extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String cusId=request.getParameter("uId");
+		
+	    String cusId=request.getParameter("uId");
 		String accId=request.getParameter("uAccNo");
 		String WithDrawAmmount=request.getParameter("uWit");
 		int cId=Integer.valueOf(cusId);
 		int aId=Integer.valueOf(accId);
 		long withDraw=Long.valueOf(WithDrawAmmount);
+		HttpSession session=request.getSession();
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
 		Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();
 		PrintWriter out=response.getWriter();
+		if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}
+		else {
 		try {
 			logic.withDrawMoney(cId, aId, withDraw);
 	        accMap=logic.readAccInfo();
@@ -52,7 +60,7 @@ public class WithDraw extends HttpServlet {
 			rd.forward(request, response);
 		    
 		} 
-		
+		}
 	}
 
 }

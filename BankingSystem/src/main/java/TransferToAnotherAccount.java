@@ -40,6 +40,11 @@ public class TransferToAnotherAccount extends HttpServlet {
 		String tAccId=request.getParameter("uaccNo");
 		String dep=request.getParameter("uDep");
 		HttpSession session=request.getSession();
+		if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}
+		else {
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
 		if(page.equals("admin")) {
 			Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();;
@@ -111,5 +116,5 @@ public class TransferToAnotherAccount extends HttpServlet {
 				
 		}
 	}
-
+	}
 }

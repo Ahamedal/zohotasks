@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.logiclayer.CustomException;
 
@@ -37,8 +38,14 @@ public class Deposit extends HttpServlet {
 		int cId=Integer.valueOf(cusId);
 		int aId=Integer.valueOf(accId);
 		long deposit=Long.valueOf(depositAmmount);
+		HttpSession session=request.getSession();
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
 		Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();
+		if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}
+		else {
 		try {
 			logic.depositMoney(cId, aId, deposit);
 		
@@ -54,5 +61,5 @@ public class Deposit extends HttpServlet {
 		}
 		
 	}
-
+	}
 }

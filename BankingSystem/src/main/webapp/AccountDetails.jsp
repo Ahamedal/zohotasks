@@ -26,6 +26,7 @@ function myconfirm(){
 <title>AccountDetails</title>
 
 <link rel="stylesheet" type="text/css" href="detailsStyle.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -34,7 +35,7 @@ function myconfirm(){
 
 <form>
 <button formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetails" type="submit" style="float:right">DeactivatedAccounts</button><br><br>
-<a href="AddAccount.jsp" type="submit" style="float:right">AddAccount</a>
+<a href="AddAccount.jsp" type="submit" style="float:right"><i class="fa fa-plus"></i>AddAccount</a>
 
 <center><h2>AccountDetails</h2></center>
 
@@ -49,11 +50,11 @@ function myconfirm(){
 <tr>
   
    <td><c:out value="${current.key}"/></td>
-   <td><a  type="submit"  href="AddAccount.jsp?userId=<c:out value="${current.key}"/>&accType=<c:out value="${current1.value.getAccountType()}"/>&branch=<c:out value="${current1.value.getBranchName()}"/>&accId=<c:out value="${current1.key}"/>"><c:out value="${current1.key}"/></a></td>
+   <td><a  type="submit" href="AddAccount.jsp?userId=<c:out value="${current.key}"/>&accType=<c:out value="${current1.value.getAccountType()}"/>&branch=<c:out value="${current1.value.getBranchName()}"/>&accId=<c:out value="${current1.key}"/>"><i class="fa fa-edit"></i><c:out value="${current1.key}"/></a></td>
    <td><c:out value="${current1.value.getAccountType()}"/></td>
    <td><c:out value="${current1.value.getBranchName()}"/></td>
    <td><c:out value="${current1.value.getBalance()}"/></td>
-    <td><button onclick="return myconfirm()" type="submit" name="aId" value="<c:out value="${current1.key}"/>" formaction="Deactivate" formmethod="post">Delete</button></td>     
+    <td><button onclick="return myconfirm()" type="submit" name="aId" value="<c:out value="${current1.key}"/>" formaction="Deactivate" formmethod="post"><i class="fa fa-trash"></i> Delete</button></td>     
  
 </tr>
 </c:if>
