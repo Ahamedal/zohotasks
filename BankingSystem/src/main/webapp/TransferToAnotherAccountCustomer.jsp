@@ -24,7 +24,7 @@ function Numeric(evt)
         else
         {
             document.getElementById("span").innerHTML = "";
-            alert("Transaction Successfully\n");
+           
             return true;
         }
 }

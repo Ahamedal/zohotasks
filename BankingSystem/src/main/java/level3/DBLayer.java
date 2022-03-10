@@ -88,10 +88,12 @@ public class DBLayer implements PersistantLayer{
 		}
 		return map;
 	}
-	public int getCusId(String query) throws CustomException{
+	public int getCusId(int aId) throws CustomException{
 		
 		try(java.sql.Connection con=DriverManager.getConnection(url, uName, pass);
     			Statement st=con.createStatement();){
+			String query="select * from accountInfo where accountID="+aId+";";
+			
 			ResultSet rs=st.executeQuery(query);
 			rs.next();
 			int cusId=rs.getInt(1);
@@ -149,6 +151,10 @@ public class DBLayer implements PersistantLayer{
     			
     	
     }
+	public void updateDatas(String name,String address,Long mobileNo,int k) throws CustomException,ClassNotFoundException{
+		String query="update customerInfo set name='"+name+"',address='"+address+"',mobileNo='"+mobileNo+"' where customerID="+k+";";
+		updateTable(query);
+	}
 	
 	@Override
 	public CustomerInfo getMap(int key) throws CustomException, ClassNotFoundException{
@@ -168,7 +174,10 @@ public class DBLayer implements PersistantLayer{
 		value.setAccountID(a);
 		return value.getAccountID();
 	}
-	
+	public void updateAccountDatas(int a,String accountType,String branchName,int k) {
+		String query="update accountInfo set customerID="+a+",accountType='"+accountType+"',branchName='"+branchName+"' where accountID="+k+";";
+		updateTable(query);
+	}
 	
 	@Override
 	public AccountInfo getForAccountId(int customerId, int accountId) throws CustomException, ClassNotFoundException {

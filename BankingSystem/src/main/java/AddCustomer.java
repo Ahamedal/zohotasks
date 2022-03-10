@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.logiclayer.CustomException;
+import com.logiclayer.Utility;
 
 import level3.*;
 
@@ -36,52 +37,58 @@ public class AddCustomer extends HttpServlet {
 		String name=request.getParameter("uname");
 		String address=request.getParameter("uadd");
 		String mobileNo=request.getParameter("umob");
+		try {
+				Utility.stringCheck(name);
+				Utility.stringCheck(address);
+				Utility.stringCheck(mobileNo);
 		HttpSession session=request.getSession();
 		if(session.getAttribute("id")==null) {
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);
 		}
 		else {
-		long a=Long.valueOf(mobileNo);
+	  
 		String id=request.getParameter("userId1");
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
 		Map<Integer,CustomerInfo> accMap=new HashMap<>();
 		
 		if(!id.equals("null")) {
-			
-	      int k=Integer.parseInt(id);
+		  
+			long mobileN=Long.valueOf(mobileNo);
+	        int k=Integer.parseInt(id);
 			DBLayer o=new DBLayer();
-			String query="update customerInfo set name='"+name+"',address='"+address+"',mobileNo='"+mobileNo+"' where customerID="+k+";";
-			o.updateTable(query);
 			
-			try {
+			o.updateDatas(name,address,mobileN,k);
+			
+			
 				accMap=logic.readCusInfo();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				request.setAttribute("AccountServelets", accMap);
+				RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp");
+				rd.forward(request, response);
+			
+			
+		}
+		else {
+			
+		CustomerInfo cus=new CustomerInfo();
+		long mobileN=Long.valueOf(mobileNo);
+		cus.setName(name);
+		cus.setAddress(address);
+		cus.setMobileNo(mobileN);
+	    logic.addMap(cus);
+	    accMap=logic.readCusInfo();
 			request.setAttribute("AccountServelets", accMap);
 			RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp");
 			rd.forward(request, response);
+		} 
 		}
-		else {
-		CustomerInfo cus=new CustomerInfo();
-		cus.setName(name);
-		cus.setAddress(address);
-		cus.setMobileNo(a);
+		}
+		catch (CustomException|ClassNotFoundException  e) {
+			 request.setAttribute("addcustomer",e.getMessage());
+			    RequestDispatcher rd=request.getRequestDispatcher("addCustomer.jsp");
+				rd.forward(request, response);
+		}
 		
-		try {
-			logic.addMap(cus);
-		
-			accMap=logic.readCusInfo();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		request.setAttribute("AccountServelets", accMap);
-		RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp");
-		rd.forward(request, response);
-		}
-	}
-	}
+	
 }

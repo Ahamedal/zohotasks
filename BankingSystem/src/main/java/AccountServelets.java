@@ -44,20 +44,25 @@ public class AccountServelets extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
-		String id=request.getParameter("uname");
-		String pass=request.getParameter("pass");
+		
 		String page=request.getParameter("page");
-		PrintWriter out=response.getWriter();
+		
+		
 		Map<Integer,AccountInfo> acc=new HashMap<>();
 		HttpSession session=request.getSession();
 		
 		if(page.equals("login")) {
+			String id=request.getParameter("uname");
+			String pass=request.getParameter("pass");
+			try {
+				Utility.stringCheck(id);
+				Utility.stringCheck(pass);
 			int id1=Integer.valueOf(id);
 			String check=null;
 			
 			session.setAttribute("id", id);
 			
-			try {
+			
 				check=logic.getLogin(id1, pass);
 			
 		     if(check.equals("admin")) {
@@ -70,7 +75,7 @@ public class AccountServelets extends HttpServlet {
 		      int id2=Integer.valueOf(id);
              Map<Integer,CustomerInfo> accMap=new HashMap<>();
 			
-			try {
+			 
 				CustomerInfo c=logic.getCusInfoFromCache(id2);
 				accMap.put(id2, c);
 				System.out.println(accMap);
@@ -81,41 +86,24 @@ public class AccountServelets extends HttpServlet {
 				request.setAttribute("AccountServelet", acc);
 				RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp");
 				rd1.forward(request, response);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			}
+		     else {
+					request.setAttribute("login", "*your user id and password is wrong");
+					RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+					rd.forward(request, response);
+					
+					
+				}
+			}catch (CustomException |ClassNotFoundException e) {
+				request.setAttribute("login", e.getMessage());
+				RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+				rd.forward(request, response);
 			}
 			
-			
-			
-			
-//			
-//			try {
-//				acc=logic.getForAccId(id2);
-//				session.setAttribute("map", acc);
-//				
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			System.out.println(acc);
-//			request.setAttribute("AccountServelet", acc);
-//			RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp");
-//			rd1.forward(request, response);
-			
 		}
-		else {
-			request.setAttribute("login", "*your user id and password is wrong");
-			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
-			rd.forward(request, response);
-			
-			
-		}
-			} catch (ClassNotFoundException | CustomException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		
+//	
+		
 		if(session.getAttribute("id")==null) {
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);

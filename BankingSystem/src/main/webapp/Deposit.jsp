@@ -24,9 +24,11 @@ function Numeric(evt)
         else
         {
             document.getElementById("span").innerHTML = "";
-           
+            
             return true;
+            
         }
+        
 }
  
 </script>
@@ -36,10 +38,10 @@ function Numeric(evt)
 
 <jsp:include page="adminloginpage.jsp" ></jsp:include>
 
-<form  >
+<form action="Deposit" method="post" >
 
 <div >
-<center><h1>Deposit Here</h1></center>
+<center><h2>Deposit Here</h2></center>
 
 <h5>*please fill all details to below here</h5>
 <label for="uId">userId:</label><br>
@@ -47,9 +49,9 @@ function Numeric(evt)
 <label for="uAccNo">Account No:</label><br>
 <input type="text" placeholder="enter AccountNo" name="uAccNo" onkeypress="return Numeric(event)" required><br>
 <label for="uDep">Deposit Money:</label><br>
-<input type="text" placeholder="enter deposit" name="uDep" onkeypress="return Numeric(event)" required><br>
+<input type="text" placeholder="enter deposit" name="uDep" onkeypress="return Numeric(event)"  required><br>
 
-<button formaction="Deposit" formmethod="post" type="submit" id="b">submit</button>
+<button  type="submit" id="b">submit</button>
 <label id="d"><span id="span"></span></label>
 <br><br>
 <%

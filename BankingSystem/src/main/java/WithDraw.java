@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.logiclayer.CustomException;
+import com.logiclayer.Utility;
 
 import level3.APILayer;
 import level3.AccountInfo;
@@ -36,6 +37,10 @@ public class WithDraw extends HttpServlet {
 	    String cusId=request.getParameter("uId");
 		String accId=request.getParameter("uAccNo");
 		String WithDrawAmmount=request.getParameter("uWit");
+		try {
+		Utility.stringCheck(cusId);
+		Utility.stringCheck(accId);
+		Utility.stringCheck(WithDrawAmmount);
 		int cId=Integer.valueOf(cusId);
 		int aId=Integer.valueOf(accId);
 		long withDraw=Long.valueOf(WithDrawAmmount);
@@ -48,18 +53,19 @@ public class WithDraw extends HttpServlet {
 			rd.forward(request, response);
 		}
 		else {
-		try {
+	
 			logic.withDrawMoney(cId, aId, withDraw);
 	        accMap=logic.readAccInfo();
 	        request.setAttribute("AccountServelets", accMap);
 			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
 			rd.forward(request, response);
+		}
 		} catch (CustomException |ClassNotFoundException e) {
 		    request.setAttribute("withdraw",e.getMessage());
 		    RequestDispatcher rd=request.getRequestDispatcher("WithDraw.jsp");
 			rd.forward(request, response);
 		    
-		} 
+	
 		}
 	}
 

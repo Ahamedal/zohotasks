@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.logiclayer.CustomException;
+import com.logiclayer.Utility;
 
 import level3.APILayer;
 import level3.AccountInfo;
@@ -39,25 +40,32 @@ public class TransferToAnotherAccount extends HttpServlet {
 		
 		String tAccId=request.getParameter("uaccNo");
 		String dep=request.getParameter("uDep");
+		try {
+		    Utility.stringCheck(fAccId);
+		    Utility.stringCheck(tAccId);
+		    Utility.stringCheck(dep);
 		HttpSession session=request.getSession();
 		if(session.getAttribute("id")==null) {
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);
 		}
-		else {
-		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
-		if(page.equals("admin")) {
-			Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();;
-		int aId=Integer.valueOf(fAccId);
 		
-		int aId1=Integer.valueOf(tAccId);
-		long deposit=Long.valueOf(dep);
-		DBLayer o=new DBLayer();
-		String query="select * from accountInfo where accountID="+aId+";";
-		String query1="select * from accountInfo where accountID="+aId1+";";
-		try {
-			int cId=o.getCusId(query);
-			int cId1=o.getCusId(query1);
+		else {
+			
+		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
+		
+		if(page.equals("admin")) {
+		
+			Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();;
+		    int aId=Integer.valueOf(fAccId);
+		
+		   int aId1=Integer.valueOf(tAccId);
+		   long deposit=Long.valueOf(dep);
+		    DBLayer o=new DBLayer();
+		
+		
+			int cId=o.getCusId(aId);
+			int cId1=o.getCusId(aId1);
 			System.out.println(cId+" "+cId1);
 			logic.depositMoney(cId1, aId1, deposit);
 			logic.withDrawMoney(cId, aId, deposit);
@@ -65,34 +73,25 @@ public class TransferToAnotherAccount extends HttpServlet {
 			accMap=logic.readAccInfo();
 			request.setAttribute("AccountServelets", accMap);
 			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
-			rd.forward(request, response);
-		} catch (CustomException | ClassNotFoundException e) {
-			request.setAttribute("transfers",e.getMessage());
-		    RequestDispatcher rd=request.getRequestDispatcher("Transfer to Another Account.jsp");
-			rd.forward(request, response);
-		}
+	
 
 		}
 	
 		
 		if(page.equals("customer")){
 			
-		
+	
+			
 			int aId=Integer.valueOf(fAccId);
-		
-			int aId1=Integer.valueOf(tAccId);
+		    int aId1=Integer.valueOf(tAccId);
 			long deposit=Long.valueOf(dep);
 			DBLayer o=new DBLayer();
+	        Map<Integer,CustomerInfo> accMap=new HashMap<>();
+			Map<Integer,AccountInfo> acc=new HashMap<>();
 		
-			String query1="select * from accountInfo where accountID="+aId1+";";
-			int cId=0;
-			int cId1=0;
-			 Map<Integer,CustomerInfo> accMap=new HashMap<>();
-			 Map<Integer,AccountInfo> acc=new HashMap<>();
-			try {
-			    cId=Integer.valueOf((String) session.getAttribute("id"));
+			    int cId=Integer.valueOf((String) session.getAttribute("id"));
 			    System.out.println(cId);
-				cId1=o.getCusId(query1);
+				int cId1=o.getCusId(aId1);
 				logic.depositMoney(cId1, aId1, deposit);
 				logic.withDrawMoney(cId, aId, deposit);
 				CustomerInfo c=logic.getCusInfoFromFile(cId);
@@ -105,7 +104,10 @@ public class TransferToAnotherAccount extends HttpServlet {
 				RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp");
 				rd1.forward(request, response);
 				
-			} catch (CustomException | ClassNotFoundException e) {
+			}
+		}
+		}
+		catch (CustomException | ClassNotFoundException e) {
 				request.setAttribute("transfers",e.getMessage());
 			    RequestDispatcher rd=request.getRequestDispatcher("TransferToAnotherAccountCustomer.jsp");
 				rd.forward(request, response);
@@ -115,6 +117,6 @@ public class TransferToAnotherAccount extends HttpServlet {
 	
 				
 		}
-	}
-	}
+	
+	
 }

@@ -22,6 +22,17 @@ function myconfirm(){
 	}
 }
 </script> 
+<script>
+function b(){
+<%
+String a=request.getParameter("msg");
+%>
+var msg="<%=a%>";
+if(msg!=null){
+	alert("Successfully Deposited");
+}
+}
+</script>
 <meta charset="UTF-8">
 <title>AccountDetails</title>
 
@@ -36,7 +47,12 @@ function myconfirm(){
 <form>
 <button formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetails" type="submit" style="float:right">DeactivatedAccounts</button><br><br>
 <a href="AddAccount.jsp" type="submit" style="float:right"><i class="fa fa-plus"></i>AddAccount</a>
-
+<center><h2><%
+String alert=request.getParameter("msg");
+if(alert!=null){
+out.print(alert);
+}
+%></h2></center>
 <center><h2>AccountDetails</h2></center>
 
 <table style="width:100%">

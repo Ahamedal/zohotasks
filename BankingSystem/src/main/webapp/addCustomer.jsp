@@ -23,6 +23,8 @@
                 	 document.getElementById("span").innerHTML = "*String Cannot be null or Empty!";
                     return false;
                 } else {
+                	form.uname.value=form.uname.value.trim();
+                	form.uadd.value=form.uadd.value.trim() 
                     alert("Your response has been recorded Successfully\n");
                     return true;
                 }

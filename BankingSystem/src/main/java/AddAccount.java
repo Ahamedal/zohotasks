@@ -1,5 +1,6 @@
 
 
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,52 +34,59 @@ public class AddAccount extends HttpServlet {
 		String userId=request.getParameter("userId");
 		String accountType=request.getParameter("uAT");
 		String branchName=request.getParameter("uBr");
+		try {
+			Utility.stringCheck(userId);
+			Utility.stringCheck(accountType);
+			Utility.stringCheck(branchName);
 		HttpSession session=request.getSession();
 		if(session.getAttribute("id")==null) {
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);
 		}
 		else {
-		int a=Integer.valueOf(userId);
+		
 		String id=request.getParameter("userId1");
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
 		Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();
 		if(!id.equals("null")) {
-			System.out.println("hello");
-			  int k=Integer.parseInt(id);
+			
+				int a=Integer.valueOf(userId);
+			    int k=Integer.parseInt(id);
 				DBLayer o=new DBLayer();
-				String query="update accountInfo set customerID="+a+",accountType='"+accountType+"',branchName='"+branchName+"' where accountID="+k+";";
-				o.updateTable(query);
 				
+				o.updateAccountDatas(a,accountType,branchName,k);
+					
+				    accMap=logic.readAccInfo();
+					request.setAttribute("AccountServelets", accMap);
+					RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+					rd.forward(request, response);
+			
 				
-				try {
-					accMap=logic.readAccInfo();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				request.setAttribute("AccountServelets", accMap);
-				RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
-				rd.forward(request, response);
 		}
 		else {
+			int a=Integer.valueOf(userId);
 		AccountInfo acc=new AccountInfo();
 		acc.setCustomerID(a);
 		acc.setAccountType(accountType);
 		acc.setBranchName(branchName);
 		
-		try {
+	
 			logic.addMultipleAccount(acc);
 	
 			accMap=logic.readAccInfo();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("AccountServelets", accMap);
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+			rd.forward(request, response);
+		} 
 		}
-		request.setAttribute("AccountServelets", accMap);
-		RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
-		rd.forward(request, response);
 		}
+		catch (CustomException|ClassNotFoundException e) {
+			request.setAttribute("addaccount", e.getMessage());
+			RequestDispatcher rd=request.getRequestDispatcher("AddAccount.jsp");
+			rd.forward(request, response);
+		}
+		
+		
 	}
 	}
-}
+

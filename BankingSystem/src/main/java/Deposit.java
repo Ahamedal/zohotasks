@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.logiclayer.CustomException;
+import com.logiclayer.Utility;
 
 import level3.*;
 
@@ -35,6 +36,10 @@ public class Deposit extends HttpServlet {
 		String cusId=request.getParameter("uId");
 		String accId=request.getParameter("uAccNo");
 		String depositAmmount=request.getParameter("uDep");
+		try {
+	    Utility.stringCheck(cusId);
+	    Utility.stringCheck(accId);
+	    Utility.stringCheck(depositAmmount);
 		int cId=Integer.valueOf(cusId);
 		int aId=Integer.valueOf(accId);
 		long deposit=Long.valueOf(depositAmmount);
@@ -46,20 +51,21 @@ public class Deposit extends HttpServlet {
 			rd.forward(request, response);
 		}
 		else {
-		try {
+		
 			logic.depositMoney(cId, aId, deposit);
 		
 			accMap=logic.readAccInfo();
 			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=Deposit Successfully");
 			rd.forward(request, response);
+		}
 		} catch (CustomException |ClassNotFoundException e) {
 			
 			 request.setAttribute("deposit",e.getMessage());
-			    RequestDispatcher rd=request.getRequestDispatcher("Deposit.jsp");
+			    RequestDispatcher rd=request.getRequestDispatcher("Deposit.jsp?msg=Deposit Failure");
 				rd.forward(request, response);
 		}
 		
-	}
+	
 	}
 }

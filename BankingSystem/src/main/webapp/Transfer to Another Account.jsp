@@ -18,7 +18,7 @@ function Numeric(evt)
         else
         {
             document.getElementById("span").innerHTML = "";
-            alert("Your transaction Successfully\n");
+           
             return true;
         }
 }

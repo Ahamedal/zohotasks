@@ -19,7 +19,7 @@
 
 <form action="AccountServelets" method="post">
 
-<button class="btn-info" name="page" value="customerdetails" type="submit">Customer Details</button>
+<button name="page" value="customerdetails" type="submit">Customer Details</button>
 <button name="page" value="accountdetails"  type="submit">Account Details</button>
 <button type="submit" formaction="Deposit.jsp" >Deposit</button>
 <button type="submit" formaction="WithDraw.jsp">WithDraw</button>
