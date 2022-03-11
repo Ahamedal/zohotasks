@@ -18,24 +18,16 @@ select{
 	text-align:center;
 	color:red;
 }
-.imgcontainer {
-  text-align: center;
-  margin: 24px 0 12px 0;
-}
-img.avatar {
-  width: 40%;
-  border-radius: 50%;
-}
-.container {
-  padding: 16px;
-}
 
-span.psw {
-  float: right;
-  padding-top: 16px;
+.div1{
+	
+	width:100%;
+	background-color:black;
+	padding:4px;
+	
+	
 }
-
-input[type=text], input[type=password] { 
+input[type=text], input[type=password],input[type=reset] { 
         width: 90%;
         margin: 28px ;
         padding: 7px ; 
@@ -56,9 +48,10 @@ input[type=text], input[type=password] {
         cursor:pointer;
  }
  #b{
-	background-color:lightgreen;
+	background-color:green;
 	 padding: 2px; 
 	 font-size:20px;
+	  
 }
 .aa{
 	font-size:11px;
@@ -83,7 +76,7 @@ input[type=text], input[type=password] {
 	 cursor:pointer;
 	 
  }
-div{
+.divv{
  background-color:lightblue;
  margin-left:500px;
  margin-right:500px;

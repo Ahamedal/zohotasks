@@ -13,7 +13,7 @@
 <head>
 <script>
 function myconfirm(){
-	var result=confirm("want to delete");
+	var result=confirm("Are you sure want to delete");
 	if(result==true){
 		return true;
 	}
@@ -28,8 +28,8 @@ function b(){
 String a=request.getParameter("msg");
 %>
 var msg="<%=a%>";
-if(msg!=null){
-	alert("Successfully Deposited");
+if(msg!='null'){
+	alert(msg);
 }
 }
 </script>
@@ -40,19 +40,13 @@ if(msg!=null){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
-<body>
+<body onpageshow="b()">
 
 <jsp:include page="adminloginpage.jsp"></jsp:include>
 
-<form>
+<form >
 <button formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetails" type="submit" style="float:right">DeactivatedAccounts</button><br><br>
-<a href="AddAccount.jsp" type="submit" style="float:right"><i class="fa fa-plus"></i>AddAccount</a>
-<center><h2><%
-String alert=request.getParameter("msg");
-if(alert!=null){
-out.print(alert);
-}
-%></h2></center>
+<a href="AddAccount.jsp" type="submit" style="float:left"><i class="fa fa-plus"></i>AddAccount</a>
 <center><h2>AccountDetails</h2></center>
 
 <table style="width:100%">
@@ -70,7 +64,7 @@ out.print(alert);
    <td><c:out value="${current1.value.getAccountType()}"/></td>
    <td><c:out value="${current1.value.getBranchName()}"/></td>
    <td><c:out value="${current1.value.getBalance()}"/></td>
-    <td><button onclick="return myconfirm()" type="submit" name="aId" value="<c:out value="${current1.key}"/>" formaction="Deactivate" formmethod="post"><i class="fa fa-trash"></i> Delete</button></td>     
+   <td><button onclick="return myconfirm()" type="submit" name="aId" value="<c:out value="${current1.key}"/>" formaction="Deactivate" formmethod="post"><i class="fa fa-trash"></i> Delete</button></td>     
  
 </tr>
 </c:if>

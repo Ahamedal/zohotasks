@@ -18,6 +18,7 @@ import com.logiclayer.Utility;
 
 import level3.APILayer;
 import level3.AccountInfo;
+import level3.DBLayer;
 
 /**
  * Servlet implementation class WithDraw
@@ -34,15 +35,16 @@ public class WithDraw extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	    String cusId=request.getParameter("uId");
+	   
 		String accId=request.getParameter("uAccNo");
 		String WithDrawAmmount=request.getParameter("uWit");
 		try {
-		Utility.stringCheck(cusId);
+	
 		Utility.stringCheck(accId);
 		Utility.stringCheck(WithDrawAmmount);
-		int cId=Integer.valueOf(cusId);
+		DBLayer o=new DBLayer();
 		int aId=Integer.valueOf(accId);
+		int cId=o.getCusId(aId);
 		long withDraw=Long.valueOf(WithDrawAmmount);
 		HttpSession session=request.getSession();
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
@@ -57,7 +59,7 @@ public class WithDraw extends HttpServlet {
 			logic.withDrawMoney(cId, aId, withDraw);
 	        accMap=logic.readAccInfo();
 	        request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=WithDrawal Succesfully");
 			rd.forward(request, response);
 		}
 		} catch (CustomException |ClassNotFoundException e) {

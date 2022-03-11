@@ -18,15 +18,15 @@
 <body>    
 
 <form action="AccountServelets" method="post">
-
+<div class="div1">
 <button name="page" value="customerdetails" type="submit">Customer Details</button>
 <button name="page" value="accountdetails"  type="submit">Account Details</button>
 <button type="submit" formaction="Deposit.jsp" >Deposit</button>
 <button type="submit" formaction="WithDraw.jsp">WithDraw</button>
 <button type="submit" formaction="Transfer to Another Account.jsp">Transfer To Another Account</button>
 <button name="page" value="logout" type="submit"><i class="fa fa-sign-out"></i> LogOut</button>
-<br><br><br>
 
+</div>
 </form>
 
 </body>

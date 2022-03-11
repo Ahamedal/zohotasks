@@ -7,7 +7,7 @@
 
 <title>AddAccount</title>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
-<jsp:include page="adminloginpage.jsp" ></jsp:include>
+<jsp:include page="adminloginpage.jsp" ></jsp:include><br><br>
  <script>  
 function Numeric(evt)
 {
@@ -36,7 +36,7 @@ else{
 }
 %></h2></center>
 <form action="AddAccount" method="post">
-<div>
+<div class="divv">
 <h5>*please fill all details to below here</h5>
 
 <label for="userId">UserId:</label><br>

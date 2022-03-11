@@ -38,7 +38,8 @@ Map<Integer,AccountInfo> map1=(Map<Integer,AccountInfo>)sess.getAttribute("map")
 Object[] accIds=map1.keySet().toArray();
 %>
 <form action="TransferToAnotherAccount" method="post">
-<button formaction="AccountServelets" formmethod="post" type="submit" style="float:right" name="page" value="logout">LogOut</button>
+<button formaction="AccountServelets" formmethod="post" type="submit" name="page" value="home">Home</button>
+<button formaction="AccountServelets" formmethod="post" type="submit" name="page" value="logout">LogOut</button>
 <br><br><br><br><br>
 <div>
 <h2>Transfer to another Account</h2>
@@ -50,9 +51,9 @@ Object[] accIds=map1.keySet().toArray();
 </select>
 <h3>To account:</h3>
 <label for="uaccNo"></label>
-<input type="text" placeholder="enter AccountNo" name="uaccNo" onkeypress="return Numeric(event)" required><br>
+<input type="text" placeholder="enter AccountNo" name="uaccNo" onkeypress="return Numeric(event)"><br>
 <label for="uDep"></label>
-<input type="text" placeholder="enter deposit" name="uDep" onkeypress="return Numeric(event)" required><br>
+<input type="text" placeholder="enter deposit" name="uDep" onkeypress="return Numeric(event)"><br>
 
 <button type="submit" id="b" name="page" value="customer">submit</button>
 <label id="d"><span id="span"></span></label>
@@ -61,6 +62,12 @@ Object[] accIds=map1.keySet().toArray();
  String a=(String)request.getAttribute("transfers");
 if(a!=null){
 	out.print("<label id=d>*"+a+"</label>");
+}
+%>
+<%
+ String error=(String)request.getAttribute("same");
+if(error!=null){
+	out.print("<label id=d>*"+error+"</label>");
 }
 %>
 </div>

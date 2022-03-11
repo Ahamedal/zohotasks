@@ -38,18 +38,17 @@ function Numeric(evt)
 
 <jsp:include page="adminloginpage.jsp" ></jsp:include>
 
+<br><br>
 <form action="Deposit" method="post" >
 
-<div >
+<div class="divv" >
 <center><h2>Deposit Here</h2></center>
 
 <h5>*please fill all details to below here</h5>
-<label for="uId">userId:</label><br>
-<input type="text" placeholder="enter userId" name="uId" onkeypress="return Numeric(event)" required> <br>
 <label for="uAccNo">Account No:</label><br>
 <input type="text" placeholder="enter AccountNo" name="uAccNo" onkeypress="return Numeric(event)" required><br>
 <label for="uDep">Deposit Money:</label><br>
-<input type="text" placeholder="enter deposit" name="uDep" onkeypress="return Numeric(event)"  required><br>
+<input type="text" placeholder="enter deposit" name="uDep" onkeypress="return Numeric(event)" min="1" required><br>
 
 <button  type="submit" id="b">submit</button>
 <label id="d"><span id="span"></span></label>

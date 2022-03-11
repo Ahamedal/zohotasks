@@ -186,7 +186,7 @@ public class DBLayer implements PersistantLayer{
 	}
      public Map<Integer,AccountInfo> getForAccountId(int customerId) throws CustomException, ClassNotFoundException {
     	 checkCusId(customerId);
-		return selectAccountTable1("select * from accountInfo where customerID="+customerId+" and status=true;");
+		return selectAccountTable1("select * from accountInfo where customerID="+customerId+";");
 	}
 	@Override
 	public void depositMoney(int cusID, int accID, long deposit) throws CustomException, ClassNotFoundException {

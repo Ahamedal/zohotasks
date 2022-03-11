@@ -63,7 +63,7 @@ public class AddCustomer extends HttpServlet {
 			
 				accMap=logic.readCusInfo();
 				request.setAttribute("AccountServelets", accMap);
-				RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp?msg=Your Response Updated Successfully");
 				rd.forward(request, response);
 			
 			
@@ -78,7 +78,7 @@ public class AddCustomer extends HttpServlet {
 	    logic.addMap(cus);
 	    accMap=logic.readCusInfo();
 			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp?msg=Your Response Added Successfully");
 			rd.forward(request, response);
 		} 
 		}

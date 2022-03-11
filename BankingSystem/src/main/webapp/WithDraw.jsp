@@ -28,13 +28,11 @@ function Numeric(evt)
 <body>
 <jsp:include page="adminloginpage.jsp" ></jsp:include>
 
-
-<div>
+<br><br>
+<div class="divv">
 <center><h2>WithDraw Here</h2></center>
 <form  action="WithDraw" method="post" >
 <h5>*please fill all details to below here</h5>
-<label for="uId">userId:</label><br>
-<input type="text" placeholder="enter userId" name="uId" required onkeypress="return Numeric(event)"><br>
 <label for="uAccNo">Account No:</label><br>
 <input type="text"  placeholder="enter AccountNo" name="uAccNo" onkeypress="return Numeric(event)"required><br>
 <label for="uWit">WithDraw Money:</label><br>

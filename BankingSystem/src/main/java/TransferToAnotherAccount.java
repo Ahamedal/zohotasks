@@ -40,10 +40,7 @@ public class TransferToAnotherAccount extends HttpServlet {
 		
 		String tAccId=request.getParameter("uaccNo");
 		String dep=request.getParameter("uDep");
-		try {
-		    Utility.stringCheck(fAccId);
-		    Utility.stringCheck(tAccId);
-		    Utility.stringCheck(dep);
+		
 		HttpSession session=request.getSession();
 		if(session.getAttribute("id")==null) {
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
@@ -51,15 +48,24 @@ public class TransferToAnotherAccount extends HttpServlet {
 		}
 		
 		else {
+		
 			
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
 		
 		if(page.equals("admin")) {
-		
+			try {
+			    Utility.stringCheck(fAccId);
+			    Utility.stringCheck(tAccId);
+			    Utility.stringCheck(dep);
 			Map<Integer,Map<Integer,AccountInfo>> accMap=new HashMap<>();;
 		    int aId=Integer.valueOf(fAccId);
 		
 		   int aId1=Integer.valueOf(tAccId);
+		   if(aId==aId1) {
+			   request.setAttribute("same", "Not Able to Transation between Same Account");
+			   RequestDispatcher rd=request.getRequestDispatcher("Transfer to Another Account.jsp");
+				rd.forward(request, response);
+		   }
 		   long deposit=Long.valueOf(dep);
 		    DBLayer o=new DBLayer();
 		
@@ -72,18 +78,32 @@ public class TransferToAnotherAccount extends HttpServlet {
 		
 			accMap=logic.readAccInfo();
 			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
-	
-
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=Transaction Successfully");
+			rd.forward(request, response);
+			}
+			catch (CustomException | ClassNotFoundException e) {
+					request.setAttribute("transfers",e.getMessage());
+				    RequestDispatcher rd=request.getRequestDispatcher("Transfer to Another Account.jsp");
+					rd.forward(request, response);
+				}
+			
 		}
 	
 		
 		if(page.equals("customer")){
 			
-	
+			try {
+			    Utility.stringCheck(fAccId);
+			    Utility.stringCheck(tAccId);
+			    Utility.stringCheck(dep);
 			
 			int aId=Integer.valueOf(fAccId);
 		    int aId1=Integer.valueOf(tAccId);
+		    if(aId==aId1) {
+				   request.setAttribute("same", "Not Able to Transation between Same Account");
+				   RequestDispatcher rd=request.getRequestDispatcher("TransferToAnotherAccountCustomer.jsp");
+					rd.forward(request, response);
+			   }
 			long deposit=Long.valueOf(dep);
 			DBLayer o=new DBLayer();
 	        Map<Integer,CustomerInfo> accMap=new HashMap<>();
@@ -101,18 +121,19 @@ public class TransferToAnotherAccount extends HttpServlet {
 				acc=logic.getForAccId(cId);
 				System.out.println(acc);
 				request.setAttribute("AccountServelet", acc);
-				RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp");
+				RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp?msg=Transaction Successfully");
 				rd1.forward(request, response);
 				
-			}
+			
 		}
-		}
+		
 		catch (CustomException | ClassNotFoundException e) {
 				request.setAttribute("transfers",e.getMessage());
 			    RequestDispatcher rd=request.getRequestDispatcher("TransferToAnotherAccountCustomer.jsp");
 				rd.forward(request, response);
 			}
-			 
+		}
+		}
 				
 	
 				

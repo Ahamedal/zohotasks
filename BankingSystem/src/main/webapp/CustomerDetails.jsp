@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
 function myconfirm(){
-	var result=confirm("want to delete");
+	var result=confirm("Are you sure want to delete");
 	if(result==true){
 		return true;
 	}
@@ -29,16 +29,29 @@ function myconfirm(){
 	}
 }
 </script> 
+<script>
+function b(){
+<%
+String a=request.getParameter("msg");
+%>
+var msg="<%=a%>";
+if(msg!='null'){
+	alert(msg);
+}
+}
+</script>
 </head>
-<body>
+<body onpageshow="b()">
+
 <jsp:include page="adminloginpage.jsp"></jsp:include>
+
 <div>
 <form>
 
-<button formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetailscustomer" type="submit" style="float:right">DeactivatedAccounts</button><br><br>
-<a href="addCustomer.jsp" type="submit" style="float:right"> <i class="fa fa-plus"></i>  AddCustomer</a>
-<center><h2>CustomerDetails</h2></center>
+<button formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetailscustomer" type="submit" style="float:right">DeactivatedAccounts</button>
+<a href="addCustomer.jsp" type="submit" style="float:left"> <i class="fa fa-plus"></i>  AddCustomer</a>
 
+<center><h2>CustomerDetails</h2></center>
 <table style="width:100%">
 <tr>
 <th>CustomerID</th><th>Name</th><th>Address</th><th>MobileNo</th><th>Deactivate</th>

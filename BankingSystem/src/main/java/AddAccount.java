@@ -58,7 +58,7 @@ public class AddAccount extends HttpServlet {
 					
 				    accMap=logic.readAccInfo();
 					request.setAttribute("AccountServelets", accMap);
-					RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+					RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=Your Response Updated Successfully");
 					rd.forward(request, response);
 			
 				
@@ -75,7 +75,7 @@ public class AddAccount extends HttpServlet {
 	
 			accMap=logic.readAccInfo();
 			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=Your Response Added Successfully");
 			rd.forward(request, response);
 		} 
 		}

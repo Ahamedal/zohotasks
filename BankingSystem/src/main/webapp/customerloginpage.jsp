@@ -14,15 +14,27 @@
 <head>
 <meta charset="UTF-8">
 <title>Customer Login Page</title>
-
+<script>
+function b(){
+<%
+String a=request.getParameter("msg");
+%>
+var msg="<%=a%>";
+if(msg!='null'){
+	alert(msg);
+}
+}
+</script>
 <link rel="stylesheet" type="text/css" href="detailsStyle.css">
 </head>
-<body>
-<center><h1>Customer Home Page</h1></center>
+<body onpageshow="b()">
+
 <form action="TransferToAnotherAccountCustomer.jsp">
-<div>
 <button  type="submit">Transfer To Another Account</button>
 <button formaction="AccountServelets" formmethod="post" type="submit" name="page" value="logout">LogOut</button>
+<center><h1>Customer Home Page</h1></center>
+<div>
+
 <br>
 <br><br><br>
 <table style="width:100%">
@@ -50,7 +62,7 @@
 <br><br><br>
 <table style="width:100%">
 <tr>
-<th>AccountID</th><th>AccountType</th><th>BranchName</th><th>Balance</th>
+<th>AccountID</th><th>AccountType</th><th>BranchName</th><th>Status</th><th>Balance</th>
 </tr>
 
 <c:forEach items="${AccountServelet}" var="current1">
@@ -61,6 +73,7 @@
    <td><c:out value="${current1.key}"/></td>
    <td><c:out value="${current1.value.getAccountType()}"/></td>
    <td><c:out value="${current1.value.getBranchName()}"/></td>
+   <td><c:out value="${current1.value.isStatus()}"/></td>
    <td><c:out value="${current1.value.getBalance()}"/></td>
   
     

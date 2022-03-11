@@ -47,7 +47,7 @@ public class Activate extends HttpServlet {
 		}
 	  
 		request.setAttribute("AccountServelets", accMap);
-		RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+		RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=Activated Successfully");
 		rd.forward(request, response);
 		}
 		else {
@@ -64,7 +64,7 @@ public class Activate extends HttpServlet {
 			}
 		  
 			request.setAttribute("AccountServelets", cus);
-			RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp?msg=Activated Successfully");
 			rd.forward(request, response);
 		
 			

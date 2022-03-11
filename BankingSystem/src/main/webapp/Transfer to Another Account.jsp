@@ -27,10 +27,10 @@ function Numeric(evt)
 </head>
 <body>
 <jsp:include page="adminloginpage.jsp" ></jsp:include>
-
+<br><br>
 <form action="TransferToAnotherAccount" method="post">
 
-<div>
+<div class="divv">
 <center><h2>Transfer to another Account</h2></center>
 <h3>From account:</h3>
 <label for="uAccNo"></label>
@@ -48,6 +48,12 @@ function Numeric(evt)
  String a=(String)request.getAttribute("transfers");
 if(a!=null){
 	out.print("<label id=d>*"+a+"</label>");
+}
+%>
+<%
+ String error=(String)request.getAttribute("same");
+if(error!=null){
+	out.print("<label id=d>*"+error+"</label>");
 }
 %>
 </div>

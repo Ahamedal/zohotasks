@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>AddCustomer</title>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
-<jsp:include page="adminloginpage.jsp" ></jsp:include>
+<jsp:include page="adminloginpage.jsp" ></jsp:include><br><br>
 <script>
         function checkString(form) {
             if (form.uname.value.trim() == null ||
@@ -25,7 +25,7 @@
                 } else {
                 	form.uname.value=form.uname.value.trim();
                 	form.uadd.value=form.uadd.value.trim() 
-                    alert("Your response has been recorded Successfully\n");
+                    
                     return true;
                 }
         }
@@ -61,7 +61,7 @@ else{
 
 %>
 <form action="AddCustomer" method="post" name="form" onsubmit="return checkString(form)" >
-<div>
+<div class="divv">
 <h5>*please fill all details to below here</h5>
 <label for="uname">username:</label><br>
 <input type="text" placeholder="enter username" name="uname" <% if(id!=null){%>value="<%out.print((String)(request.getAttribute("name"))); %>"<%} %>  required > <br>

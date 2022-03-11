@@ -33,15 +33,17 @@ public class Deposit extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String cusId=request.getParameter("uId");
+		
 		String accId=request.getParameter("uAccNo");
 		String depositAmmount=request.getParameter("uDep");
 		try {
-	    Utility.stringCheck(cusId);
+	  
 	    Utility.stringCheck(accId);
 	    Utility.stringCheck(depositAmmount);
-		int cId=Integer.valueOf(cusId);
+	    DBLayer o=new DBLayer();
+		
 		int aId=Integer.valueOf(accId);
+		int cId=o.getCusId(aId);
 		long deposit=Long.valueOf(depositAmmount);
 		HttpSession session=request.getSession();
 		APILayer logic=(APILayer) request.getServletContext().getAttribute("object");
@@ -62,7 +64,7 @@ public class Deposit extends HttpServlet {
 		} catch (CustomException |ClassNotFoundException e) {
 			
 			 request.setAttribute("deposit",e.getMessage());
-			    RequestDispatcher rd=request.getRequestDispatcher("Deposit.jsp?msg=Deposit Failure");
+			    RequestDispatcher rd=request.getRequestDispatcher("Deposit.jsp");
 				rd.forward(request, response);
 		}
 		

@@ -29,7 +29,7 @@
 <br><br><br><br><br><br><br>
 
 <form  action="AccountServelets" method="post" name="myform1" onsubmit="return checkString(myform1)">
-<div>
+<div class="divv">
 <center><i class="fa fa-bank" style="font-size:48px;color:black"></i></center>
 <center><h3>Login here</h3></center>
 <label for="uname">UserID:</label><br>
@@ -38,7 +38,7 @@
 <input type="password" placeholder="enter password" name="pass" required><br>
 
 <button name="page" value="login"  type="submit" id="b"> <i class="fa fa-sign-in"></i> login</button>
-
+<input id="b" type="reset">
 <label id="d"><span id="span"></span></label>
 <br>
 
@@ -49,10 +49,7 @@ if(a!=null){
 }
 %>
 </div>
-<div class="container" style="background-color:gray">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <button type="reset" style="float:right" >Reset</button><br>
-  </div>
+
 </form>
 
 
