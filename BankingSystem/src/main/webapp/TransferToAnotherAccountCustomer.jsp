@@ -11,6 +11,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Transfer to Another Account</title>
+<% 	if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}%>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 <script>  
 function Numeric(evt)
@@ -41,7 +45,7 @@ Object[] accIds=map1.keySet().toArray();
 <button formaction="AccountServelets" formmethod="post" type="submit" name="page" value="home">Home</button>
 <button formaction="AccountServelets" formmethod="post" type="submit" name="page" value="logout">LogOut</button>
 <br><br><br><br><br>
-<div>
+<div class="divv">
 <h2>Transfer to another Account</h2>
 <h3>From account:</h3>
 <select name="uAccNo" required>

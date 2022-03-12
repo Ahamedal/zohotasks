@@ -11,7 +11,7 @@ import java.util.*;
 import com.logiclayer.*;
 public class APILayer {
 	PersistantLayer objForFile1;
- 
+ int password=100;
  private Properties property=new Properties();
  //private PersistantLayer objForFile1=new DBLayer();
  private Cache cache=new Cache();
@@ -98,10 +98,10 @@ public AccountInfo getAccForAccIdFromCache(int cusId,int accId)throws CustomExce
   }
 
   
-  public void addMap(CustomerInfo value)throws CustomException {
+  public int addMap(CustomerInfo value)throws CustomException {
 	 int cusId=objForFile1.addMap(value);
 	 cache.addMap(value,cusId);
-
+    return cusId;
 	
 	}
 
@@ -148,6 +148,9 @@ public void addMultipleAccount(AccountInfo value) throws CustomException{
 	   cache.setAccountStatus(cusId, accId, status);
 	
     }
+   public int password() {
+	   return ++password;
+   }
 	public String getLogin(int cusId,String pass1) throws CustomException,ClassNotFoundException {
 		String s=objForFile1.getLogin(cusId,pass1);
 		return s;

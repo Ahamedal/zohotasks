@@ -113,7 +113,11 @@ public class AccountServelets extends HttpServlet {
 				rd.forward(request, response);
 			}
 			
+		}if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
 		}
+		else {
 		if(page.equals("home")) {
 			try {
 				System.out.println("1");
@@ -227,5 +231,5 @@ public class AccountServelets extends HttpServlet {
 
 		}
 	}
-
+	}
 }

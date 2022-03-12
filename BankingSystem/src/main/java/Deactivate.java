@@ -53,7 +53,7 @@ public class Deactivate extends HttpServlet {
 			}
 		  
 			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=*Successfully Deactivated");
 			rd.forward(request, response);
 		
 			
@@ -72,7 +72,7 @@ public class Deactivate extends HttpServlet {
 		}
 	  
 		request.setAttribute("AccountServelets", cusMap);
-		RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp");
+		RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp?msg=*Successfully Deactivated");
 		rd.forward(request, response);
 	
 		

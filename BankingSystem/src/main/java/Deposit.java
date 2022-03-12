@@ -58,12 +58,12 @@ public class Deposit extends HttpServlet {
 		
 			accMap=logic.readAccInfo();
 			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=Deposit Successfully");
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=*Deposit Successfully");
 			rd.forward(request, response);
 		}
 		} catch (CustomException |ClassNotFoundException e) {
 			
-			 request.setAttribute("deposit",e.getMessage());
+			 request.setAttribute("deposit","AccountNumber is not found");
 			    RequestDispatcher rd=request.getRequestDispatcher("Deposit.jsp");
 				rd.forward(request, response);
 		}

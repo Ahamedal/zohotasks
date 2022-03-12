@@ -33,7 +33,7 @@ public class AddCustomer extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		DBLayer o=new DBLayer();
 		String name=request.getParameter("uname");
 		String address=request.getParameter("uadd");
 		String mobileNo=request.getParameter("umob");
@@ -56,14 +56,14 @@ public class AddCustomer extends HttpServlet {
 		  
 			long mobileN=Long.valueOf(mobileNo);
 	        int k=Integer.parseInt(id);
-			DBLayer o=new DBLayer();
+			
 			
 			o.updateDatas(name,address,mobileN,k);
 			
 			
 				accMap=logic.readCusInfo();
 				request.setAttribute("AccountServelets", accMap);
-				RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp?msg=Your Response Updated Successfully");
+				RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp?msg=*Your Response Updated Successfully");
 				rd.forward(request, response);
 			
 			
@@ -75,15 +75,23 @@ public class AddCustomer extends HttpServlet {
 		cus.setName(name);
 		cus.setAddress(address);
 		cus.setMobileNo(mobileN);
-	    logic.addMap(cus);
+		int min=100;
+		int max=10000;
+		
+	   int cusId=logic.addMap(cus);
+	   int pass=(int) (Math.random()*(max-min+1))+min;
+	   System.out.println(pass);
+	   o.addLogin(cusId, pass);
+	    
 	    accMap=logic.readCusInfo();
 			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp?msg=Your Response Added Successfully");
+			RequestDispatcher rd=request.getRequestDispatcher("CustomerDetails.jsp?msg=*Your Response Added Successfully");
 			rd.forward(request, response);
 		} 
 		}
 		}
 		catch (CustomException|ClassNotFoundException  e) {
+			e.printStackTrace();
 			 request.setAttribute("addcustomer",e.getMessage());
 			    RequestDispatcher rd=request.getRequestDispatcher("addCustomer.jsp");
 				rd.forward(request, response);

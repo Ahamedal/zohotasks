@@ -15,7 +15,10 @@
 
 <meta charset="UTF-8">
 <title>Customer Login Page</title>
-
+<% 	if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}%>
 <link rel="stylesheet" type="text/css" href="detailsStyle.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
@@ -29,19 +32,9 @@ function myconfirm(){
 	}
 }
 </script> 
-<script>
-function b(){
-<%
-String a=request.getParameter("msg");
-%>
-var msg="<%=a%>";
-if(msg!='null'){
-	alert(msg);
-}
-}
-</script>
+
 </head>
-<body onpageshow="b()">
+<body>
 
 <jsp:include page="adminloginpage.jsp"></jsp:include>
 
@@ -52,6 +45,12 @@ if(msg!='null'){
 <a href="addCustomer.jsp" type="submit" style="float:left"> <i class="fa fa-plus"></i>  AddCustomer</a>
 
 <center><h2>CustomerDetails</h2></center>
+<center><%
+String msg=request.getParameter("msg");
+if(msg!=null){
+	out.print("<label id=s>"+msg+"</label>");
+}
+%></center>
 <table style="width:100%">
 <tr>
 <th>CustomerID</th><th>Name</th><th>Address</th><th>MobileNo</th><th>Deactivate</th>

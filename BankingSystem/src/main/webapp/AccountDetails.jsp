@@ -22,33 +22,32 @@ function myconfirm(){
 	}
 }
 </script> 
-<script>
-function b(){
-<%
-String a=request.getParameter("msg");
-%>
-var msg="<%=a%>";
-if(msg!='null'){
-	alert(msg);
-}
-}
-</script>
+
 <meta charset="UTF-8">
 <title>AccountDetails</title>
-
+<% 	if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}%>
 <link rel="stylesheet" type="text/css" href="detailsStyle.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
-<body onpageshow="b()">
+<body>
 
 <jsp:include page="adminloginpage.jsp"></jsp:include>
 
 <form >
-<button formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetails" type="submit" style="float:right">DeactivatedAccounts</button><br><br>
+
+<button formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetails" type="submit" style="float:right">DeactivatedAccounts</button>
 <a href="AddAccount.jsp" type="submit" style="float:left"><i class="fa fa-plus"></i>AddAccount</a>
 <center><h2>AccountDetails</h2></center>
-
+<center><%
+String msg=request.getParameter("msg");
+if(msg!=null){
+	out.print("<label id=s>"+msg+"</label>");
+}
+%></center>
 <table style="width:100%">
 <tr>
 <th>CustomerID</th><th>AccountID</th><th>AccountType</th><th>BranchName</th><th>Balance</th><th>Deactivate</th>
@@ -74,19 +73,7 @@ if(msg!='null'){
 </table>
 
 <br><br><br><br><br><br>
-<table style="width:100%">
-<tr>
-<th>Customer Id</th><th>Account Id</th><th>AccountType</th><th>Branch</th><th>Balance</th><th>Delete</th>
 
-</tr>
-<tr>
-<td>1</td><td><button onclick="window.location.href='AddAccount.jsp'" type="submit">1001</button></td><td>Savings</td><td>ramnad</td><td>1000</td><td><button>Delete</button></td>
-</tr>
-<tr>
-<td>2</td><td><button onclick="window.location.href='AddAccount.jsp'" type="submit">1002</button></td><td>Savings</td><td>bodi</td><td>200</td><td><button>Delete</button>
-
-
-</table>
 
 </form>
 </body>

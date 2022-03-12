@@ -6,6 +6,10 @@
 <meta charset="UTF-8">
 
 <title>AddAccount</title>
+<% 	if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}%>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 <jsp:include page="adminloginpage.jsp" ></jsp:include><br><br>
  <script>  
@@ -55,6 +59,12 @@ else{
 <option>Selam</option>
 </select>
 <button name="userId1" value="<%out.print(id);%>" type="submit" id="b">register</button>
+<%
+ String a=(String)request.getAttribute("addaccount");
+if(a!=null){
+	out.print("<label id=d>*"+a+"</label>");
+}
+%>
 </div>
 </form>
 </body>

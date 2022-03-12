@@ -58,7 +58,7 @@ public class AddAccount extends HttpServlet {
 					
 				    accMap=logic.readAccInfo();
 					request.setAttribute("AccountServelets", accMap);
-					RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=Your Response Updated Successfully");
+					RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=*Your Response Updated Successfully");
 					rd.forward(request, response);
 			
 				
@@ -75,13 +75,13 @@ public class AddAccount extends HttpServlet {
 	
 			accMap=logic.readAccInfo();
 			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=Your Response Added Successfully");
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=*Your Response Added Successfully");
 			rd.forward(request, response);
 		} 
 		}
 		}
 		catch (CustomException|ClassNotFoundException e) {
-			request.setAttribute("addaccount", e.getMessage());
+			request.setAttribute("addaccount","Enter Valid UserId");
 			RequestDispatcher rd=request.getRequestDispatcher("AddAccount.jsp");
 			rd.forward(request, response);
 		}

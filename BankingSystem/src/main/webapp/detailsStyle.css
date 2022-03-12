@@ -14,8 +14,12 @@ background-color:rgb(227 208 212);
 table, th, td {
   border:1px solid black;
   
-  
+  border-collapse: collapse;
 }
+ #s{
+ color:green;
+ font-size:20px;
+ }
 tr:nth-child(even){
 	background-color:lightblue;
 }
@@ -61,16 +65,21 @@ button{
 	
 }
 a{
-	 text-decoration: none;
-	background-color:lightblue;
-        width: 9%; 
-        margin: 40px ;
-        margin-right:10px;
-        padding: 4px;   
-        border: 4px solid green; 
-        box-sizing: border-box;  
-        font-size:20px;
-        cursor:pointer;
+	 background-color:blue;
+	
+	 font-size:20px;
+	
+  border: none;
+   border-radius: 12px;
+	
+  color: white;
+  padding: 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  
+  margin: 4px 2px;
+  cursor: pointer;
  }
  .btn-info{
     background: #01a8c1;

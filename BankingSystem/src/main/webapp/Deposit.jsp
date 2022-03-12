@@ -35,7 +35,10 @@ function Numeric(evt)
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 </head>
 <body>   
-
+<% 	if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}%>
 <jsp:include page="adminloginpage.jsp" ></jsp:include>
 
 <br><br>

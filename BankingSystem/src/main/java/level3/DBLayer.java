@@ -19,9 +19,9 @@ public class DBLayer implements PersistantLayer{
 			 return rs.getInt(1);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			throw new CustomException(e);
 		}
-		return 0;
+		
 	}
 	public CustomerInfo selectCustomerTable(String query)throws CustomException{
 		try(java.sql.Connection con=DriverManager.getConnection(url, uName, pass);
@@ -38,7 +38,7 @@ public class DBLayer implements PersistantLayer{
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			throw new CustomException(e);
 		}
 		return null;
 		
@@ -58,8 +58,8 @@ public class DBLayer implements PersistantLayer{
 				return acc;
 			}
 		}
-		catch(Exception e) {
-			e.printStackTrace();
+		catch(SQLException e) {
+			throw new CustomException(e);
 		}
 		return null;
 	}
@@ -84,7 +84,7 @@ public class DBLayer implements PersistantLayer{
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			throw new CustomException(e);
 		}
 		return map;
 	}
@@ -100,18 +100,18 @@ public class DBLayer implements PersistantLayer{
 			return cusId;
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			throw new CustomException("AccountNumber is not found");
 		}
-		return 0;
+		
 	}
-	public void updateTable(String query) {
+	public void updateTable(String query) throws CustomException{
 		try(java.sql.Connection con=DriverManager.getConnection(url, uName, pass);
     			Statement st=con.createStatement();){
 			int count=st.executeUpdate(query);
 			 System.out.println(count+"rows affected");
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			throw new CustomException(e);
 		}
 	}
 	
@@ -134,6 +134,15 @@ public class DBLayer implements PersistantLayer{
 			e.printStackTrace();
 		}
 		}
+	public void addLogin(int cusId,int password) throws CustomException{
+		try(java.sql.Connection con=DriverManager.getConnection(url, uName, pass);
+    			Statement st=con.createStatement();){
+		st.executeUpdate("insert into User(rollId,customerID,password) values("+0+","+cusId+","+password+");");
+	}
+	catch(Exception e)	{
+		e.printStackTrace();
+	}
+	}
 	@SuppressWarnings("unused")
     public int addMap(CustomerInfo value) throws CustomException{
     	
@@ -174,7 +183,7 @@ public class DBLayer implements PersistantLayer{
 		value.setAccountID(a);
 		return value.getAccountID();
 	}
-	public void updateAccountDatas(int a,String accountType,String branchName,int k) {
+	public void updateAccountDatas(int a,String accountType,String branchName,int k) throws CustomException {
 		String query="update accountInfo set customerID="+a+",accountType='"+accountType+"',branchName='"+branchName+"' where accountID="+k+";";
 		updateTable(query);
 	}

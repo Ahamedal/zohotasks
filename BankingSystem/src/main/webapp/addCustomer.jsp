@@ -5,6 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>AddCustomer</title>
+<% 	if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}%>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 <jsp:include page="adminloginpage.jsp" ></jsp:include><br><br>
 <script>
@@ -45,7 +49,17 @@ function Numeric(evt)
             return true;
         }
 }
- 
+function charCheck(evt) {
+	 var charCod = (evt.which) ? evt.which : event.keyCode;
+	 if(charCod==32||(charCod>64&&charCod<123)){
+		 document.getElementById("span").innerHTML = "";
+         return true;
+	 }
+	 else{
+		 document.getElementById("span").innerHTML = "*Please enter Albhabets only!";
+         return false;
+	 }
+}
 </script>
 </head>
 <body>
@@ -64,15 +78,21 @@ else{
 <div class="divv">
 <h5>*please fill all details to below here</h5>
 <label for="uname">username:</label><br>
-<input type="text" placeholder="enter username" name="uname" <% if(id!=null){%>value="<%out.print((String)(request.getAttribute("name"))); %>"<%} %>  required > <br>
+<input type="text" placeholder="enter username" name="uname" <% if(id!=null){%>value="<%out.print((String)(request.getAttribute("name"))); %>"<%} %>  onkeypress="return charCheck(event)" required > <br>
 <label for="uadd">useraddress:</label><br>
-<input type="text" placeholder="enter useradress" name="uadd" <% if(id!=null){%> value="<%out.print((String)(request.getAttribute("address"))); %>"<%} %> required ><br>
+<input type="text" placeholder="enter useradress" name="uadd" <% if(id!=null){%> value="<%out.print((String)(request.getAttribute("address"))); %>"<%} %> onkeypress="return charCheck(event)" required ><br>
 <label for="umob">mobileno:</label><br>
 <input type="text" placeholder="enter usermobileno" name="umob"  <% if(id!=null){%> value="<%out.print((Long)(request.getAttribute("mobileno"))); %>" <%} %>onkeypress="return Numeric(event)" required ><br>
 
 
 <button name="userId1" value="<%out.print(id);%>" type="submit" id="b">register</button><br>
 <label id="d"><span id="span"></span></label>
+<%
+ String a=(String)request.getAttribute("addcustomer");
+if(a!=null){
+	out.print("<label id=d>*"+a+"</label>");
+}
+%>
 </div>
 </form>
 </body>

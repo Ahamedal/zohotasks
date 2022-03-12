@@ -4,6 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<% 	if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}%>
 <title>Transfer to Another Account</title>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 <script>  

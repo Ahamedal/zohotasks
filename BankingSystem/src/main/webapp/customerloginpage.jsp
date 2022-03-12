@@ -14,17 +14,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Customer Login Page</title>
-<script>
-function b(){
-<%
-String a=request.getParameter("msg");
-%>
-var msg="<%=a%>";
-if(msg!='null'){
-	alert(msg);
-}
-}
-</script>
+
 <link rel="stylesheet" type="text/css" href="detailsStyle.css">
 </head>
 <body onpageshow="b()">
@@ -33,6 +23,12 @@ if(msg!='null'){
 <button  type="submit">Transfer To Another Account</button>
 <button formaction="AccountServelets" formmethod="post" type="submit" name="page" value="logout">LogOut</button>
 <center><h1>Customer Home Page</h1></center>
+<center><%
+String msg=request.getParameter("msg");
+if(msg!=null){
+	out.print("<label id=s>"+msg+"</label>");
+}
+%></center>
 <div>
 
 <br>

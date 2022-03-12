@@ -78,7 +78,7 @@ public class TransferToAnotherAccount extends HttpServlet {
 		
 			accMap=logic.readAccInfo();
 			request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=Transaction Successfully");
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=*Transaction Successfully");
 			rd.forward(request, response);
 			}
 			catch (CustomException | ClassNotFoundException e) {
@@ -100,7 +100,7 @@ public class TransferToAnotherAccount extends HttpServlet {
 			int aId=Integer.valueOf(fAccId);
 		    int aId1=Integer.valueOf(tAccId);
 		    if(aId==aId1) {
-				   request.setAttribute("same", "Not Able to Transation between Same Account");
+				   request.setAttribute("same", "*Not Able to Transation between Same Account");
 				   RequestDispatcher rd=request.getRequestDispatcher("TransferToAnotherAccountCustomer.jsp");
 					rd.forward(request, response);
 			   }
@@ -121,7 +121,7 @@ public class TransferToAnotherAccount extends HttpServlet {
 				acc=logic.getForAccId(cId);
 				System.out.println(acc);
 				request.setAttribute("AccountServelet", acc);
-				RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp?msg=Transaction Successfully");
+				RequestDispatcher rd1=request.getRequestDispatcher("customerloginpage.jsp?msg=*Transaction Successfully");
 				rd1.forward(request, response);
 				
 			

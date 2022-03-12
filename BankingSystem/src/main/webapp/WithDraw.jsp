@@ -5,6 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>WithDraw</title>
+<% 	if(session.getAttribute("id")==null) {
+			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
+			rd.forward(request, response);
+		}%>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 <script>  
 function Numeric(evt)

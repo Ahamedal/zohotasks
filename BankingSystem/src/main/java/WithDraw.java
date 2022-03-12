@@ -59,7 +59,7 @@ public class WithDraw extends HttpServlet {
 			logic.withDrawMoney(cId, aId, withDraw);
 	        accMap=logic.readAccInfo();
 	        request.setAttribute("AccountServelets", accMap);
-			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=WithDrawal Succesfully");
+			RequestDispatcher rd=request.getRequestDispatcher("AccountDetails.jsp?msg=*WithDrawal Succesfully");
 			rd.forward(request, response);
 		}
 		} catch (CustomException |ClassNotFoundException e) {
