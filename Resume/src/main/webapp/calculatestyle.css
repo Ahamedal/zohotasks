@@ -10,15 +10,15 @@ font-size: 40px;
 font-weight: bold;  
 text-align: center;  
  
-
+margin-top:-70px;
 }
 button{
 	 width: 60px;  
   height: 60px;  
     
-  padding: 0;  
+ 
   margin: 5px;  
-  box-sizing: border-box;  
+
  
   border: none;  
   
@@ -29,10 +29,16 @@ font-weight: bold;
 text-align: center;  
  
 font-family: 'Cookie', cursive;   
-  border-radius: 50%;  
+  border-radius: 20%;  
  
- 
-  cursor: pointer; 
+  box-shadow: 5px 10px #888888;
+  
+}
+button:hover{
+	
+	cursor: pointer; 
+	background-color:gray;
+	opacity:1;
 }
 #b{
 	background-color: #c0c0c0;  
@@ -49,6 +55,7 @@ input[type=text]{
 	width:90%;
 	
 }
+
 .first{
 	background-color:black;
 	padding:4px;
