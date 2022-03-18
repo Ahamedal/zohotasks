@@ -49,6 +49,9 @@ button:hover{
 	
 }
 input[type=text]{
+	font-weight:bold;
+	font-size:20px;
+	text-align:right;
 	height:50px;
 }
 #display{

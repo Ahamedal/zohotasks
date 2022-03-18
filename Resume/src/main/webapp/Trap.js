@@ -2,41 +2,32 @@
  * 
  */
  function t(){
+	
 var n1=200;
 	var n2=300;
 	var b=7;
-	var a=n1;
 	var map=new Map();
-	console.log("a");
-	while(a<=n2){
-		
-	
-
-var sumOfDigits=sum(a);
-a();
-while(sumOfDigits>9)
-
-var sumOfDigits2=sum(sumOfDigits1);
-
-console.log(sumOfDigits);
-	
-	if(a%b==0||b%a==0) {
-		console.log(a+" "+b);
-		map.set(a,b);
-			b=b+2;
-	}
-	else if(sumOfDigits%b==0||b%sumOfDigits==0||sumOfDigits1%b==0||b%sumOfDigits1==0||sumOfDigits2%b==0||b%sumOfDigits2==0){
-		console.log(a+" "+b);
-		map.set(a,b);
-			b=b+2;
-	}
-	
-	else{
-		if(b>3) {
-		b=b-1;
+	for(var k=n1;k<=n2;k++){
+	var	a=k;
+		while(true){
+			if((a%b)==0||(b%a)==0){
+				map.set(k,b);
+				b=b+2;
+				break;
+			}
+			else{
+				
+			if(a<10){
+					if(b>3){
+						b--;
+						}
+					break;
+				}
+			
+			}
+			var c=sum(a);
+			a=c;
 		}
-	}
-	++a;
 	}
 	
 	for(var value of map){
@@ -47,31 +38,14 @@ console.log(sumOfDigits);
 	}
 	function sum(v){
 		var c=0;
-		while(v>=1){
+		while(v>0){
 		var k=v%10;
 		c=c+k;
 		v=Math.floor(v/10);
 	}
 	return c;	
 	}
-	function a(){
-		if(a%b==0||b%a==0) {
-		console.log(a+" "+b);
-		map.set(a,b);
-			b=b+2;
-	}
-	else if(sumOfDigits%b==0||b%sumOfDigits==0||sumOfDigits1%b==0||b%sumOfDigits1==0||sumOfDigits2%b==0||b%sumOfDigits2==0){
-		console.log(a+" "+b);
-		map.set(a,b);
-			b=b+2;
-	}
 	
-	else{
-		if(b>3) {
-		b=b-1;
-		}
-	}
-	}
 	function binary(){
 		var no=document.getElementById("number").value;
 		var result="";
@@ -155,7 +129,8 @@ function answer(){
 	const father=document.getElementsByName("fathers");
 		const son=document.getElementsByName("sons");
 	
-	for(let i=0;i<father.length;i++){
+	for(let i=0;i<father.length;i++)
+	{
 		
 		
 		
@@ -176,15 +151,16 @@ function answer(){
 	var k=[];
 	for(let i=0;i<sonnn.length;i++){
 		var grandSon=map.get(sonnn[i]);
+		if(grandSon!=undefined){
 		count=count+grandSon.length;
 	   k.push(grandSon);
-	
+	}
 	}
 	if(count==1){
-	 document.getElementById("sonn").innerHTML+="grandson name are :"+k+"<br>"+"total grandson are="+count;
+	 document.getElementById("sonn").innerHTML+="he is :"+k+"<br>"+"total grandson are="+count;
 	 }
 	 else if(count>1){
-		 document.getElementById("sonn").innerHTML+="grandsons names are :"+k+"<br>"+"total grandsons are="+count;
+		 document.getElementById("sonn").innerHTML+="They are :"+k+"<br>"+"total grandsons are="+count;
 	}
 	else {
 		 document.getElementById("sonn").innerHTML+="no grandson here";

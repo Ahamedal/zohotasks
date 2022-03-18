@@ -4,39 +4,41 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="calculatestyle.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="cal.js"></script>
+
 </head>
 <body>
 
 
 
-<form id="b">
+<div id="b">
 <div class="first">
 <input type="text" placeholder="display here" readonly="readonly" id="display"><br>
 </div>
 <div class="second">
-<button id="c" type="submit">C</button>
-<button id="c" type="submit">(</button>
-<button id="c" type="submit">%</button>
-<button id="c" type="submit">)</button><br>
-<button id="one" type="submit">1</button>
-<button id="two" type="submit">2</button>
-<button  id="three"  type="submit">3</button>
-<button id="c" type="submit">+</button><br>
-<button type="submit">4</button>
-<button type="submit">5</button>
-<button type="submit">6</button>
-<button id="c" type="submit">-</button><br>
-<button type="submit">7</button>
-<button type="submit">8</button>
-<button type="submit">9</button>
-<button id="c" type="submit">*</button><br>
-<button type="submit">.</button>
-<button type="submit">0</button>
-<button type="submit">=</button>
-<button id="c" type="submit">/</button>
+<button onclick="result('c')">C</button>
+<button  >(</button>
+<button onclick="number('%')" >%</button>
+<button  >)</button><br>
+<button  onclick="number(1)">1</button>
+<button onclick="number(2)">2</button>
+<button  onclick="number(3)">3</button>
+<button id="plus" onclick="operator('+')">+</button><br>
+<input type="hidden" id="hiden">
+<button onclick="number(4)">4</button>
+<button onclick="number(5)">5</button>
+<button onclick="number(6)">6</button>
+<button id="minus" onclick="operator('-')" >-</button><br>
+<button onclick="number(7)">7</button>
+<button onclick="number(8)">8</button>
+<button onclick="number(9)">9</button>
+<button id="mul" onclick="operator('*')">*</button><br>
+<button  onclick="number('.')">.</button>
+<button onclick="number(0)">0</button>
+<button onclick="result('=')" >=</button>
+<button id="div" onclick="operator('/')">/</button>
 </div>
-</form>
+</div>
 
 
 </body>
