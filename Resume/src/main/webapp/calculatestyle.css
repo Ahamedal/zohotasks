@@ -53,6 +53,13 @@ input[type=text]{
 	font-size:20px;
 	text-align:right;
 	height:50px;
+	border:none;
+}
+
+#dis{
+	width:90%;
+	top:77px;
+	
 }
 #display{
 	width:90%;
@@ -60,13 +67,13 @@ input[type=text]{
 }
 
 .first{
-	background-color:black;
+	background-color:white;
 	padding:4px;
-	border:1px solid black;
+	border:5px solid black;
 }
 .second{
 	
 
 	padding:10px;
-	border:1px solid black;
+	border:5px solid black;
 }
