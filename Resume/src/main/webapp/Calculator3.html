@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="calculatestyle.css">
+<script src="calculator3.js"></script>
+
+</head>
+<body>
+
+
+
+<div id="b">
+<div class="first">
+<input type="text" name="displaybox" placeholder="" id="dis" ><br>
+<input type="text" name="displaybox" placeholder="0" readonly="readonly" id="display"><br>
+
+</div>
+
+
+
+<div class="second">
+<button onclick="location.reload()">C</button>
+<button  onclick="display('(')">(</button>
+<button onclick="display('%')" >%</button>
+<button  onclick="display(')')" >)</button><br>
+<button  onclick="display(1)">1</button>
+<button onclick="display(2)">2</button>
+<button  onclick="display(3)">3</button>
+<button id="plus" onclick="display('+')">+</button><br>
+<input type="hidden" id="hiden">
+<button onclick="display(4)">4</button>
+<button onclick="display(5)">5</button>
+<button onclick="display(6)">6</button>
+<button id="minus" onclick="display('-')" >-</button><br>
+<button onclick="display(7)">7</button>
+<button onclick="display(8)">8</button>
+<button onclick="display(9)">9</button>
+<button id="mul" onclick="display('*')">*</button><br>
+<button  onclick="display('.')">.</button>
+<button onclick="display(0)">0</button>
+<button onclick="results()" >=</button>
+<button id="div" onclick="display('/')">/</button>
+</div>
+</div>
+
+
+</body>
+</html>

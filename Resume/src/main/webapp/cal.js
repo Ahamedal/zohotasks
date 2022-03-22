@@ -135,7 +135,7 @@ else{
 	if((flag2==false)){
 			
 			document.getElementById("display").value=no;
-			document.getElementById("minus").style.background="";
+			
 			temp2='';
 			flag=false;
 		}
