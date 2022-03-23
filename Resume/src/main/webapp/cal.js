@@ -5,11 +5,12 @@
  var temp=0;
  var x=0;
  var a='';
- 
+ var temp3='';
  var s=0;
  var flag=true;	
  var flag2=true;
  var flag3=true;
+ var flag4=true;
  var temp2='';
  function number(no){
 	if(temp2!=''){
@@ -186,6 +187,9 @@ else{
 
 }
 function display(no){
+	if(Number.isInteger(no)){
+		flag4=true;
+	}
 	if(no=='-'&&document.getElementById("dis").value==""){
 		flag3=false;
 	}
@@ -203,10 +207,16 @@ store=0;
 		document.getElementById("dis").value=temp;
 	
 	}
-	   
+	if((!flag4&&no=='.')||(temp3=='.'&&Number.isNaN(Number(no)))){
+		no='';
+	}
+	   if(no=='.'){
+		flag4=false;
+	}
+	
 	    
 		var ans=document.getElementById("dis").value+=no;
-		
+		temp3=no;
 	 if(!flag2&&no!='-'){
 		if(ans.charAt(ans.length-2)=='-'){
 			var sub=ans.substring(0,ans.length-2);

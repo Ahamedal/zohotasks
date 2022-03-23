@@ -21,24 +21,29 @@
 
 
 <div class="second">
-<button onclick="location.reload()">C</button>
+<button onclick="location.reload()">AC</button>
+<button onclick="clears()" id="c">⌫</button>
 <button  onclick="display('(')">(</button>
-<button onclick="display('%')" >%</button>
+<button onclick="display('%')" id="modul">%</button>
 <button  onclick="display(')')" >)</button><br>
+<button  onclick="display('√')" id="root" >√</button>
 <button  onclick="display(1)">1</button>
 <button onclick="display(2)">2</button>
 <button  onclick="display(3)">3</button>
 <button id="plus" onclick="display('+')">+</button><br>
+<button  id="power" onclick="display('power')" >x<sup>2</sup></button>
 <input type="hidden" id="hiden">
 <button onclick="display(4)">4</button>
 <button onclick="display(5)">5</button>
 <button onclick="display(6)">6</button>
 <button id="minus" onclick="display('-')" >-</button><br>
+<button  onclick="display('power3')" id="cube" >x<sup>3</sup></button>
 <button onclick="display(7)">7</button>
 <button onclick="display(8)">8</button>
 <button onclick="display(9)">9</button>
 <button id="mul" onclick="display('*')">*</button><br>
-<button  onclick="display('.')">.</button>
+<button  onclick="display('pi')" id="pi" >𝜋</button>
+<button  onclick="display('.')" id="dot">.</button>
 <button onclick="display(0)">0</button>
 <button onclick="results()" >=</button>
 <button id="div" onclick="display('/')">/</button>

@@ -3,50 +3,138 @@
  */
  var expression='';
  var res=0;
- 
+ var ex2='';
  var ex='';
  var temp='';
- 
+ var temp2='';
+ var str='';
+ var ans=0;
  var flag=true;
  var flag2=true;
  var flag3=true;
  var flag4=true;
- 
+ var flag5=true;
+ var flag6=true;
  function display(no){
+	if(no=='power'){
+		if(ex.charAt(ex.length-1)==')'){
+			var ii=ex.lastIndexOf('(');
+			var su=ex.substring(ii+1,ex.length-1);
+			var anss=evaluate(su);
+			no=anss*anss;
+		var n=su.length+2;
+		var subs=ex.substring(0,ex.length-n);
+		document.getElementById("dis").value=subs;
+		color();
+	  document.getElementById("power").style.background="green";
+	  document.getElementById("display").value=" ";
+	  ans=0;
+	  temp2='';
+		}
+		else{
+		no=Number(str)*Number(str);
+		var n=str.length;
+		var sub=ex.substring(0,ex.length-n);
+		document.getElementById("dis").value=sub;
+		color();
+	    document.getElementById("power").style.background="green";
+	    document.getElementById("display").value=" ";
+	    str='';
+	}
+	}
+	else if(no=='pi'){
+		if(!Number.isNaN(Number(temp))){
+			
+		no='*3.14';	
+		}
+		else{
+		no=3.14;
+		}
+	}
+	else if(no=='power3'){
+		if(ex.charAt(ex.length-1)==')'){
+			var ii=ex.lastIndexOf('(');
+			var su=ex.substring(ii+1,ex.length-1);
+			var anss=evaluate(su);
+			no=anss*anss*anss;
+		var n=su.length+2;
+		var subs=ex.substring(0,ex.length-n);
+		document.getElementById("dis").value=subs;
+		color();
+	  document.getElementById("cube").style.background="green";
+	  document.getElementById("display").value=" ";
+	  ans=0;
+	  temp2='';
+		}
+		else{
+        no=Number(str)*Number(str)*Number(str);
+		var n=str.length;
+		var sub=ex.substring(0,ex.length-n);
+		document.getElementById("dis").value=sub;
+		color();
+	    document.getElementById("cube").style.background="green";
+	    document.getElementById("display").value=" ";
+	    str='';
+	}
+	}
+	else if(Number.isNaN(Number(no))&&!flag5){
+		no=Math.sqrt(Number(str))+no;
+		var n=str.length;
+		var sub=ex.substring(0,ex.length-n-1);
+		document.getElementById("dis").value=sub;
+		color();
 	
-	if((no=='+'||no=='-'||no=='*'||no=='/')&&document.getElementById("dis").value==""){
+	document.getElementById("display").value=" ";
+	
+		str='';
+		flag5=true;
+	}	
+	
+	if((no=='+'||no=='*'||no=='/')&&document.getElementById("dis").value==""){
 
    document.getElementById("dis").value=0;
 
 
  }
-	if((temp=='+'||temp=='*'||temp=='/')&&no!='-'&&Number.isNaN(Number(no))&&no!='('){
+ if(no=='('&&!Number.isNaN(Number(temp))){
+	no='*(';
+}
+	if((temp=='+'||temp=='-'||temp=='*'||temp=='/'||temp=='%')&&no!='-'&&Number.isNaN(Number(no))&&no!='('){
 		flag3=false;
 	}
 	if(Number.isInteger(no)){
-		flag=true;
+		
 		flag2=true;
 		flag4=true;
 		
 	}
+	
 	if(temp=='.'&&no=='.'){
 		flag4=false;
 	}
-	if((temp=='-'&&!flag2)||(temp=='.'&&!flag4)){
+	if((temp=='-'&&!flag2)||(temp=='.'&&!flag4)||(temp=='.'&&Number.isNaN(Number(no)))||(!flag6&&no=='.')){
 		no='';
 		
 	}
-	if(temp=='('&&(no=='+'||no=='*'||no=='/')){
+	if(no=='.'){
+		flag6=false;
+	}
+	if(temp=='('&&(no=='+'||no=='*'||no=='/'||no=='%')){
 		no='';
 	}
-	if((temp==''||temp=='+'||temp=='-'||temp=='*'||temp=='/'||temp=='(')&&no=='-'){
+	if((temp==''||temp=='+'||temp=='-'||temp=='*'||temp=='/'||temp=='('||temp=='%')&&no=='-'){
+		document.getElementById("display").value='-';
 		flag=false;
 		flag2=false;
 	}
-	
+	if(ans!==0||temp2==='a'){
+		document.getElementById("dis").value=ans;
+		ans=0;
+		temp2='';
+	}
 	ex= document.getElementById("dis").value+=no;
 	
-	if(!flag3&&no!='-'&&Number.isNaN(Number(no))&&no!='('){
+	if(!flag3&&no!='-'&&Number.isNaN(Number(no))&&no!='('&&no!='√'&&no!='.'){
 		var sub=ex.substring(0,ex.length-2);
 		document.getElementById("dis").value=sub+no;
 		flag3=true;
@@ -55,42 +143,93 @@
 
 	
 	
-	if(no!=''){
+	if(no!==''&&no!='√'){
 	temp=no;
+	 str+=temp;
   }
-  if(no=='+'&&flag){
+  if(no=='+'){
 	color();
+	str='';
 	document.getElementById("plus").style.background="green";
 	document.getElementById("display").value=" ";
 	flag4=true;
+	flag6=true;
 }
-else if(no=='-'&&flag){
+else if(no=='-'&&flag2){ 
 	color();
+	str='';
 	document.getElementById("minus").style.background="green";
 	document.getElementById("display").value=" ";
 	flag4=true;
+	flag6=true;
 }
-else if(no=='*'&&flag){
+else if(no=='*'||no=='*('){
 	color();
+	str='';
 	document.getElementById("mul").style.background="green";
 	document.getElementById("display").value=" ";
 	flag4=true;
+	flag6=true;
+
 }
-else if(no=='/'&&flag){
+else if(no=='/'){
 	color();
+	str='';
 	document.getElementById("div").style.background="green";
 	document.getElementById("display").value=" ";
 	flag4=true;
+	flag6=true;
 }
+else if(no=='%'){
+	color();
+	document.getElementById("modul").style.background="green";
+	document.getElementById("display").value=" ";
+	flag4=true;
+	flag6=true;
+}
+else if(no=='√'){
+	color();
+	document.getElementById("root").style.background="green";
+	document.getElementById("display").value=" ";
+	flag4=true;
+	flag5=false;
+	str='';
+}
+
 else if(!Number.isNaN(Number(no))||no=='.'){
-	document.getElementById("display").value+=no;
+	ex2=document.getElementById("display").value+=no;
 	var commaReplaced=document.getElementById("display").value.replaceAll(",","");
 	 commaReplaced=commaReplaced.replaceAll(" ","");
 	document.getElementById("display").value=comma(commaReplaced);
 }
  }
 function evaluate(expression){
+	var ch=expression.charAt(expression.length-1);
+	if(Number.isNaN(Number(ch))&&ch!=')'){
+		document.getElementById("display").value="syntax error";
+		return;
+	}
+	var index1=expression.lastIndexOf(")");
+	var index2=expression.indexOf("(");
+	if(index1<index2||(!expression.includes("(")&&expression.includes(")"))){
+		document.getElementById("display").value="syntax error";
+		return;
+	}
+    if(expression.includes('√')){
+	
+	ans=Math.sqrt(Number(str));
+		var n=str.length;
+		var sub=ex.substring(0,ex.length-n-1);
+		expression=document.getElementById("dis").value=sub+ans;
+		color();
+	
+	    document.getElementById("display").value=ans;
+	    str='';
+	    flag5=true;	
+		
+    }
 	var array=expression.split("");
+	
 	var count1=0;
 	var count2=0;
 	var datas=[];
@@ -140,11 +279,14 @@ function evaluate(expression){
 	res=operation(operand.pop(),datas.pop(),datas.pop());
 	datas.push(res);
 	}
-	document.getElementById("display").value=comma(res);
+	
+	document.getElementById("display").value=comma(datas.pop());
+	ans=res;
+	temp2='a';
 	if(count1!=count2){
-		document.getElementById("display").value="give brackets correctly"
+		return "give brackets correctly";
 	}
-
+	return res;
 }
 function check(op1,op2){
 	if((op1=='+'||op1=='-')&&(op2=="*"||op2=='/')){
@@ -154,6 +296,12 @@ function check(op1,op2){
 		return true;
 	}
 	else if(op1=='*'&&op2=='/'){
+		return true;
+	}
+	else if(op1=='%'&&(op2=='*'||op2=='/')){
+		return true;
+	}
+	else if(op2=='%'&&(op1=='+'||op1=='-')){
 		return true;
 	}
 	else{
@@ -174,11 +322,17 @@ function operation(op,data2,data1){
 	if(op=='/'){
 		result=data1/data2;
 	}
+	if(op=='%'){
+		result=data1%data2;
+	}
+	
 	return result;
 }
 
 function results(){
 	
+
+
 
 evaluate(ex);
 
@@ -191,6 +345,13 @@ function color(){
 	document.getElementById("minus").style.background="";
 	document.getElementById("mul").style.background="";
 	document.getElementById("div").style.background="";
+	document.getElementById("power").style.background="";
+	document.getElementById("cube").style.background="";
+    document.getElementById("root").style.background="";
+    document.getElementById("modul").style.background="";
+    document.getElementById("pi").style.background="";
+		
+
 }
 function comma(value){
 	var str=value.toString();
@@ -228,4 +389,13 @@ function comma(value){
     return k;
 	
 	
+}
+function clears(){
+	str=str.substring(0,str.length-1);
+	var sub=ex.substring(0,ex.length-1);
+		ex=document.getElementById("dis").value=sub;
+		if(ex2!=' '){
+		var sub2=ex2.substring(0,ex2.length-1);
+		ex2=document.getElementById("display").value=sub2;
+		}
 }
