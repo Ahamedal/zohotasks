@@ -65,24 +65,25 @@ input[type=text]{
 }
 #dis{
 	width:90%;
-	top:77px;
-	
+	top:90px;
+	font-weight:normal;
 }
 #display{
+	font-size:30px;
 	width:90%;
-	
+	font-weight:bold;
 }
 
 .first{
 	background-color:white;
 	padding:4px;
-	border:5px solid black;
+	border:2px solid black;
 }
 .second{
 	
 
 	padding:10px;
-	border:5px solid black;
+	border:2px solid black;
 }
 #cube{
 	font-weight:normal;
