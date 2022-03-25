@@ -1,7 +1,7 @@
 /**
  * 
  */
-var expression = '';
+
 var res = 0;
 var ex2 = '';
 var ex = '';
@@ -12,8 +12,6 @@ var ans = 0;
 var flag = true;
 var flag2 = true;
 var flag3 = true;
-var flag4 = true;
-var flag5 = true;
 var flag6 = true;
 function display(no) {
 	
@@ -24,6 +22,7 @@ function display(no) {
 		}
 		else {
 			no = 3.14;
+			
 		flag3=false;
 		}
 	}
@@ -39,27 +38,29 @@ function display(no) {
 	if (no == '(' && (!Number.isNaN(Number(temp)) || (temp == ')')) && (ex !== '')&&temp!='√') {
 		no = '*(';
 	}
-	if ((temp == '+' || temp == '-' || temp == '*' || temp == '/' || temp == '%') && no != '-' && Number.isNaN(Number(no)) && no != '(') {
+	if ((temp == '+' || temp == '-' || temp == '*' || temp == '/' || temp == '%') && no != '-' && Number.isNaN(Number(no)) && no != '('&&no!=')') {
 		flag3 = false;
 	}
 	if (Number.isInteger(no)) {
 
 		flag2 = true;
-		flag4 = true;
+		
 
 	}
-    if((no=='²'||no=='³')&&(Number.isNaN(Number(temp))&&temp!=')')||((no=='²'||no=='³')&&ex==='')){
+   if((no=='²'||no=='³')&&ex===''){
 	no='';
 }
-	if (temp == '.' && no == '.') {
-		flag4 = false;
-	}
-	if ((temp == '-' && !flag2&&no!='(') || (temp == '.' && !flag4) || (temp == '.' && Number.isNaN(Number(no))) || (!flag6 && no == '.')) {
+	
+	if ((temp == '-' && !flag2&&no!='(') || (temp == '.' && no=='.') || (temp == '.' && Number.isNaN(Number(no))) || (!flag6 && no == '.')) {
 		no = '';
 
 	}
 	if (no == '.') {
 		flag6 = false;
+	}
+	if(temp==3.14&&no=='.'){
+		no='*.';
+		document.getElementById("display").value ='.';
 	}
 	if (temp == '(' && (no == '+' || no == '*' || no == '/' || no == '%')) {
 		no = '';
@@ -99,7 +100,6 @@ function display(no) {
 		str = '';
 		document.getElementById("plus").style.background = "green";
 		document.getElementById("display").value = " ";
-		flag4 = true;
 		flag6 = true;
 	}
 	else if (no == '-' && flag2) {
@@ -107,7 +107,6 @@ function display(no) {
 		str = '';
 		document.getElementById("minus").style.background = "green";
 		document.getElementById("display").value = " ";
-		flag4 = true;
 		flag6 = true;
 	}
 	else if (no == '*' || no == '*(') {
@@ -115,7 +114,6 @@ function display(no) {
 		str = '';
 		document.getElementById("mul").style.background = "green";
 		document.getElementById("display").value = " ";
-		flag4 = true;
 		flag6 = true;
 
 	}
@@ -124,26 +122,32 @@ function display(no) {
 		str = '';
 		document.getElementById("div").style.background = "green";
 		document.getElementById("display").value = " ";
-		flag4 = true;
 		flag6 = true;
 	}
 	else if (no == '%') {
 		color();
 		document.getElementById("modul").style.background = "green";
 		document.getElementById("display").value = " ";
-		flag4 = true;
 		flag6 = true;
 	}
 	else if (no == '√') {
 		color();
 		document.getElementById("root").style.background = "green";
 		document.getElementById("display").value = " ";
-		flag4 = true;
-		flag5 = false;
+		
 		str = '';
 	}
-    else if(no=='²'||no=='³'||no=='√'){
-	document.getElementById("display").value = " ";
+    else if(no=='²'){
+	color();
+	document.getElementById("power").style.background = "green";
+		document.getElementById("display").value = " ";
+		str = '';
+}
+   else if(no=='³'){
+	color();
+	document.getElementById("cube").style.background = "green";
+		document.getElementById("display").value = " ";
+		str = '';
 }
     
 	else if (!Number.isNaN(Number(no)) || no == '.') {
@@ -230,6 +234,7 @@ function evaluate(expression) {
 	console.log(datas);
 
 	console.log(operand);
+	
 	while (operand.length > 0) {
      if(operand[operand.length-1]=='√'||operand[operand.length-1]=='²'||operand[operand.length-1]=='³'){
 		res = operation(operand.pop(), datas.pop(),"");
@@ -244,10 +249,11 @@ function evaluate(expression) {
 		document.getElementById("display").value ="give brackets correctly";
 	}
 	res=document.getElementById("display").value = comma(datas.pop());
-	ans = res;
+	ans =res.replaceAll(",","");
 	temp2 = 'a';
 		
 	return res;
+	
 }
 function check(op1, op2) {
 	if ((op1 == '+' || op1 == '-') && (op2 == "*" || op2 == '/')) {
