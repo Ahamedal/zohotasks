@@ -8,6 +8,9 @@
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);
 		}%>
+		<%
+response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
+%>
 <title>Transfer to Another Account</title>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 <script>  

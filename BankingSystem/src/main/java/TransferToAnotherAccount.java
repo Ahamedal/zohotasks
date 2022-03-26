@@ -132,6 +132,7 @@ public class TransferToAnotherAccount extends HttpServlet {
 			    RequestDispatcher rd=request.getRequestDispatcher("TransferToAnotherAccountCustomer.jsp");
 				rd.forward(request, response);
 			}
+			
 		}
 		}
 				

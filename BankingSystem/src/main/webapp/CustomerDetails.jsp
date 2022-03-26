@@ -19,6 +19,9 @@
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);
 		}%>
+		<%
+response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
+%>
 <link rel="stylesheet" type="text/css" href="detailsStyle.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
@@ -41,7 +44,7 @@ function myconfirm(){
 <div>
 <form>
 
-<button formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetailscustomer" type="submit" style="float:right">DeactivatedAccounts</button>
+<button id="dea" formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetailscustomer" type="submit" style="float:right">DeactivatedAccounts</button>
 <a href="addCustomer.jsp" type="submit" style="float:left"> <i class="fa fa-plus"></i>  AddCustomer</a>
 
 <center><h2>CustomerDetails</h2></center>

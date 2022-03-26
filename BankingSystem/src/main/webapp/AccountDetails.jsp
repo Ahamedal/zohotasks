@@ -29,6 +29,9 @@ function myconfirm(){
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);
 		}%>
+<%
+response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
+%>
 <link rel="stylesheet" type="text/css" href="detailsStyle.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -39,7 +42,7 @@ function myconfirm(){
 
 <form >
 
-<button formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetails" type="submit" style="float:right">DeactivatedAccounts</button>
+<button id="dea" formaction="AccountServelets"  formmethod="post" name="page" value="deactivatedetails" type="submit" style="float:right">DeactivatedAccounts</button>
 <a href="AddAccount.jsp" type="submit" style="float:left"><i class="fa fa-plus"></i>AddAccount</a>
 <center><h2>AccountDetails</h2></center>
 <center><%
@@ -59,7 +62,7 @@ if(msg!=null){
 <tr>
   
    <td><c:out value="${current.key}"/></td>
-   <td><a  type="submit" href="AddAccount.jsp?userId=<c:out value="${current.key}"/>&accType=<c:out value="${current1.value.getAccountType()}"/>&branch=<c:out value="${current1.value.getBranchName()}"/>&accId=<c:out value="${current1.key}"/>"><i class="fa fa-edit"></i><c:out value="${current1.key}"/></a></td>
+   <td><a id="a" type="submit" href="AddAccount.jsp?userId=<c:out value="${current.key}"/>&accType=<c:out value="${current1.value.getAccountType()}"/>&branch=<c:out value="${current1.value.getBranchName()}"/>&accId=<c:out value="${current1.key}"/>"><i class="fa fa-edit"></i><c:out value="${current1.key}"/></a></td>
    <td><c:out value="${current1.value.getAccountType()}"/></td>
    <td><c:out value="${current1.value.getBranchName()}"/></td>
    <td><c:out value="${current1.value.getBalance()}"/></td>

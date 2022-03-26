@@ -19,13 +19,25 @@ select{
 	color:red;
 }
 
-.div1{
-	
+.div111{
+
+	margin-left:-5px;
 	width:100%;
-	background-color:black;
+	background-color:white;
 	padding:4px;
+	margin-top:-135px;
+	text-align:center;
 	
 	
+}
+#bu{
+	background-color:#1e90ff;
+	width:10%;
+	border-radius:3px;
+}
+#bu1{
+	background-color:#1e90ff;
+	width:10%;
 }
 input[type=text], input[type=password],input[type=reset] { 
         width: 90%;
@@ -76,14 +88,38 @@ input[type=text], input[type=password],input[type=reset] {
 	 cursor:pointer;
 	 
  }
+ .img{
+ background-image:url("https://wallpaperaccess.com/full/558487.jpg");
+ background-size:cover;
+ background-repeat: no-repeat;
+}
+#bankimage{
+	border-radius:50px;
+}
+#iimg{
+	size:10px;
+	width:90px;
+	margin-left:230px;
+}
+#login{
+	margin-left:650px;
+	 margin-right:300px;
+	 margin-top:30px;
+	 background-color:#C7D3D4FF; 
+	 color:black;
+	 width:30%;
+}
 .divv{
+	width:500px;
+  	margin-bottom:20px;
  background-color:lightblue;
- margin-left:500px;
- margin-right:500px;
- 
-  border: 1px solid blue;
+ padding:20px;
+ margin-left:700px;
+ margin-right:700px;
+ background:  linear-gradient(#e66465, #9198e5); 
+  border: none;
   box-sizing: border-box;
- 
+
    font-size:23px;
  }
  #d{

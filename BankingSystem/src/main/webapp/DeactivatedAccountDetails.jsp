@@ -19,6 +19,9 @@
 <form>
 
 <center><h2>DeactivatedCustomerDetails</h2></center>
+<%
+response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
+%>
 
 <table style="width:100%">
 <tr>

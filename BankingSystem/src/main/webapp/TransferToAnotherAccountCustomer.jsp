@@ -15,6 +15,9 @@
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);
 		}%>
+		<%
+response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
+%>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 <script>  
 function Numeric(evt)
@@ -42,11 +45,11 @@ Map<Integer,AccountInfo> map1=(Map<Integer,AccountInfo>)sess.getAttribute("map")
 Object[] accIds=map1.keySet().toArray();
 %>
 <form action="TransferToAnotherAccount" method="post">
-<button formaction="AccountServelets" formmethod="post" type="submit" name="page" value="home">Home</button>
-<button formaction="AccountServelets" formmethod="post" type="submit" name="page" value="logout">LogOut</button>
+<button id="bu" formaction="AccountServelets" formmethod="post" type="submit" name="page" value="home">Home</button>
+<button id="bu1" formaction="AccountServelets" formmethod="post" type="submit" name="page" value="logout">LogOut</button>
 <br><br><br><br><br>
 <div class="divv">
-<h2>Transfer to another Account</h2>
+<center><h3>Transfer to another Account</h3></center>
 <h3>From account:</h3>
 <select name="uAccNo" required>
 <%for(int i=0;i<accIds.length;i++) {%>

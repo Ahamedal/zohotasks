@@ -10,6 +10,9 @@
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);
 		}%>
+		<%
+response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
+%>
 <link rel="stylesheet" type="text/css" href="BankStyle2.css">
 <jsp:include page="adminloginpage.jsp" ></jsp:include><br><br>
  <script>  
@@ -59,6 +62,7 @@ else{
 <option>Selam</option>
 </select>
 <button name="userId1" value="<%out.print(id);%>" type="submit" id="b">register</button>
+<label id="d"><span id="span"></span></label>
 <%
  String a=(String)request.getAttribute("addaccount");
 if(a!=null){

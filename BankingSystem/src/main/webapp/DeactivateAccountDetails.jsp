@@ -14,6 +14,9 @@
 <meta charset="UTF-8">
 <title>Deactivated Account</title>
 <link rel="stylesheet" type="text/css" href="detailsStyle.css">
+<%
+response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
+%>
 </head>
 <body>
 <jsp:include page="adminloginpage.jsp"></jsp:include>

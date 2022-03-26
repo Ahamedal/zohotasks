@@ -87,19 +87,7 @@ if(msg!=null){
 
 </table>
 <br><br><br><br><br>
-<table style="width:100%">
-<tr>
-<th>AccountNo</th><th>balance</th>
 
-</tr>
-<tr>
-<td>1001</td><td>2000</td>
-</tr>
-<tr>
-<td>1002</td><td>100</td>
-<tr>
-
-</table>
 </div>
 </form>
 </body>

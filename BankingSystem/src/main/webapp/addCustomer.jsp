@@ -72,7 +72,7 @@ else{
 }
 %></h2></center>
 <%
-
+response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
 %>
 <form action="AddCustomer" method="post" name="form" onsubmit="return checkString(form)" >
 <div class="divv">
@@ -82,7 +82,7 @@ else{
 <label for="uadd">useraddress:</label><br>
 <input type="text" placeholder="enter useradress" name="uadd" <% if(id!=null){%> value="<%out.print((String)(request.getAttribute("address"))); %>"<%} %> onkeypress="return charCheck(event)" required ><br>
 <label for="umob">mobileno:</label><br>
-<input type="text" placeholder="enter usermobileno" name="umob"  <% if(id!=null){%> value="<%out.print((Long)(request.getAttribute("mobileno"))); %>" <%} %>onkeypress="return Numeric(event)" required ><br>
+<input type="text" placeholder="enter usermobileno" name="umob" pattern=".{10,}" maxlength="10" <% if(id!=null){%> value="<%out.print((Long)(request.getAttribute("mobileno"))); %>" <%} %>  onkeypress="return Numeric(event)" required ><br>
 
 
 <button name="userId1" value="<%out.print(id);%>" type="submit" id="b">register</button><br>

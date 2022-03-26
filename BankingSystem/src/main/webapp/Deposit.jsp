@@ -39,6 +39,9 @@ function Numeric(evt)
 			RequestDispatcher rd=request.getRequestDispatcher("banklogin.jsp");
 			rd.forward(request, response);
 		}%>
+		<%
+response.setHeader("cache-control", "no-cache,no-store,must-revalidate");
+%>
 <jsp:include page="adminloginpage.jsp" ></jsp:include>
 
 <br><br>
