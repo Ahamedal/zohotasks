@@ -294,18 +294,30 @@ public static void close(int[] a,int x) {
 	System.out.println(temp1+" "+temp2);
 }
 public static boolean subSetSum(int[] a) {
-   List<Integer> list=new ArrayList<>();
-   for(int i=0;i<a.length;i++) {
-	   int ans=0;
-	   for(int j=i+1;j<a.length;j++) {
-		   ans=ans+a[i]+a[j];
-		   if(list.contains(ans)) {
-			   return true;
-		   }
-		   list.add(ans);
-	   }
-   }
-   return false;
+  int start1=0;
+  int end1=1;
+  int start2=2;
+  int end2=a.length-1;
+   Arrays.sort(a);
+   return recur2(a,start1,end1,start2,end2);
+}
+public static boolean recur2(int[] a,int start1,int end1,int start2,int end2) {
+	int ans1=0;
+	int ans2=0;
+	if(end1==a.length-1) {
+		return false;
+	}
+	for(int i=start1;i<=end1;i++) {
+		ans1=ans1+a[i];
+	}
+	for(int i=start2;i<=end2;i++) {
+		ans2=ans2+a[i];
+	}
+	if(ans1==ans2) {
+		return true;
+	}
+	
+	return recur2(a,start1,end1+1,start2+1,end2);
 }
 public static int chocolates(int[] a,int m) {
 	Arrays.sort(a);
@@ -358,11 +370,11 @@ public static int recur(int[] a,int start,int end,int min) {
 //    	 map.get(father[i]).add(child[i]);
 //    		
 //    		}
-      System.out.println("enter person name");
-       String p=sc.next();
-        System.out.println("enter level");
-        int level=sc.nextInt();
-       grandFather(map,p,level);
+//      System.out.println("enter person name");
+//       String p=sc.next();
+//        System.out.println("enter level");
+//        int level=sc.nextInt();
+    //   grandFather(map,p,level);
         
 //		List<Integer> one=new ArrayList<>();
 //		int a=6;
@@ -377,7 +389,7 @@ public static int recur(int[] a,int start,int end,int min) {
 		//union(one,two);
 		//except(one,two);
 		//intersect(one,two);
-		int[] a=  {7, 3, 1, 4, 9, 12,1}  ;
+		int[] a=  {15, 5, 20, 10, 35, 15,10}  ;
 		//System.out.println(chocolates(a,3));
 		//System.out.println(subSetSum(a));
 		//close(a,2);
@@ -397,7 +409,7 @@ public static int recur(int[] a,int start,int end,int min) {
 		//String[] ar1= {"a","b","c","d" ,"e" ,"f" ,"g","h","i"};
 		//String[] ar2= {"a","b","d","e","e","g","g","i","i"};
 		//misMatch(ar1,ar2);
-		
+		System.out.println(subSetSum(a));
 	}
 
 }
