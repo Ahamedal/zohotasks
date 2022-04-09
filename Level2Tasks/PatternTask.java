@@ -228,6 +228,136 @@ public class PatternTask {
 		}
 		
 	}
+	public static void alternatingRectangle(int m,int n) {
+		char[][] arr=new char[m][n];
+		int k=0;
+		int l=0;
+		int r=m;
+		int c=n;
+		char x='X';
+		while(k<m&&l<n) {
+			for(int i=l;i<n;i++) {
+				arr[k][i]=x;
+			}
+			k++;
+			for(int i=k;i<m;i++) {
+				arr[i][n-1]=x;
+			}
+			n--;
+			
+			for(int i=n;i>=l;i--) {
+				arr[m-1][i]=x;
+			}
+			m--;
+			
+			
+			for(int i=m;i>=k;i--) {
+				arr[i][l]=x;
+			}
+			l++;
+			
+			if(x=='X') {
+				x='0';
+			}
+			else {
+				x='X';
+			}
+		}
+		for (int i = 0; i < r; i++)
+	    {
+	        for (int j = 0; j < c; j++) {
+	            System.out.print(arr[i][j] + " ");
+	        }
+	        System.out.println();
+	    }
+	}
+	public static void spiralPattern(int n) {
+		int rows=2*n-1;
+		for(int i=1;i<=rows;i++) {
+			for(int j=1;j<=rows;j++) {
+				System.out.print(Math.max(Math.abs(n-i), Math.abs(n-j))+1);
+			}
+			System.out.println();
+		}
+	}
+	public static void lookAndSequence(int n) {
+		String resul="1";
+        System.out.print(resul);
+	    
+        for(int i=1;i<n;i++){
+            String next1="";
+            int k=0;
+            System.out.print(",");
+        while(k<resul.length()){
+            int no=1;
+            while(k<resul.length()-1&&resul.charAt(k)==resul.charAt(k+1)){
+                no++;
+                k++;
+                  }
+                
+                next1=next1+Integer.toString(no)+resul.charAt(k);
+                k++;
+                
+            }
+        System.out.print(next1);
+            resul=next1;
+        }
+        
+		
+	}
+	public static void zPattern(int n) {
+		for(int i=1;i<=n;i++) {
+			for(int j=1;j<=n;j++) {
+				if(i==1||i==n||j==n+1-i) {
+					System.out.print("*");
+				}
+				else {
+					System.out.print(" ");
+				}
+			}
+			System.out.println();
+		}
+	}
+	public static void spiralNumber(int n) {
+		int[][] a=new int[n][n];
+		int r=n;
+		int c=n;
+		int k=0;
+		int l=0;
+		int ans=1;
+		int m=n;
+		while(k<n) {
+			for(int i=l;i<n;i++) {
+				a[k][i]=ans;
+				ans++;
+			}
+			k++;
+			for(int i=k;i<m;i++) {
+				a[i][n-1]=ans;
+				ans++;
+			}
+			n--;
+			for(int i=n-1;i>=l;i--) {
+				a[m-1][i]=ans;
+				ans++;
+			}
+			m--;
+			for(int i=m-1;i>=k;i--) {
+				a[i][l]=ans;
+				ans++;
+			}
+			l++;
+			
+		}
+		for (int i = 0; i < r; i++)
+	    {
+	        for (int j = 0; j < c; j++) {
+	            System.out.print(a[i][j] + "  ");
+	        }
+	        System.out.println();
+	    }
+		
+	}
 public static void main(String[] args) {
 	//pyramid(5);
 	//rightTriangle(5);
@@ -239,6 +369,11 @@ public static void main(String[] args) {
 	//diamondPattern(5);
 	//simpleNumber(5);
 	//pascalTriangl(5);
-	diamondNumber(4);
+	//diamondNumber(4);
+	//alternatingRectangle(3,4);
+	//spiralPattern(4);
+	//lookAndSequence(4);
+	//zPattern(5);
+	spiralNumber(6);
 }
 }

@@ -389,7 +389,7 @@ public static int recur(int[] a,int start,int end,int min) {
 		//union(one,two);
 		//except(one,two);
 		//intersect(one,two);
-		int[] a=  {15, 5, 20, 10, 35, 15,10}  ;
+		int[] a=  {23, 27, 16, 9, 30, 1, 2}  ;
 		//System.out.println(chocolates(a,3));
 		//System.out.println(subSetSum(a));
 		//close(a,2);
@@ -401,7 +401,7 @@ public static int recur(int[] a,int start,int end,int min) {
 		//multipl(a);
 		//leftRotation(a,2);
 		//System.out.println(nonDecreasing(a));
-	//	increasingSubSequences(a);
+		increasingSubSequences(a);
 		//printDuplicates(a);
 		//rotateLengthSize(a);
 		//allPair(a);
@@ -409,7 +409,7 @@ public static int recur(int[] a,int start,int end,int min) {
 		//String[] ar1= {"a","b","c","d" ,"e" ,"f" ,"g","h","i"};
 		//String[] ar2= {"a","b","d","e","e","g","g","i","i"};
 		//misMatch(ar1,ar2);
-		System.out.println(subSetSum(a));
+		//System.out.println(subSetSum(a));
 	}
 
 }
