@@ -358,6 +358,25 @@ public class PatternTask {
 	    }
 		
 	}
+	public static void arrayOfCharacter(String s) {
+		int j=s.length()-1;
+		int mid=s.length()/2;
+		for(int i=0;i<=mid;i++) {
+			System.out.print(s.charAt(i));
+			if(j>mid) {
+			System.out.print(s.charAt(j));
+			}
+			j--;
+			System.out.println();
+		}
+		j++;
+		for(int i=mid;i>0;i--) {
+			System.out.print(s.charAt(i-1));
+			System.out.print(s.charAt(j+1));
+			j++;
+			System.out.println();
+		}
+	}
 public static void main(String[] args) {
 	//pyramid(5);
 	//rightTriangle(5);
@@ -374,7 +393,8 @@ public static void main(String[] args) {
 	//spiralPattern(4);
 	//lookAndSequence(4);
 	//zPattern(5);
-	spiralNumber(6);
+	//spiralNumber(6);
+	arrayOfCharacter("PROGRAM");
 }
 }
 
