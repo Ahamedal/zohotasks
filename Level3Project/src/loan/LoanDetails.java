@@ -1,6 +1,7 @@
 package loan;
 
 public class LoanDetails {
+   private int loanId;
    private String address;
    private long aadhaarNumber;
    private String loanType;
@@ -8,6 +9,12 @@ public class LoanDetails {
    private String status;
    private boolean isApproved=false;
 
+public int getLoanId() {
+	return loanId;
+}
+public void setLoanId(int loanId) {
+	this.loanId = loanId;
+}
 public String getAddress() {
 	return address;
 }
@@ -47,7 +54,7 @@ public void setApproved(boolean isApproved) {
 }
 @Override
 public String toString() {
-	return "address=" + address + ", aadhaarNumber=" + aadhaarNumber + 
+	return "[LoanID="+loanId+", address=" + address + ", aadhaarNumber=" + aadhaarNumber + 
 			", amount=" + amount + ", status="+status+", isApproved=" + isApproved + "]";
 }
    

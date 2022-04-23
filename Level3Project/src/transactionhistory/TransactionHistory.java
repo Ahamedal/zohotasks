@@ -4,8 +4,8 @@ public class TransactionHistory {
 	private int fromAccount;
 	private int toAccount;
 	private double amount;
-	private String date;
-	private String time;
+	private String dateAndTime;
+	
 	private double beforeBalance;
 	public int getFromAccount() {
 		return fromAccount;
@@ -25,17 +25,12 @@ public class TransactionHistory {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public String getDate() {
-		return date;
+	
+	public String getDateAndTime() {
+		return dateAndTime;
 	}
-	public void setDate(String date) {
-		this.date = date;
-	}
-	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
+	public void setDateAndTime(String dateAndTime) {
+		this.dateAndTime = dateAndTime;
 	}
 	public double getBeforeBalance() {
 		return beforeBalance;
@@ -46,7 +41,7 @@ public class TransactionHistory {
 	@Override
 	public String toString() {
 		return "fromAccount=" + fromAccount + ", toAccount=" + toAccount + ", amount=" + amount
-				+ ", date=" + date + ", time=" + time + ", beforeBalance=" + beforeBalance + "";
+				+ ", dateAndTime=" + dateAndTime + ", beforeBalance=" + beforeBalance + "";
 	}
 	
 

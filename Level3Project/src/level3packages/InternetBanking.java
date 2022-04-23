@@ -80,7 +80,7 @@ public class InternetBanking {
 		   sc.nextLine();
 		   System.out.println("Enter amount to transfer");
 		   double amount=sc.nextDouble();
-		   logicBank.transferMoney(fAcc,tAcc,amount);
+		   System.out.println(logicBank.transferMoney(fAcc,tAcc,amount));
 	}
 	public void balance()throws CustomsException,Exception{
 		 Scanner sc=new Scanner(System.in);
@@ -205,11 +205,32 @@ public static void main(String[] args) {
 				   System.out.println("Enter Account Number for loan approved /rejected");
 				   int accId9=sc.nextInt();
 				   sc.nextLine();
-				   System.out.println("Enter loan Type");
-				   String loan=sc.nextLine();
-				   System.out.println("Enter Status Approved or Rejected");
+				   System.out.println("Enter 1-EducationLoan\nEnter 2-HomeLoan\nEnter 3-PersonalLoan");
+				   String loan=null;
+				   int loanId=sc.nextInt();
+				   
+				   sc.nextLine();
+				   switch(loanId) {
+				   case 1:
+					   loan="Education Loan";
+					   break;
+					   
+				   case 2:
+					   loan="Home Loan";
+					
+					   break;
+				
+				   case 3:
+					   loan="Personal Loan";
+					   break;
+					   
+					default:
+						System.out.println("Not Available other loans");
+				   }
+				   
+				   System.out.println("Enter Approved or Rejected");
 				   String status=sc.nextLine();
-				   logicBank.changeStatus(accId9,loan,status);
+				   System.out.println(logicBank.changeStatus(accId9,loan,status));
 				   break;
 				   
 			   case 10:
@@ -259,7 +280,12 @@ public static void main(String[] args) {
 				   
 			   case 2:
 				   try {
+				   if(logicBank.checkAcc(uId)==0) {
 				   runner.balance();
+				   }
+				   else {
+					   System.out.println("Your Balance is "+logicBank.getBalance(logicBank.checkAcc(uId)));  
+				   }
 				   }
 				   catch(CustomsException e) {
 					   System.out.println(e.getMessage());
@@ -271,7 +297,12 @@ public static void main(String[] args) {
 				   
 			   case 3:
 				   try {
+					if(logicBank.checkAcc(uId)==0) {
 				   runner.transactionDetails();
+					}
+					else {
+						System.out.println(logicBank.getTransactionDetails(logicBank.checkAcc(uId)));
+					}
 				   }
 				   catch(CustomsException e) {
 					   System.out.println(e.getMessage());
@@ -308,7 +339,7 @@ public static void main(String[] args) {
 					   break;
 				
 				   case 3:
-					   loType="Personal loan";
+					   loType="Personal Loan";
 					   break;
 					   
 					default:
@@ -324,11 +355,12 @@ public static void main(String[] args) {
 				   loan.setStatus("Pending");
 				   if(logicBank.loanApproving(accId,loan)) {
 					   logicBank.addLoan(accId,loan);
+					   System.out.println("Loan applied successfully");
 				   }
 				   else {
-					   System.out.println("Loan has rejected");
+					   System.out.println("You Have already applied for this Loan so,Loan has rejected");
 				   }
-				   System.out.println("Loan applied successfully");
+				   
 				   }
 				   catch(CustomsException e) {
 					   System.out.println(e.getMessage());
@@ -340,10 +372,15 @@ public static void main(String[] args) {
 				   
 			   case 5:
 				   try {
+				   if(logicBank.checkAcc(uId)==0) {
 				   System.out.println("Enter Account Number");
 				   int accId5=sc.nextInt();
 				   sc.nextLine();
-				   logicBank.getLoanDetails(accId5);
+				   System.out.println(logicBank.getLoanDetails(accId5));
+					   }
+				   else {
+				   System.out.println(logicBank.getLoanDetails(logicBank.checkAcc(uId)));   
+					   }
 				   }
 				   catch(CustomsException e) {
 					   System.out.println(e.getMessage());

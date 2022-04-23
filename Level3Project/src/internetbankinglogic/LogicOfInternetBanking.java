@@ -1,9 +1,12 @@
 package internetbankinglogic;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import accountinfo.AccountInfo;
 import customerinfo.CustomerInfo;
@@ -46,6 +49,13 @@ public boolean validator(int uId,String pass)throws CustomsException {
 	 accInfo.put(accountInfo.getAccountId(), accountInfo);
 	 
  }
+ public int checkAcc(int usersId) {
+	 List<Integer> list=accountID.get(usersId);
+	 if(list.size()==1) {
+		 return list.get(0);
+	 }
+	 return 0;
+ }
  public double getBalance(int accId)throws CustomsException {
 	 checkAccId(accId);
 	 AccountInfo acc=accInfo.get(accId);
@@ -62,7 +72,17 @@ public void withDrawMoney(int accID,double withDraw)throws CustomsException{
 	checkAccId(accID);
 	AccountInfo account=accInfo.get(accID);
     double balance=account.getBalance();
+    if(balance>=withDraw) {
     account.setBalance(balance-withDraw);
+    }
+    else {
+    	throw new CustomsException("Your amount is out of range");
+    }
+}
+public String dateAndTime() {
+	SimpleDateFormat f=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss,E");
+	Date dat=new Date();
+	return f.format(dat);
 }
 boolean flag=false;
 private void storeTranObj(int fAccId,int tAccId,double amount)throws CustomsException{
@@ -80,6 +100,7 @@ private void storeTranObj(int fAccId,int tAccId,double amount)throws CustomsExce
 		flag=false;
 	}
 	tran.setAmount(amount);
+	tran.setDateAndTime(dateAndTime());
 	AccountInfo accountInfo=accInfo.get(fAccId);
 	double beforeBalance=accountInfo.getBalance();
 	tran.setBeforeBalance(beforeBalance);
@@ -96,23 +117,29 @@ private void storeTranDetails(int fAccId,TransactionHistory tran)throws CustomsE
 	lis.add(tran);
 }
 
-public void transferMoney(int fAccId,int tAccId,double amount)throws CustomsException {
+public String transferMoney(int fAccId,int tAccId,double amount)throws CustomsException {
 	checkAccId(fAccId);
 	checkAccId(tAccId);
 	storeTranObj(fAccId,tAccId,amount);
 	storeTranObj(tAccId,fAccId,amount);
 	depositMoney(tAccId,amount);
 	withDrawMoney(fAccId,amount);
+	return "Transaction successfully";
 	
 }
-public List<TransactionHistory> getTransactionDetails(int accId)throws CustomsException {
+public String getTransactionDetails(int accId)throws CustomsException {
 	checkAccId(accId);
 	List<TransactionHistory> tr=transaction.get(accId);
-	List<TransactionHistory> trs=new ArrayList<>();
+	String out="";
 	for(int i=tr.size()-1;i>=0;i--) {
-		trs.add(tr.get(i));
+		out=out+"Transaction From "+tr.get(i).getFromAccount();
+		out+=" Transaction to "+tr.get(i).getToAccount();
+		out+=" amount "+tr.get(i).getAmount();
+		out+=" dateAndtime "+tr.get(i).getDateAndTime();
+		out+=" before balance "+tr.get(i).getBeforeBalance();
+		out+="\n";
 	}
-	return trs;
+	return out;
 }
  public void accountIds(int cusId,int accId)throws CustomsException{
 	 checkCusId(cusId);
@@ -157,21 +184,28 @@ public List<TransactionHistory> getTransactionDetails(int accId)throws CustomsEx
  public Map<Integer,Map<String,LoanDetails>> showLoanDetails(){
 	 return loan;
  }
- public void changeStatus(int accId,String loanT,String status) throws CustomsException{
+ public int random() {
+	 Random ran=new Random();
+	 return ran.nextInt(10000, 2000000);
+ }
+ public String changeStatus(int accId,String loanT,String status) throws CustomsException{
 	 checkAccId(accId);
 	 Map<String,LoanDetails> lo=loan.get(accId);
 	 if(lo!=null) {
 		 LoanDetails lDetils= lo.get(loanT);
 	 if(status.equals("Approved")) {
-		
+		lDetils.setLoanId(random());
 		lDetils.setStatus(status);
 		lDetils.setApproved(true);
+		return "Loan Approved Successfully";
 	 }
 	 else {
 		lDetils.setStatus(status);
+		return "Loan Rejected Successfully";
 			 
 	 }
 	 }
+	 return "No AccountId present in loans";
 	 
  }
  public Map<Integer,CustomerInfo> showCustomerDetails(){
