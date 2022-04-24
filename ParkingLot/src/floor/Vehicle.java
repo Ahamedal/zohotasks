@@ -1,11 +1,19 @@
 package floor;
 
 public class Vehicle {
+private int floorNo;
 private String vehicleType;
 private int vehicleNumber;
 private String entryTime;
 private boolean paymentType=false;
 private int tokenNumber;
+
+public int getFloorNo() {
+	return floorNo;
+}
+public void setFloorNo(int floorNo) {
+	this.floorNo = floorNo;
+}
 public String getVehicleType() {
 	return vehicleType;
 }
