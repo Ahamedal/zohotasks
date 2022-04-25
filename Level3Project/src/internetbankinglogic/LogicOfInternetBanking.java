@@ -90,17 +90,17 @@ private void storeTranObj(int fAccId,int tAccId,double amount)throws CustomsExce
 	checkAccId(tAccId);
 	TransactionHistory tran=new TransactionHistory();
 	if(!flag) {
-	tran.setFromAccount(fAccId);
-	tran.setToAccount(tAccId);
+	tran.setAccount(tAccId);
+	tran.setTransactionType("To");;
 	flag=true;
 	}
 	else {
-		tran.setFromAccount(tAccId);
-		tran.setToAccount(fAccId);
+		tran.setAccount(fAccId);
+		tran.setTransactionType("From");;
 		flag=false;
 	}
 	tran.setAmount(amount);
-	tran.setDateAndTime(dateAndTime());
+	tran.setDateAndTime(System.currentTimeMillis());
 	AccountInfo accountInfo=accInfo.get(fAccId);
 	double beforeBalance=accountInfo.getBalance();
 	tran.setBeforeBalance(beforeBalance);
@@ -128,14 +128,15 @@ public String transferMoney(int fAccId,int tAccId,double amount)throws CustomsEx
 	
 }
 public String getTransactionDetails(int accId)throws CustomsException {
-	checkAccId(accId);
+	checkTransactionId(accId);
 	List<TransactionHistory> tr=transaction.get(accId);
 	String out="";
 	for(int i=tr.size()-1;i>=0;i--) {
-		out=out+"Transaction From "+tr.get(i).getFromAccount();
-		out+=" Transaction to "+tr.get(i).getToAccount();
+		out=out+"Transaction "+tr.get(i).getTransactionType();
+		out+=" "+tr.get(i).getAccount();
 		out+=" amount "+tr.get(i).getAmount();
-		out+=" dateAndtime "+tr.get(i).getDateAndTime();
+		Date dat=new Date(tr.get(i).getDateAndTime());
+		out+=" dateAndtime "+dat;
 		out+=" before balance "+tr.get(i).getBeforeBalance();
 		out+="\n";
 	}
@@ -174,7 +175,7 @@ public String getTransactionDetails(int accId)throws CustomsException {
 	 return true;
  }
  public Map<String,LoanDetails> getLoanDetails(int accId)throws CustomsException{
-	 checkAccId(accId);
+	 checkLoanId(accId);
 	 Map<String,LoanDetails> loanDetails=loan.get(accId);
 	 if(loanDetails==null) {
 		 return new HashMap<>();
@@ -234,6 +235,16 @@ private void checkCusId(int cusId)throws CustomsException{
 }
 private void checkAccId(int accId)throws CustomsException{
 	  if(accInfo.get(accId)==null) {
+		  throw new CustomsException("this Account id is does not exist");
+	  }
+}
+private void checkTransactionId(int accId)throws CustomsException{
+	  if(transaction.get(accId)==null) {
+		  throw new CustomsException("this Account id is does not exist");
+	  }
+}
+private void checkLoanId(int accId)throws CustomsException{
+	  if(loan.get(accId)==null) {
 		  throw new CustomsException("this Account id is does not exist");
 	  }
 }

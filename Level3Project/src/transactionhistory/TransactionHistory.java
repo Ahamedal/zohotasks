@@ -1,23 +1,26 @@
 package transactionhistory;
 
+
+
 public class TransactionHistory {
-	private int fromAccount;
-	private int toAccount;
+	private int Account;
+	private String transactionType;
 	private double amount;
-	private String dateAndTime;
-	
+	private long dateAndTime;
 	private double beforeBalance;
-	public int getFromAccount() {
-		return fromAccount;
+    
+	
+	public int getAccount() {
+		return Account;
 	}
-	public void setFromAccount(int fromAccount) {
-		this.fromAccount = fromAccount;
+	public void setAccount(int account) {
+		Account = account;
 	}
-	public int getToAccount() {
-		return toAccount;
+	public String getTransactionType() {
+		return transactionType;
 	}
-	public void setToAccount(int toAccount) {
-		this.toAccount = toAccount;
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
 	}
 	public double getAmount() {
 		return amount;
@@ -25,12 +28,14 @@ public class TransactionHistory {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	
-	public String getDateAndTime() {
+	public long getDateAndTime() {
 		return dateAndTime;
 	}
-	public void setDateAndTime(String dateAndTime) {
+	
+	public void setDateAndTime(long dateAndTime) {
 		this.dateAndTime = dateAndTime;
+		
+		
 	}
 	public double getBeforeBalance() {
 		return beforeBalance;
@@ -38,10 +43,11 @@ public class TransactionHistory {
 	public void setBeforeBalance(double beforeBalance) {
 		this.beforeBalance = beforeBalance;
 	}
+	
 	@Override
 	public String toString() {
-		return "fromAccount=" + fromAccount + ", toAccount=" + toAccount + ", amount=" + amount
-				+ ", dateAndTime=" + dateAndTime + ", beforeBalance=" + beforeBalance + "";
+		return "Transation" + transactionType + " " + Account + ", amount=" + amount
+				+ ", dateAndTime=" + dateAndTime+ ", beforeBalance=" + beforeBalance + "";
 	}
 	
 
