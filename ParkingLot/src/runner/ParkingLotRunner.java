@@ -1,8 +1,10 @@
 package runner;
 
 import java.text.ParseException;
+
 import java.util.Scanner;
 
+import exception.CustomException;
 import floor.Vehicle;
 import logic.LogicOfParkingLot;
 import vehicle.Floor;
@@ -14,7 +16,7 @@ public class ParkingLotRunner {
 		System.out.println("How Many hours to park Your Vehicle");
 		int hour=sc.nextInt();
 		System.out.println(logicPark.calPayment(hour)+"$ amount to pay for "+hour+" hour parking");
-		
+		System.out.println("Payment Succesfully");
 		
 	}
 /**
@@ -37,7 +39,7 @@ public static void main(String[] args) throws ParseException {
 		sc.nextLine();
 		switch(sel) {
 		case 1:
-			
+			try{
 			
 			Vehicle v=new Vehicle();
 			
@@ -53,58 +55,80 @@ public static void main(String[] args) throws ParseException {
 		    System.out.println("Enter Your Vehicle Type");
 		    String vehicle=sc.nextLine();
 		    if(logicPark.isAvailable(vehicle,fNumber)) {
-		    	System.out.println("You Have pay to amount to parking using CreditCards or etc");
-	    	String cre=sc.nextLine();
+		    	
+	    	
 		    	v.setVehicleNumber(vNumber);
 	    		v.setVehicleType(vehicle);
 	    		v.setFloorNo(fNumber);
-		    	if(cre.equals("Yes")) {
-		    		
-		    		run.payment();
-		    		v.setEntryTime(logicPark.time());
-		    		v.setPaymentType(true);
-		    		v.setTokenNumber(logicPark.generatToken());
-		    		System.out.println("Your Token Number is"+v.getTokenNumber());
-		    		logicPark.addToken(v);
-		    		
-		    		logicPark.addVehicle(v);
-		    		
-		    		
-		    	}
-		    	else {
+		    	
+		    	
 		    		v.setEntryTime(logicPark.time());
 		    		v.setTokenNumber(logicPark.generatToken());
 		    		System.out.println("Your Token Number is"+v.getTokenNumber());
+		    		
+		    		System.out.println("If you have pay to CustomerInfoPortal (Enter Yes-true Or No-false)");
+		    		boolean cusPortal=sc.nextBoolean();
+		    		if(cusPortal) {
+		    			run.payment();
+		    			v.setPaymentType(true);
+		    			
+		    		}
+		    		
 		    		logicPark.addToken(v);
 		    		logicPark.addVehicle(v);
-		    	}
+		    	
 		    	condition2=false;
 		    }
 		    else {
 		    	System.out.println("this floor "+fNumber+" "+vehicle+" spot  is already full so,not available");
 		    }
 			}
+			}
+			catch(CustomException e) {
+				System.out.println(e.getMessage());
+			}
+			catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
 			break;
 		case 2:
+			try {
 			System.out.println("Enter the Token Number");
 			int tNumber2=sc.nextInt();
 			sc.nextLine();
 			int vNumber2=logicPark.getToken(tNumber2);
 			if(logicPark.isPayment(vNumber2)) {
-				System.out.println("You Have already payed using cards so you go");
+				System.out.println("You Have already payed using CustomerInfoPortal so you go");
 			}
 			else {
+				System.out.println("You Have pay Enter 1-cash or Enter 2-Credit Cards ");
+				int credit=sc.nextInt();
+				sc.nextLine();
+              if(credit==2) {
+		    		
+		    		System.out.println("Enter Your Credit Card No");
+		    		long cNo=sc.nextLong();
+		    		sc.nextLine();
+		    		}
 			int time=logicPark.calTime(vNumber2);
 			float amount=logicPark.calPayment(time);
 			System.out.println("Your pay amount is "+amount+"$ for "+time+" hours");
+			System.out.println("Payment Successfully");
 			}
 			
 			logicPark.addFloorIfExit(vNumber2);
 			logicPark.remove(vNumber2);
+			}
+			catch(CustomException e) {
+				System.out.println(e.getMessage());
+			}
+			catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
 			break;
 			
 		 default:
-			condition2=false;
+			condition=false;
 		}
 	}
 }
