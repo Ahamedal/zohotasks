@@ -1,43 +1,173 @@
 package logic;
 
-import java.text.ParseException;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+
+import java.util.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import customer.CustomerDetails;
 import exception.CustomException;
+import spots.Spots;
+import token.Token;
+//import token.Vehicle;
 
-import floor.Vehicle;
-import vehicle.Floor;
 
 public class LogicOfParkingLot {
-	Map<Integer,Floor> floorInfo=new HashMap<>();
-	Map<Integer,Vehicle> vehicleInfo=new HashMap<>();
-	Map<Integer,Integer> tokenInfo=new HashMap<>();
-	
-	int tokenNumber=1000;
+	static int tokenNo=1000;
 	float hor1=4;
 	float hour2=3.5f;
 	float hours=2.5f;
-	public void fullFloorInfo() {
-		Floor floor=new Floor();
-		int size=floor.getFloorNumber();
-		for(int i=1;i<=size;i++) {
-		    floor=new Floor();
-			floorInfo.put(i, floor);
+	static Map<Integer,Map<String,List<Spots>>> availableSpots=new HashMap<>();
+	static List<Spots> occupiedSpots=new ArrayList<>();
+	static Map<Integer,Token> vehicleInfo=new HashMap<>();
+	static Map<Integer,CustomerDetails> cusInfo=new HashMap<>();
+	static Map<Integer,Integer> tokenInfo=new HashMap<>();
+	
+	public void addParkInf(int fNo,String vehicleType,Spots spot) {
+		Map<String,List<Spots>> map=availableSpots.get(fNo);
+		if(map==null) {
+			map=new HashMap<>();
+			availableSpots.put(fNo,map);
+			
 		}
+		List<Spots> list=map.get(vehicleType);
+		if(list==null) {
+		list=new ArrayList<>();
+		map.put(vehicleType, list);
+		}
+		list.add(spot);
 	}
-	public Map<Integer,Floor> displayAvailable(){
-		return floorInfo;
+	public Spots isAvailable(String vehicleType,int floorNo) {
+		
+		Spots spot=null;
+		  
+			switch(vehicleType) {
+			case "Car":
+				 List<Spots> lic=availableSpots.get(floorNo).get("Compact");
+				 if(lic.size()!=0) {
+				    spot=availableSpots.get(floorNo).get("Compact").get(0);
+				    if(spot!=null) {
+					spot.setTokenNo(generatToken());
+					List<Spots> lis=availableSpots.get(floorNo).get("Compact");
+					occupiedSpots.add(spot);
+					lis.remove(spot);
+				    }
+				 }
+					return spot;
+				
+			
+			case "Truck":
+				 List<Spots> li=availableSpots.get(floorNo).get("Large");
+				 if(li.size()!=0) {
+				 spot=availableSpots.get(floorNo).get("large").get(0);
+				    if(spot!=null) {
+					spot.setTokenNo(generatToken());
+					List<Spots> lis=availableSpots.get(floorNo).get("Large");
+					occupiedSpots.add(spot);
+					lis.remove(spot);
+				    }
+				 }
+					return spot;
+					
+			case "MotorCycle":
+				    List<Spots> li1=availableSpots.get(floorNo).get("MotorCycle");
+				    if(li1.size()!=0) {
+				   spot=availableSpots.get(floorNo).get("MotorCycle").get(0);
+				    if(spot!=null) {
+					spot.setTokenNo(generatToken());
+					List<Spots> lis=availableSpots.get(floorNo).get("MotorCycle");
+					occupiedSpots.add(spot);
+					lis.remove(spot);
+				    }
+				    }
+					return spot;
+				
+			case "Handicapped":
+				 List<Spots> liH=availableSpots.get(floorNo).get("Handicapped");
+				 if(liH.size()!=0) {
+				   spot=availableSpots.get(floorNo).get("Handicapped").get(0);
+				    if(spot!=null) {
+					spot.setTokenNo(generatToken());
+					List<Spots> lis=availableSpots.get(floorNo).get("Handicapped");
+					occupiedSpots.add(spot);
+					lis.remove(spot);
+				    }
+				 }
+					return spot;
+				
+			case "Electric Car":
+				       List<Spots> liE=availableSpots.get(floorNo).get("ElectricCar");
+				     if(liE.size()!=0) {
+				    spot=availableSpots.get(floorNo).get("ElectricCar").get(0);
+				    if(spot!=null) {
+					spot.setTokenNo(generatToken());
+					List<Spots> lis=availableSpots.get(floorNo).get("Compact");
+					occupiedSpots.add(spot);
+					lis.remove(spot);
+				    }
+				     }
+					return spot;
+				
+			
+		}
+
+		return spot;
+    }
+	public int generatToken() {
+		return ++tokenNo;
 	}
-	public Floor availablePerFlor(int fNumber) {
-		return floorInfo.get(fNumber);
+	public void addFloorIfExit(int tNo) {
+	   for(int i=0;i<occupiedSpots.size();i++) {
+		if(occupiedSpots.get(i).getTokenNo()==tNo) {
+		Spots spot=occupiedSpots.get(i);
+		int fNo=spot.getFloorNo();
+		String spotTyp=spot.getSpotsType();
+		addParkInf(fNo,spotTyp,spot);
+		occupiedSpots.remove(occupiedSpots.get(i));
+		break;
+		}
+	   }
+		
+	}	
+	public long calTime(int vNumber)  {
+		
+		long exitTim=System.currentTimeMillis();
+		Token token=vehicleInfo.get(vNumber);
+		return calDiffEnterAndExit(token.getEntryTime(),exitTim);
+		
 	}
-	public float calPayment(int hour) {
+	public long calDiffEnterAndExit(long entry,long exit) {
+		
+		
+		long time=(exit-entry)/1000;
+		return time;
+	}
+	public boolean isPayment(int tNumber) throws CustomException {
+		
+		Token token=vehicleInfo.get(tNumber);
+		return token.isPaymentStatus();
+	}
+	public void addToken(Token tOb) throws CustomException {
+		
+		tokenInfo.put(tOb.getTokenNumber(), tOb.getVehicleNumber());
+	}
+	public int getToken(int tNo) throws CustomException {
+		
+		return tokenInfo.get(tNo);
+	}
+	public CustomerDetails getCusInfo(int tNo) {
+		return cusInfo.get(tNo);
+	}
+	public void addVehicle(Token tOb) throws CustomException {
+		
+		vehicleInfo.put(tOb.getVehicleNumber(), tOb);
+	}
+	public float calPayment(long hour) {
 		float sum=0;
-		for(int i=hour;i>=1;i--) {
+		for(long i=hour;i>=1;i--) {
 			if(i==2||i==3) {
 				sum=sum+hour2;
 			}
@@ -50,176 +180,272 @@ public class LogicOfParkingLot {
 		}
 		return sum;
 	}
-public boolean isAvailable(String vehicle,int fNumber) throws CustomException {
-	stringCheck(vehicle);
-	checkFloorId(fNumber);
-	 int avai=0;
-	
-	 
-	Floor floors=floorInfo.get(fNumber);
-	switch(vehicle) {
-	case "Car":
-		avai=floors.getCompactSpot()-1;
-		floors.setCompactSpot(floors.getCompactSpot()-1);
-		break;
-	case "Truck":
-		avai=floors.getLargeSpot()-1;
-		floors.setLargeSpot(floors.getLargeSpot()-1);
-		break;
-		
-	case "MotorCycle":
-		avai=floors.getMotorCycleSpot()-1;
-		floors.setMotorCycleSpot(floors.getMotorCycleSpot()-1);
-		break;
-		
-	case "Handicapped":
-		avai=floors.getHandicappedSpot()-1;
-		floors.setHandicappedSpot(floors.getHandicappedSpot()-1);
-		break;
-		
-	case "Electric Car":
-		avai=floors.getElectricCarSpot()-1;
-		floors.setElectricCarSpot(floors.getElectricCarSpot()-1);;
-		break;
-	
-	default:
-		return false;
+	public void maps() {
+		System.out.println(availableSpots);
+		System.out.println(occupiedSpots);
+		System.out.println(cusInfo);
+		System.out.println(vehicleInfo);
+		System.out.println(tokenInfo);
 	}
 	
-	if(avai<=-1) {
-		switch(vehicle) {
-		case "Car":
-			
-			floors.setCompactSpot(floors.getCompactSpot()+1);
-			break;
-		case "Truck":
-			
-			floors.setLargeSpot(floors.getLargeSpot()+1);
-			break;
-			
-		case "MotorCycle":
-			
-			floors.setMotorCycleSpot(floors.getMotorCycleSpot()+1);
-			break;
-			
-		case "Handicapped":
-			
-			floors.setHandicappedSpot(floors.getHandicappedSpot()+1);
-			break;
-			
-		case "Electric Car":
-			floors.setElectricCarSpot(floors.getElectricCarSpot()+1);
-		}
-		return false;
-	}
-	floors.setTotalSize(floors.getTotalSize()-1);
-	return true;
 }
-public void addSizeExit(String vehicle,int fNo) throws CustomException {
-	stringCheck(vehicle);
-	
-	Floor floors=floorInfo.get(fNo);
-	switch(vehicle) {
-	case "Car":
-		
-		floors.setCompactSpot(floors.getCompactSpot()+1);
-		break;
-	case "Truck":
-		
-		floors.setLargeSpot(floors.getLargeSpot()+1);
-		break;
-		
-	case "MotorCycle":
-		
-		floors.setMotorCycleSpot(floors.getMotorCycleSpot()+1);
-		break;
-		
-	case "Handicapped":
-		
-		floors.setHandicappedSpot(floors.getHandicappedSpot()+1);
-		break;
-		
-	}
-	floors.setTotalSize(floors.getTotalSize()+1);
-}
-public void addFloorIfExit(int vNo) throws CustomException {
-	checkVehicleId(vNo);
-	Vehicle ve=vehicleInfo.get(vNo);
-	String vehicleType=ve.getVehicleType();
-	int fNo=ve.getFloorNo();
-	addSizeExit(vehicleType,fNo);
-	
-}
-public int calDiffEnterAndExit(String entry,String exit) throws CustomException,ParseException {
-	stringCheck(entry);
-	stringCheck(exit);
-	SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss");
-	Date date1=formatter.parse(entry);
-	Date date2=formatter.parse(exit);
-	int time=(date2.getSeconds()-date1.getSeconds());
-	return time;
-}
-public int calTime(int vNumber) throws CustomException,ParseException {
-	checkVehicleId(vNumber);
-	String exitTim=time();
-	Vehicle ve=vehicleInfo.get(vNumber);
-	return calDiffEnterAndExit(ve.getEntryTime(),exitTim);
-	
-}
-public boolean isPayment(int vNumber2) throws CustomException {
-	checkVehicleId(vNumber2);
-	Vehicle ve=vehicleInfo.get(vNumber2);
-	return ve.isPaymentType();
-}
-public void addToken(Vehicle vOb) throws CustomException {
-	nullCheck(vOb);
-	tokenInfo.put(vOb.getTokenNumber(), vOb.getVehicleNumber());
-}
-public int getToken(int tNo) throws CustomException {
-	checkTokenId(tNo);
-	return tokenInfo.get(tNo);
-}
-public void addVehicle(Vehicle vOb) throws CustomException {
-	nullCheck(vOb);
-	vehicleInfo.put(vOb.getVehicleNumber(), vOb);
-}
-public void remove(int vNo) throws CustomException {
-	checkVehicleId(vNo);
-	vehicleInfo.remove(vNo);
-}
-public int generatToken() {
-	return ++tokenNumber;
-}
-public String time() {
-	SimpleDateFormat date=new SimpleDateFormat("HH:mm:ss");
-	Date dateObj=new Date();
-	return date.format(dateObj);
-	
-}
-private void stringCheck(String testString)throws CustomException{
-	if(testString==null||testString.isEmpty()){
-	throw new CustomException("String can not be null or empty");
-	}
-	}
-private void nullCheck(Object fileObj)throws CustomException{
-	if(fileObj==null){
-	throw new CustomException(fileObj+"cannot be null");
-	}
-	}
 
-private void checkVehicleId(int vId)throws CustomException{
-	  if(vehicleInfo.get(vId)==null) {
-		  throw new CustomException("this Vehicle No is does not exist");
-	  }
-}
-private void checkFloorId(int fId)throws CustomException{
-	  if(floorInfo.get(fId)==null) {
-		  throw new CustomException("this Floor no is does not exist");
-	  }
-}
-private void checkTokenId(int fId)throws CustomException{
-	  if(tokenInfo.get(fId)==null) {
-		  throw new CustomException("this Token no is does not exist");
-	  }
-}
-}
+//	Map<Integer,Floor> floorInfo=new HashMap<>();
+//	Map<Integer,Vehicle> vehicleInfo=new HashMap<>();
+//	Map<Integer,Integer> tokenInfo=new HashMap<>();
+//	
+//	int tokenNumber=1000;
+//	float hor1=4;
+//	float hour2=3.5f;
+//	float hours=2.5f;
+//	public void fullFloorInfo() {
+//		Floor floor=new Floor();
+//		int size=floor.getFloorNumber();
+//		for(int i=1;i<=size;i++) {
+//		    floor=new Floor();
+//			floorInfo.put(i, floor);
+//		}
+//	}
+//	public Map<Integer,Floor> displayAvailable(){
+//		return floorInfo;
+//	}
+//	public Floor availablePerFlor(int fNumber) {
+//		return floorInfo.get(fNumber);
+//	}
+//	public float calPayment(int hour) {
+//		float sum=0;
+//		for(int i=hour;i>=1;i--) {
+//			if(i==2||i==3) {
+//				sum=sum+hour2;
+//			}
+//			else if(i==1) {
+//				sum=sum+hor1;
+//			}
+//			else {
+//				sum=sum+hours;
+//			}
+//		}
+//		return sum;
+//	}
+//public boolean isAvailable(String vehicle,int fNumber) throws CustomException {
+//	stringCheck(vehicle);
+//	checkFloorId(fNumber);
+//	 int avai=0;
+//	
+//	 
+//	Floor floors=floorInfo.get(fNumber);
+//	switch(vehicle) {
+//	case "Car":
+//		avai=floors.getCompactSpot()-1;
+//		floors.setCompactSpot(floors.getCompactSpot()-1);
+//		break;
+//	case "Truck":
+//		avai=floors.getLargeSpot()-1;
+//		floors.setLargeSpot(floors.getLargeSpot()-1);
+//		break;
+//		
+//	case "MotorCycle":
+//		avai=floors.getMotorCycleSpot()-1;
+//		floors.setMotorCycleSpot(floors.getMotorCycleSpot()-1);
+//		break;
+//		
+//	case "Handicapped":
+//		avai=floors.getHandicappedSpot()-1;
+//		floors.setHandicappedSpot(floors.getHandicappedSpot()-1);
+//		break;
+//		
+//	case "Electric Car":
+//		avai=floors.getElectricCarSpot()-1;
+//		floors.setElectricCarSpot(floors.getElectricCarSpot()-1);;
+//		break;
+//	
+//	default:
+//		return false;
+//	}
+//	
+//	if(avai<=-1) {
+//		switch(vehicle) {
+//		case "Car":
+//			
+//			floors.setCompactSpot(floors.getCompactSpot()+1);
+//			break;
+//		case "Truck":
+//			
+//			floors.setLargeSpot(floors.getLargeSpot()+1);
+//			break;
+//			
+//		case "MotorCycle":
+//			
+//			floors.setMotorCycleSpot(floors.getMotorCycleSpot()+1);
+//			break;
+//			
+//		case "Handicapped":
+//			
+//			floors.setHandicappedSpot(floors.getHandicappedSpot()+1);
+//			break;
+//			
+//		case "Electric Car":
+//			floors.setElectricCarSpot(floors.getElectricCarSpot()+1);
+//		}
+//		return false;
+//	}
+//	floors.setTotalSize(floors.getTotalSize()-1);
+//	return true;
+//}
+//public void addSizeExit(String vehicle,int fNo) throws CustomException {
+//	stringCheck(vehicle);
+//	
+//	Floor floors=floorInfo.get(fNo);
+//	switch(vehicle) {
+//	case "Car":
+//		
+//		floors.setCompactSpot(floors.getCompactSpot()+1);
+//		break;
+//	case "Truck":
+//		
+//		floors.setLargeSpot(floors.getLargeSpot()+1);
+//		break;
+//		
+//	case "MotorCycle":
+//		
+//		floors.setMotorCycleSpot(floors.getMotorCycleSpot()+1);
+//		break;
+//		
+//	case "Handicapped":
+//		
+//		floors.setHandicappedSpot(floors.getHandicappedSpot()+1);
+//		break;
+//		
+//	}
+//	floors.setTotalSize(floors.getTotalSize()+1);
+//}
+//public void addFloorIfExit(int vNo) throws CustomException {
+//	checkVehicleId(vNo);
+//	Vehicle ve=vehicleInfo.get(vNo);
+//	String vehicleType=ve.getVehicleType();
+//	int fNo=ve.getFloorNo();
+//	addSizeExit(vehicleType,fNo);
+//	
+//}
+//public int calDiffEnterAndExit(String entry,String exit) throws CustomException,ParseException {
+//	stringCheck(entry);
+//	stringCheck(exit);
+//	SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss");
+//	Date date1=formatter.parse(entry);
+//	Date date2=formatter.parse(exit);
+//	int time=(date2.getSeconds()-date1.getSeconds());
+//	return time;
+//}
+//public int calTime(int vNumber) throws CustomException,ParseException {
+//	checkVehicleId(vNumber);
+//	String exitTim=time();
+//	Vehicle ve=vehicleInfo.get(vNumber);
+//	return calDiffEnterAndExit(ve.getEntryTime(),exitTim);
+//	
+//}
+//public boolean isPayment(int vNumber2) throws CustomException {
+//	checkVehicleId(vNumber2);
+//	Vehicle ve=vehicleInfo.get(vNumber2);
+//	return ve.isPaymentType();
+//}
+//public void addToken(Vehicle vOb) throws CustomException {
+//	nullCheck(vOb);
+//	tokenInfo.put(vOb.getTokenNumber(), vOb.getVehicleNumber());
+//}
+//public int getToken(int tNo) throws CustomException {
+//	checkTokenId(tNo);
+//	return tokenInfo.get(tNo);
+//}
+//public void addVehicle(Vehicle vOb) throws CustomException {
+//	nullCheck(vOb);
+//	vehicleInfo.put(vOb.getVehicleNumber(), vOb);
+//}
+//public void remove(int vNo) throws CustomException {
+//	checkVehicleId(vNo);
+//	vehicleInfo.remove(vNo);
+//}
+//public int generatToken() {
+//	return ++tokenNumber;
+//}
+//public String time() {
+//	SimpleDateFormat date=new SimpleDateFormat("HH:mm:ss");
+//	Date dateObj=new Date();
+//	return date.format(dateObj);
+//	
+//}
+//private void stringCheck(String testString)throws CustomException{
+//	if(testString==null||testString.isEmpty()){
+//	throw new CustomException("String can not be null or empty");
+//	}
+//	}
+//private void nullCheck(Object fileObj)throws CustomException{
+//	if(fileObj==null){
+//	throw new CustomException(fileObj+"cannot be null");
+//	}
+//	}
+//
+//private void checkVehicleId(int vId)throws CustomException{
+//	  if(vehicleInfo.get(vId)==null) {
+//		  throw new CustomException("this Vehicle No is does not exist");
+//	  }
+//}
+//private void checkFloorId(int fId)throws CustomException{
+//	  if(floorInfo.get(fId)==null) {
+//		  throw new CustomException("this Floor no is does not exist");
+//	  }
+//}
+//private void checkTokenId(int fId)throws CustomException{
+//	  if(tokenInfo.get(fId)==null) {
+//		  throw new CustomException("this Token no is does not exist");
+//	  }
+//}
+//for(int i=0;i<availableSpots.size();i++) {
+//if(availableSpots.get(i).getFloorNo()==floorNo) {
+//	 spot=availableSpots.get(i);
+//	switch(vehicleType) {
+//	case "Car":
+//		if(spot.getSpotsType().equals("Compact")) {
+//			spot.setTokenNo(generatToken());
+//			occupiedSpots.add(spot);
+//			availableSpots.remove(spot);
+//			return spot;
+//		}
+//		break;
+//	case "Truck":
+//		if(spot.getSpotsType().equals("Large")) {
+//			occupiedSpots.add(spot);
+//			availableSpots.remove(spot);
+//			return spot;
+//		}
+//		
+//		break;
+//	case "MotorCycle":
+//		
+//		if(spot.getSpotsType().equals("MotorCycle")) {
+//			occupiedSpots.add(spot);
+//			availableSpots.remove(spot);
+//			return spot;
+//		}
+//		break;
+//	case "Handicapped":
+//		if(spot.getSpotsType().equals("Handicapped")) {
+//			occupiedSpots.add(spot);
+//			availableSpots.remove(spot);
+//			return spot;
+//		}
+//		break;
+//		
+//	case "Electric Car":
+//		if(spot.getSpotsType().equals("ElectricCar")) {
+//			occupiedSpots.add(spot);
+//			availableSpots.remove(spot);
+//			return spot;
+//		}
+//		break;
+//	
+//}
+//	
+//}
+//
+//
+//}
