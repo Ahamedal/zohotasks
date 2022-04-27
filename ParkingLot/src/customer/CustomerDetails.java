@@ -2,6 +2,7 @@ package customer;
 
 public class CustomerDetails {
    private int tokenId;
+   private int customerID;
    private String usName;
    private long mobileNumber;
    private String vehicleType;
@@ -14,6 +15,12 @@ public void setTokenId(int tokenId) {
 	this.tokenId = tokenId;
 }
 
+public int getCustomerID() {
+	return customerID;
+}
+public void setCustomerID(int customerID) {
+	this.customerID = customerID;
+}
 public String getUsName() {
 	return usName;
 }
@@ -43,6 +50,12 @@ public double getWalletAmmount() {
 }
 public void setWalletAmmount(double walletAmmount) {
 	this.walletAmmount = walletAmmount;
+}
+@Override
+public String toString() {
+	return " [tokenId=" + tokenId + ", customerID=" + customerID + ", usName=" + usName
+			+ ", mobileNumber=" + mobileNumber + ", vehicleType=" + vehicleType + ", vehicleNo=" + vehicleNo
+			+ ", walletAmmount=" + walletAmmount + "]";
 }
   
 }

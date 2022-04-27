@@ -1,8 +1,5 @@
 package logic;
 
-
-
-
 import java.util.*;
 
 import java.util.HashMap;
@@ -14,172 +11,149 @@ import spots.Spots;
 import token.Token;
 //import token.Vehicle;
 
-
 public class LogicOfParkingLot {
-	static int tokenNo=1000;
-	float hor1=4;
-	float hour2=3.5f;
-	float hours=2.5f;
-	static Map<Integer,Map<String,List<Spots>>> availableSpots=new HashMap<>();
-	static List<Spots> occupiedSpots=new ArrayList<>();
-	static Map<Integer,Token> vehicleInfo=new HashMap<>();
-	static Map<Integer,CustomerDetails> cusInfo=new HashMap<>();
-	static Map<Integer,Integer> tokenInfo=new HashMap<>();
-	
-	public void addParkInf(int fNo,String vehicleType,Spots spot) {
-		Map<String,List<Spots>> map=availableSpots.get(fNo);
-		if(map==null) {
-			map=new HashMap<>();
-			availableSpots.put(fNo,map);
-			
+	static int tokenNo = 1000;
+	static int customerId = 0;
+	float hor1 = 4;
+	float hour2 = 3.5f;
+	float hours = 2.5f;
+	static Map<Integer, Map<String, List<Spots>>> availableSpots = new HashMap<>();
+	static Map<Integer, Spots> occupiedSpots = new HashMap<>();
+	static Map<Integer, Token> vehicleInfo = new HashMap<>(); //key=vehicleNo value=tokenObj
+	static Map<Integer, CustomerDetails> cusInfo = new HashMap<>(); //key=tokenNo value=cusObj
+	static Map<Integer, Integer> tokenInfo = new HashMap<>();//key=tokenNo value=vehicleNo
+	static Map<Integer, Integer> cusIdInfo = new HashMap<>();//key=cusNo value=tokenNo
+	static Map<Integer,Integer> vehAndCusId=new HashMap<>();//key=vehicleNo value=cusId;
+
+	public void addParkInf(int fNo, String vehicleType, Spots spot) throws CustomException {
+		stringCheck(vehicleType);
+		nullCheck(spot);
+		Map<String, List<Spots>> map = availableSpots.get(fNo);
+		if (map == null) {
+			map = new HashMap<>();
+			availableSpots.put(fNo, map);
+
 		}
-		List<Spots> list=map.get(vehicleType);
-		if(list==null) {
-		list=new ArrayList<>();
-		map.put(vehicleType, list);
+		List<Spots> list = map.get(vehicleType);
+		if (list == null) {
+			list = new ArrayList<>();
+			map.put(vehicleType, list);
 		}
 		list.add(spot);
 	}
-	public Spots isAvailable(String vehicleType,int floorNo) {
-		
-		Spots spot=null;
-		  
-			switch(vehicleType) {
-			case "Car":
-				 List<Spots> lic=availableSpots.get(floorNo).get("Compact");
-				 if(lic.size()!=0) {
-				    spot=availableSpots.get(floorNo).get("Compact").get(0);
-				    if(spot!=null) {
-					spot.setTokenNo(generatToken());
-					List<Spots> lis=availableSpots.get(floorNo).get("Compact");
-					occupiedSpots.add(spot);
-					lis.remove(spot);
-				    }
-				 }
-					return spot;
-				
-			
-			case "Truck":
-				 List<Spots> li=availableSpots.get(floorNo).get("Large");
-				 if(li.size()!=0) {
-				 spot=availableSpots.get(floorNo).get("large").get(0);
-				    if(spot!=null) {
-					spot.setTokenNo(generatToken());
-					List<Spots> lis=availableSpots.get(floorNo).get("Large");
-					occupiedSpots.add(spot);
-					lis.remove(spot);
-				    }
-				 }
-					return spot;
-					
-			case "MotorCycle":
-				    List<Spots> li1=availableSpots.get(floorNo).get("MotorCycle");
-				    if(li1.size()!=0) {
-				   spot=availableSpots.get(floorNo).get("MotorCycle").get(0);
-				    if(spot!=null) {
-					spot.setTokenNo(generatToken());
-					List<Spots> lis=availableSpots.get(floorNo).get("MotorCycle");
-					occupiedSpots.add(spot);
-					lis.remove(spot);
-				    }
-				    }
-					return spot;
-				
-			case "Handicapped":
-				 List<Spots> liH=availableSpots.get(floorNo).get("Handicapped");
-				 if(liH.size()!=0) {
-				   spot=availableSpots.get(floorNo).get("Handicapped").get(0);
-				    if(spot!=null) {
-					spot.setTokenNo(generatToken());
-					List<Spots> lis=availableSpots.get(floorNo).get("Handicapped");
-					occupiedSpots.add(spot);
-					lis.remove(spot);
-				    }
-				 }
-					return spot;
-				
-			case "Electric Car":
-				       List<Spots> liE=availableSpots.get(floorNo).get("ElectricCar");
-				     if(liE.size()!=0) {
-				    spot=availableSpots.get(floorNo).get("ElectricCar").get(0);
-				    if(spot!=null) {
-					spot.setTokenNo(generatToken());
-					List<Spots> lis=availableSpots.get(floorNo).get("Compact");
-					occupiedSpots.add(spot);
-					lis.remove(spot);
-				    }
-				     }
-					return spot;
-				
-			
+    public String showMsgOnFloor(int floorNo,String vehicleModel) {
+    	String aSpace=availableSpots.get(floorNo).get(vehicleModel).size()+" Free "+ vehicleModel +" spot on the "+floorNo+" floor";
+    	return aSpace;
+    }
+	public Spots isAvailable(String vehicleType, int floorNo) throws CustomException {
+		stringCheck(vehicleType);
+		Spots spot = null;
+
+		List<Spots> lic = availableSpots.get(floorNo).get(vehicleType);
+		if (lic.size() != 0) {
+			spot = availableSpots.get(floorNo).get(vehicleType).get(0);
+			if (spot != null) {
+				spot.setTokenNo(generatToken());
+				List<Spots> lis = availableSpots.get(floorNo).get(vehicleType);
+				occupiedSpots.put(spot.getTokenNo(), spot);
+				lis.remove(spot);
+			}
 		}
 
 		return spot;
-    }
+
+	}
+
 	public int generatToken() {
 		return ++tokenNo;
 	}
-	public void addFloorIfExit(int tNo) {
-	   for(int i=0;i<occupiedSpots.size();i++) {
-		if(occupiedSpots.get(i).getTokenNo()==tNo) {
-		Spots spot=occupiedSpots.get(i);
-		int fNo=spot.getFloorNo();
-		String spotTyp=spot.getSpotsType();
-		addParkInf(fNo,spotTyp,spot);
-		occupiedSpots.remove(occupiedSpots.get(i));
-		break;
-		}
-	   }
-		
-	}	
-	public long calTime(int vNumber)  {
-		
-		long exitTim=System.currentTimeMillis();
-		Token token=vehicleInfo.get(vNumber);
-		return calDiffEnterAndExit(token.getEntryTime(),exitTim);
-		
+
+	public int generatCusId() {
+		return ++customerId;
 	}
-	public long calDiffEnterAndExit(long entry,long exit) {
-		
-		
-		long time=(exit-entry)/1000;
+
+	public void addFloorIfExit(int tNo) throws CustomException {
+		checkTokenId(tNo);
+		Spots spot = occupiedSpots.get(tNo);
+		int fNo = spot.getFloorNo();
+		String spotTyp = spot.getSpotsType();
+		addParkInf(fNo, spotTyp, spot);
+		occupiedSpots.remove(tNo);
+
+	}
+
+	public long calTime(int vNumber) throws CustomException {
+		checkVehicleId(vNumber);
+		long exitTim = System.currentTimeMillis();
+		Token token = vehicleInfo.get(vNumber);
+		return calDiffEnterAndExit(token.getEntryTime(), exitTim);
+
+	}
+
+	public long calDiffEnterAndExit(long entry, long exit) {
+
+		long time = (exit - entry) / 1000;
 		return time;
 	}
-	public boolean isPayment(int tNumber) throws CustomException {
-		
-		Token token=vehicleInfo.get(tNumber);
+
+	public boolean isPayment(int vNumber) throws CustomException {
+		checkVehicleId(vNumber);
+		Token token = vehicleInfo.get(vNumber);
 		return token.isPaymentStatus();
 	}
+
 	public void addToken(Token tOb) throws CustomException {
-		
+		nullCheck(tOb);
 		tokenInfo.put(tOb.getTokenNumber(), tOb.getVehicleNumber());
 	}
+
 	public int getToken(int tNo) throws CustomException {
-		
+		checkTokenId(tNo);
 		return tokenInfo.get(tNo);
 	}
-	public CustomerDetails getCusInfo(int tNo) {
+
+	public void addCustomer(CustomerDetails cus, int tNo) throws CustomException {
+		nullCheck(cus);
+		cusInfo.put(tNo, cus);
+	}
+
+	public CustomerDetails getCusInfo(int tNo) throws CustomException {
+		checkTokenId(tNo);
 		return cusInfo.get(tNo);
 	}
+
 	public void addVehicle(Token tOb) throws CustomException {
-		
+		nullCheck(tOb);
 		vehicleInfo.put(tOb.getVehicleNumber(), tOb);
 	}
+
 	public float calPayment(long hour) {
-		float sum=0;
-		for(long i=hour;i>=1;i--) {
-			if(i==2||i==3) {
-				sum=sum+hour2;
-			}
-			else if(i==1) {
-				sum=sum+hor1;
-			}
-			else {
-				sum=sum+hours;
+		float sum = 0;
+		for (long i = hour; i >= 1; i--) {
+			if (i == 2 || i == 3) {
+				sum = sum + hour2;
+			} else if (i == 1) {
+				sum = sum + hor1;
+			} else {
+				sum = sum + hours;
 			}
 		}
 		return sum;
 	}
+
+	public void addCustomerId(int cId, int tId) {
+		cusIdInfo.put(cId, tId);
+	}
+    public void addVehAndCusId(int vNo,int cId) {
+    	vehAndCusId.put(vNo,cId);
+    }
+	public CustomerDetails getWalletAmount(int cId) throws CustomException {
+		checkCusId(cId);
+		int tId = cusIdInfo.get(cId);
+		CustomerDetails cus = cusInfo.get(tId);
+		return cus;
+	}
+
 	public void maps() {
 		System.out.println(availableSpots);
 		System.out.println(occupiedSpots);
@@ -187,7 +161,37 @@ public class LogicOfParkingLot {
 		System.out.println(vehicleInfo);
 		System.out.println(tokenInfo);
 	}
-	
+
+	private void stringCheck(String testString) throws CustomException {
+		if (testString == null || testString.isEmpty()) {
+			throw new CustomException("String can not be null or empty");
+		}
+	}
+
+	private void nullCheck(Object fileObj) throws CustomException {
+		if (fileObj == null) {
+			throw new CustomException(fileObj + "cannot be null");
+		}
+	}
+
+	private void checkVehicleId(int vId) throws CustomException {
+		if (vehicleInfo.get(vId) == null) {
+			throw new CustomException("this Vehicle No is does not exist");
+		}
+	}
+
+	private void checkTokenId(int tId) throws CustomException {
+		if (tokenInfo.get(tId) == null) {
+			throw new CustomException("this token no is does not exist");
+		}
+	}
+
+	private void checkCusId(int fId) throws CustomException {
+		if (cusIdInfo.get(fId) == null) {
+			throw new CustomException("this Customer Id is does not exist");
+		}
+	}
+
 }
 
 //	Map<Integer,Floor> floorInfo=new HashMap<>();
