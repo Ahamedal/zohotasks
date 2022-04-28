@@ -1,100 +1,109 @@
 package logicOfHotel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 import hotel.Hotel;
 import user.User;
 
 public class LogicOfHotel {
- static int userId=0;
- static Map<String,Hotel> hotelInfo=new HashMap<>();
- static List<User> usList=new ArrayList<>();
- 
-  @SuppressWarnings("rawtypes")
-public TreeMap sorting(String type){
-	  
-	  switch(type) {
-	  case "Names":
-		  TreeMap<String,Hotel> tre=new TreeMap<>();
-		  Set<String> set=hotelInfo.keySet();
-		  for(String key:set) {
-			  tre.put(hotelInfo.get(key).getHotelName(),hotelInfo.get(key));
-		  }
-		  return tre;
+	 static int userId=0;
+	 static ArrayList<Hotel> hotelInfo=new ArrayList<>();
+	 static List<String> hotelNames=new ArrayList<>();
+	 static Map<String,List<Hotel>> hotelBasedLocation=new HashMap<>();
+	 static Map<Integer,User> usrInfo=new HashMap<>();
+	 
+	 
+	public class compareNames implements Comparator<Hotel>{
+		@Override
+		public int compare(Hotel o1, Hotel o2) {
+			   
+			return o1.getHotelName().compareTo(o2.getHotelName());
+		}
+	}
+	public class compareRating implements Comparator<Hotel>{
+		@Override
+		public int compare(Hotel o1, Hotel o2) {
+			   if(o1.getRating()>o2.getRating()) {
+				   return 1;
+			   }
+			   else if(o1.getRating()==o2.getRating()) {
+				   return 0;
+			   }
+			   else {
+				   return -1;
+			   }
+		}
+	}
+	public class compareRoomAvailable implements Comparator<Hotel>{
+
+		@Override
+		public int compare(Hotel o1, Hotel o2) {
+			if(o1.getRoomsAvailable()>o2.getRoomsAvailable()) {
+				return 1;
+				
+			}
+			else if(o1.getRoomsAvailable()==o2.getRoomsAvailable()) {
+				return 0;
+			}
+			else {
+				return -1;
+			}
+		}
 		
-		  
-	  case "Rating":
-		  TreeMap<Integer,List<Hotel>> rating=new TreeMap<>();
-		  Set<String> key=hotelInfo.keySet();
-		  for(String s:key) {
-			 addMap(rating,s);
-			  
-		  }
-		  return rating;
-		  
-	  case "Room Available":
-		  TreeMap<Integer,List<Hotel>> roomAvailable=new TreeMap<>();
-		  Set<String> room=hotelInfo.keySet();
-		  for(String s:room) {
-			  addMap2(roomAvailable,s);
-		  }
-		  return roomAvailable;
-	  }
-	  return new TreeMap<>();
-  }
-  public boolean isAvailable(String hotelName) {
-	  if(hotelInfo.get(hotelName)==null) {
-		  return false;
-	  }
-	  return true;
-  }
-  public int generatUserId() {
+	}
+
+ public List<Hotel> sortingNames(){
+	 Collections.sort(hotelInfo, new compareNames());
+	 return hotelInfo;
+ }
+ public List<Hotel> sortingRating(){
+	 Collections.sort(hotelInfo, new compareRating());
+	 return hotelInfo;
+ }
+ public List<Hotel> sortingRoomAvailable(){
+	 Collections.sort(hotelInfo, new compareRoomAvailable());
+	 return hotelInfo;
+ }
+ public List<Hotel> locationsMatch(String locate){
+	return hotelBasedLocation.get(locate);
+ }
+ public void addLocation(Hotel hotelOb,String locate) {
+	 
+	 List<Hotel> lis=hotelBasedLocation.get(locate);
+	 if(lis==null) {
+		 lis=new ArrayList<>();
+		 hotelBasedLocation.put(locate, lis);
+	 }
+	 lis.add(hotelOb);
+ }
+ 
+ public int generatUserId() {
 	  return ++userId;
-  }
-  public ArrayList<String> hotels(){
-	  return new ArrayList<String>(hotelInfo.keySet());
-  }
-  public List<Hotel> locationsMatch(String locate){
-	  List<Hotel> lis=new ArrayList<>();
-	  Set<String> keys=hotelInfo.keySet();
-	  for(String key:keys) {
-		  if(hotelInfo.get(key).getLocations().equals(locate)) {
-			  lis.add(hotelInfo.get(key));
-		  }
-	  }
-	  return lis;
-  }
-  public void addMap(TreeMap<Integer,List<Hotel>> map,String key) {
-	  List<Hotel> lis=map.get(hotelInfo.get(key).getRating());
-	  if(lis==null) {
-		  lis=new ArrayList<>();
-		  map.put(hotelInfo.get(key).getRating(), lis);
-	  }
-	  lis.add(hotelInfo.get(key));
-  }
-  public void addMap2(TreeMap<Integer,List<Hotel>> map,String key) {
-	  List<Hotel> lis=map.get(hotelInfo.get(key).getRoomsAvailable());
-	  if(lis==null) {
-		  lis=new ArrayList<>();
-		  map.put(hotelInfo.get(key).getRoomsAvailable(), lis);
-	  }
-	  lis.add(hotelInfo.get(key));
-  }
-  public void addUser(User userObj) {
-	  usList.add(userObj);
-  }
-  public List<User> getUser(){
-	  return usList;
-  }
+ }
+ public void addUser(User userObj) {
+	  usrInfo.put(userObj.getUserId(), userObj);
+ }
+ public Map<Integer,User> getUser(){
+	  return usrInfo;
+ }
+ public boolean isAvailable(String name ) {
+	 if(hotelNames.contains(name)) {
+		 return true;
+	 }
+	 return false;
+ }
+ 
+
   public void addInfo(Hotel hObj) {
-	  hotelInfo.put(hObj.getHotelName(), hObj);
+	  hotelNames.add(hObj.getHotelName());
+	  hotelInfo.add(hObj);
   }
-  public Map<String,Hotel> printHotelData(){
+  public List<Hotel> printHotelData(){
 	  return hotelInfo;
   }
   

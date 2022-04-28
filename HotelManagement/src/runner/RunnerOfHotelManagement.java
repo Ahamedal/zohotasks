@@ -22,6 +22,7 @@ public class RunnerOfHotelManagement {
 		hObject.setRating(7);
 		hObject.setRoomsAvailable(7);
 		hotelOb.addInfo(hObject);
+		hotelOb.addLocation(hObject, hObject.getLocations());
 		Hotel hObj2=new Hotel();
 		hObj2.setHotelName("twos");
 		hObj2.setLocations("Bengaluru");
@@ -29,6 +30,7 @@ public class RunnerOfHotelManagement {
 		hObj2.setRoomsAvailable(5);
 		hObj2.setRating(4);
 		hotelOb.addInfo(hObj2);
+		hotelOb.addLocation(hObj2, hObj2.getLocations());
 		Hotel hObj3=new Hotel();
 		hObj3.setHotelName("threess");
 		hObj3.setLocations("Chennai");
@@ -36,6 +38,7 @@ public class RunnerOfHotelManagement {
 		hObj3.setRoomsAvailable(9);
 		hObj3.setPricePerRoom(700);
 		hotelOb.addInfo(hObj3);
+		hotelOb.addLocation(hObj3, hObj3.getLocations());
 	}
 	public void printData() {
 		Scanner sc=new Scanner(System.in);
@@ -65,7 +68,9 @@ public class RunnerOfHotelManagement {
 		userObj.setUserNam(uNam);
 		userObj.setBookingCost(room*1000);
 		logicOb.addUser(userObj);
+		
 	}
+	
 public static void main(String[] args) {
 	Scanner sc=new Scanner(System.in);
 	RunnerOfHotelManagement ru=new RunnerOfHotelManagement();
@@ -78,65 +83,48 @@ public static void main(String[] args) {
 	sc.nextLine();
 	switch(sel) {
 	case 1:
-		System.out.println(logicOb.printHotelData());
-		break;
-		
-	case 2:
-    Map<String,Hotel> map=logicOb.sorting("Names");
-
-	ArrayList<String> keys=new ArrayList<>(map.keySet());
-	for(String key:keys) {
-		System.out.println(map.get(key));
-	}
-	break;	
-	
-	case 3:
-		Map<Integer,List<Hotel>> map3=logicOb.sorting("Rating");
-		ArrayList<Integer> keys3=new ArrayList<>(map3.keySet());
-		Collections.sort(keys3,Collections.reverseOrder());
-		for(Integer key:keys3) {
-		   List<Hotel> lis= map3.get(key);
-		   for(int i=0;i<lis.size();i++) {
-			   System.out.println(lis.get(i));
-		   }
-		}
-		break;
-		
-	case 4:
-		System.out.println("Enter do You need location");
-		String locations=sc.nextLine();
-		List<Hotel> lis=logicOb.locationsMatch(locations);
-		System.out.println("Print for "+locations+" Location is:");
+		List<Hotel> lis=logicOb.printHotelData();
 		for(int i=0;i<lis.size();i++) {
 			System.out.println(lis.get(i));
 		}
 		break;
-	case 5:
-		Map<Integer,List<Hotel>> map4=logicOb.sorting("Room Available");
-		ArrayList<Integer> keys4=new ArrayList<>(map4.keySet());
-		Collections.sort(keys4,Collections.reverseOrder());
-		for(Integer key:keys4) {
-		List<Hotel> lis4=map4.get(key);
-		for(int i=0;i<lis4.size();i++) {
-			System.out.println(lis4.get(i));
+		
+	case 2:
+		List<Hotel> lis2=logicOb.sortingNames();
+		for(int i=0;i<lis2.size();i++) {
+			System.out.println(lis2.get(i));
 		}
+		break;
+		
+	case 3:
+		List<Hotel> lis3=logicOb.sortingRating();
+		for(int i=lis3.size()-1;i>=0;i--) {
+			System.out.println(lis3.get(i));
+		}
+		break;
+	case 4:
+		System.out.println("Enter Your Location");
+		String locate=sc.nextLine();
+		List<Hotel> locateLis=logicOb.locationsMatch(locate);
+		for(int i=0;i<locateLis.size();i++) {
+			System.out.println(locateLis.get(i));
+		}
+		break;
+	case 5:
+		List<Hotel> lis4=logicOb.sortingRoomAvailable();
+		for(int i=lis4.size()-1;i>=0;i--) {
+			System.out.println(lis4.get(i));
 		}
 		break;
 		
 	case 6:
-		
-		System.out.println(" If You Have to book to Hotel if yes-true ,no-false");
-		boolean booking=sc.nextBoolean();
-		if(booking) {
-			ru.printData();
-			List<User> usr=logicOb.getUser();
-			for(int i=0;i<usr.size();i++) {
-				System.out.println(usr.get(i));
-			}
+		ru.printData();
+		Map<Integer,User> usr=logicOb.getUser();
+		for(int i=1;i<=usr.size();i++) {
+			System.out.println(usr.get(i));
 		}
-		else {
-			System.out.println("Ok,Thankyou");
-		}
+	
+	
 		break;
 		
 	default:
