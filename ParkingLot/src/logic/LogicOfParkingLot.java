@@ -41,8 +41,11 @@ public class LogicOfParkingLot {
 		}
 		list.add(spot);
 	}
-    public String showMsgOnFloor(int floorNo,String vehicleModel) {
-    	String aSpace=availableSpots.get(floorNo).get(vehicleModel).size()+" Free "+ vehicleModel +" spot on the "+floorNo+" floor";
+    public String showMsgOnFloor(String vehicleModel) {
+    	String aSpace="";
+    	for(int i=0;i<availableSpots.size();i++) {
+    	aSpace+=availableSpots.get(i).get(vehicleModel).size()+" Free "+ vehicleModel +" spot on the "+i+" floor\n";
+    	}
     	return aSpace;
     }
 	public Spots isAvailable(String vehicleType, int floorNo) throws CustomException {
@@ -147,13 +150,24 @@ public class LogicOfParkingLot {
     public void addVehAndCusId(int vNo,int cId) {
     	vehAndCusId.put(vNo,cId);
     }
-	public CustomerDetails getWalletAmount(int cId) throws CustomException {
-		checkCusId(cId);
+	public CustomerDetails getWalletAmount(int vId) throws CustomException {
+		
+		int cId=vehAndCusId.get(vId);
+		
 		int tId = cusIdInfo.get(cId);
 		CustomerDetails cus = cusInfo.get(tId);
 		return cus;
 	}
-
+	public int getTokenIdForCusId(int cusId) {
+		
+		return cusIdInfo.get(cusId);
+	}
+    public boolean existCustomer(int vNumber) {
+    	if(vehAndCusId.containsKey(vNumber)) {
+    		return true;
+    	}
+    	return false;
+    }
 	public void maps() {
 		System.out.println(availableSpots);
 		System.out.println(occupiedSpots);

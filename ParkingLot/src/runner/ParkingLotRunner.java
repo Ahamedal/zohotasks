@@ -20,8 +20,9 @@ public class ParkingLotRunner {
 		System.out.println("How many spots per floors");
 		int spots=sc.nextInt();
 		sc.nextLine();
-		spots=spots/5;
 		int sp=spots%5;
+		spots=spots/5;
+		
 		for (int f = 0; f < flor; f++) {
 			int i;
 			for (i = 1; i <=spots+sp ; i++) {
@@ -60,7 +61,7 @@ public class ParkingLotRunner {
 		}
 	}
 
-	public void payment(int tokenNo) throws CustomException {
+	public int payment(int tokenNo) throws CustomException {
 		Scanner sc = new Scanner(System.in);
 		CustomerDetails cusDetails = new CustomerDetails();
 		LogicOfParkingLot logicPark = new LogicOfParkingLot();
@@ -76,13 +77,14 @@ public class ParkingLotRunner {
 		double wAmmount = sc.nextDouble();
 		sc.nextLine();
 		int cId = logicPark.generatCusId();
-	//	System.out.println("Your CustomerId is " + cId);
+		System.out.println("Your CustomerId is " + cId);
 		cusDetails.setCustomerID(cId);
 		cusDetails.setUsName(uName);
 		cusDetails.setMobileNumber(mNo);
 		cusDetails.setWalletAmmount(wAmmount);
 		logicPark.addCustomer(cusDetails, tokenNo);
 		logicPark.addCustomerId(cId, tokenNo);
+		return cId;
 
 	}
 
@@ -100,8 +102,7 @@ public class ParkingLotRunner {
 
 			boolean condition = true;
 			int fNumber = 0;
-			System.out.println("No of floors are 3.You will see the display available spots per floor");
-			// System.out.println(logicPark.displayAvailable());
+			
 			while (condition) {
 				System.out.println("\nEnter 1-Entry \n 2-Exit \n3-CustomerInfoPortal");
 				int sel = sc.nextInt();
@@ -113,14 +114,13 @@ public class ParkingLotRunner {
 						Token tObj = new Token();
                             
 						boolean condition2 = true;
-						while (condition2) {
+						System.out.println("Enter Your Vehicle Type");
+						String vehicle = sc.nextLine();
+						
+						
+						
 							
 							
-							
-							// System.out.println(logicPark.availablePerFlor(fNumber));
-							
-							System.out.println("Enter Your Vehicle Type");
-							String vehicle = sc.nextLine();
 							String vehicleModel = null;
 							switch (vehicle) {
 							case "Car":
@@ -147,13 +147,15 @@ public class ParkingLotRunner {
 								System.out.println("That vehicle parking is not availbale");
 
 							}
-							System.out.println(logicPark.showMsgOnFloor(fNumber, vehicleModel));
+							System.out.println(logicPark.showMsgOnFloor(vehicleModel));
+							System.out.println("Enter Vehicle Number");
+							int vNumber = sc.nextInt();
+							sc.nextLine();
+							while (condition2) {
 							Spots spot = logicPark.isAvailable(vehicleModel, fNumber);
 							if (spot != null) {
 								
-								System.out.println("Enter Vehicle Number");
-								int vNumber = sc.nextInt();
-								sc.nextLine();
+								
 								tObj.setVehicleNumber(vNumber);
 								tObj.setVehicleType(vehicle);
 								tObj.setFloorNo(fNumber);
@@ -162,27 +164,19 @@ public class ParkingLotRunner {
 								System.out.println("Your Token Number is " + tObj.getTokenNumber() + ", Your Spot no is "
 										+ spot.getSpotNo() + " in " + tObj.getFloorNo() + " floor");
 
-//								System.out.println("If you have pay to CustomerInfoPortal (Enter Yes-true Or No-false)");
-//								boolean cusPortal = sc.nextBoolean();
-//								if (cusPortal) {
-//									System.out.println("Enter 1-newCustomer 2-Existing Customer");
-//									int sel2 = sc.nextInt();
-//									sc.nextLine();
-//									if (sel2 == 2) {
-//										System.out.println("Enter Your CustomerId");
-//										int cId2 = sc.nextInt();
-//										sc.nextLine();
-//										CustomerDetails cus = logicPark.getWalletAmount(cId2);
-//										logicPark.addCustomer(cus, tObj.getTokenNumber());
-//										logicPark.addCustomerId(cId2, tObj.getTokenNumber());
-//									} else {
-									run.payment(tObj.getTokenNumber());
-//
-//									}
+						      if(logicPark.existCustomer(vNumber)) {
+									 CustomerDetails cus=logicPark.getWalletAmount(vNumber);
+									 logicPark.addCustomer(cus, tObj.getTokenNumber());
+									logicPark.addCustomerId(cus.getCustomerID(), tObj.getTokenNumber());
+									
+								 }
+								 else {
+									int cId=run.payment(tObj.getTokenNumber());
+                                    logicPark.addVehAndCusId(vNumber,cId);
+									
+								 }
 
-									tObj.setPaymentStatus(true);
-
-				//				}
+				
 
 								logicPark.addToken(tObj);
 								logicPark.addVehicle(tObj);
@@ -208,7 +202,7 @@ public class ParkingLotRunner {
 						int tNumber2 = sc.nextInt();
 						sc.nextLine();
 						int vNumber2 = logicPark.getToken(tNumber2);
-						if (logicPark.isPayment(vNumber2)) {
+						
 							long time = logicPark.calTime(vNumber2);
 							float amount = logicPark.calPayment(time);
 							CustomerDetails cus = logicPark.getCusInfo(tNumber2);
@@ -221,10 +215,9 @@ public class ParkingLotRunner {
 							} else {
 								System.out.println("Your pay amount is " + Math.abs(wAmount - amount) + "$ for " + time
 										+ " hours after reduce in your wallet amount");
-								System.out.println("Payment Successfully");
-							}
+								
 
-						} else {
+						
 							System.out.println("You Have pay Enter 1-cash or Enter 2-Credit Cards ");
 							int credit = sc.nextInt();
 							sc.nextLine();
@@ -242,11 +235,10 @@ public class ParkingLotRunner {
 									}
 
 								}
+								
 							}
-							long time = logicPark.calTime(vNumber2);
-							float amount = logicPark.calPayment(time);
-							System.out.println("Your pay amount is " + amount + "$ for " + time + " hours");
 							System.out.println("Payment Successfully");
+							
 						}
 
 						logicPark.addFloorIfExit(tNumber2);
@@ -259,6 +251,16 @@ public class ParkingLotRunner {
 					break;
 					
 				case 3:
+					System.out.println("Enter CustomerId");
+					int cId=sc.nextInt();
+					sc.nextLine();
+					System.out.println("How much Amount like to deposit cash");
+					Float deCash=sc.nextFloat();
+					int tId=logicPark.getTokenIdForCusId(cId);
+					CustomerDetails cus=logicPark.getCusInfo(tId);
+					cus.setWalletAmmount(cus.getWalletAmmount()+deCash);
+					System.out.println("In Customer Info portal deposited Sucessfully");
+					break;
 					
 
 				default:
