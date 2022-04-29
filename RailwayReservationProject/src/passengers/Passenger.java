@@ -2,13 +2,21 @@ package passengers;
 
 public class Passenger {
 
+private int ticketNo;
 private String passengerName;
 private int age;
 private String gender;
 private String berthPreference;
 private String berthType;
-private String seatNo;
+private int seatNo;
 
+
+public int getTicketNo() {
+	return ticketNo;
+}
+public void setTicketNo(int ticketNo) {
+	this.ticketNo = ticketNo;
+}
 public String getPassengerName() {
 	return passengerName;
 }
@@ -39,10 +47,10 @@ public String getBerthType() {
 public void setBerthType(String berthType) {
 	this.berthType = berthType;
 }
-public String getSeatNo() {
+public int getSeatNo() {
 	return seatNo;
 }
-public void setSeatNo(String seatNo) {
+public void setSeatNo(int seatNo) {
 	this.seatNo = seatNo;
 }
 @Override
