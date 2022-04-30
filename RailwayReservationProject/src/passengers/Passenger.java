@@ -9,8 +9,7 @@ private String gender;
 private String berthPreference;
 private String berthType;
 private int seatNo;
-
-
+private String status;
 public int getTicketNo() {
 	return ticketNo;
 }
@@ -53,10 +52,17 @@ public int getSeatNo() {
 public void setSeatNo(int seatNo) {
 	this.seatNo = seatNo;
 }
+
+public String getStatus() {
+	return status;
+}
+public void setStatus(String status) {
+	this.status = status;
+}
 @Override
 public String toString() {
 	return "[passengerName=" + passengerName + ", age=" + age + ", gender=" + gender + 
-			", berthType=" + berthType + ", seatNo=" + seatNo + "]";
+			", berthType=" + berthType + ", seatNo=" + seatNo + ", Status=" + status+"]";
 }
 
 }
