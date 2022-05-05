@@ -1,11 +1,14 @@
 package taxiHistory;
 
+import java.util.Date;
+
 public class TaxiHistory {
  private int bookingId;
  private int customerId;
  private char pickUpPoint;
  private char dropPoint;
  private long pickUpTime;
+ private int amount;
 public int getBookingId() {
 	return bookingId;
 }
@@ -36,10 +39,18 @@ public long getPickUpTime() {
 public void setPickUpTime(long pickUpTime) {
 	this.pickUpTime = pickUpTime;
 }
+
+public int getAmount() {
+	return amount;
+}
+public void setAmount(int amount) {
+	this.amount = amount;
+}
 @Override
 public String toString() {
+	Date da=new Date(pickUpTime);
 	return "[bookingId=" + bookingId + ", customerId=" + customerId + ", pickUpPoint=" + pickUpPoint
-			+ ", dropPoint=" + dropPoint + ", pickUpTime=" + pickUpTime + "]";
+			+ ", dropPoint=" + dropPoint + ", pickUpTime=" + da + ", amount=" +amount+"]";
 }
  
  
