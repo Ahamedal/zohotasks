@@ -58,8 +58,7 @@ public void setDate(long date) {
 @Override
 public String toString() {
 	Date d=new Date(date);
-	return "[category=" + category + ", brand=" + brand + ", model=" + model + ", price=" + price + ", stock="
-			+ stock + ", Invoice No=" + invoiceNumber +", date=" + d+"]";
+	return "[category=" + category + ", brand=" + brand + ", model=" + model + ", price=" + price +"]";
 }
 
 }

@@ -10,13 +10,13 @@ public class Runner {
 		ZCartShopping zKart=new ZCartShopping();
 		
 		cus.setEmailId("abc@zoho.com");
-		cus.setEncryptedPwd("ABIB");
+		cus.setEncryptedPwd("Abcd");
 		cus.setName("Rahul");
 		cus.setMobileNo(912345678);
 		zKart.addCustomer(cus);
 		CustomerInfo cus1=new CustomerInfo();
 		cus1.setEmailId("123@zoho.com");
-		cus1.setEncryptedPwd("CB");
+		cus1.setEncryptedPwd("Cz");
 		cus1.setName("Anitha");
 		cus1.setMobileNo(912345671);
 		zKart.addCustomer(cus1);
@@ -49,7 +49,7 @@ public static void main(String[] args) {
 	ZCartShopping objForLogic=new ZCartShopping();
 	boolean condition=true;
 	while(condition) {
-		System.out.println("1.Customer Initialization \n 2.Inventory Initialization\n3.Customer Signup \n 4.Login\n8.Admin Module");
+		System.out.println("1.Customer Initialization \n 2.Inventory Initialization\n3.Customer Signup \n 4.Login\n7.Admin Module");
 		int sel=sc.nextInt();
 		sc.nextLine();
 		switch(sel) {
@@ -112,13 +112,16 @@ public static void main(String[] args) {
 				System.out.println("your emailId or password is wrong");
 			}
 			else {
-				System.out.println("1.shooping 2.ordeHistory");
+				boolean condition5=true;
+				while(condition5){
+				System.out.println("1.shooping 2.ordeHistory 3.Exit");
 				int sel3=sc.nextInt();
 				sc.nextLine();
 				switch(sel3) {
 				case 1:
 					boolean condition4=true;
 					List<ZKartInfo> zKart=new ArrayList<>();
+					ZKartInfo zz=null;
 					 while(condition4) {
 					 List<ZKartInfo> lis=objForLogic.getzKart();
 					 System.out.println(lis);
@@ -130,9 +133,10 @@ public static void main(String[] args) {
 					 
 					 int sel1=sc.nextInt();
 					 sc.nextLine();
-					 ZKartInfo zz=lis.get(sel1-1);
+					 zz=lis.get(sel1-1);
 					 if(zz.getStock()>0) {
 					 zz.setDate(System.currentTimeMillis());
+					 
 					 zKart.add(zz);
 					 zz.setStock(zz.getStock()-1);
 					 }
@@ -143,7 +147,7 @@ public static void main(String[] args) {
 					  
 					 }
 					 int invoice=objForLogic.generateUniqueInvoice();
-					 
+					 zz.setInvoiceNumber(invoice);
 					 System.out.println("Your unique voice number is "+invoice);
 					 objForLogic.addOrderHistory(emailId, zKart);
 					 System.out.println("Your order deatils\n"+zKart);
@@ -153,7 +157,11 @@ public static void main(String[] args) {
 					System.out.println(objForLogic.getOrderHistory(emailId));
 					break;
 					
+				case 3:
+					condition5=false;
+					break;
 				}
+			}
 			}
 			break;
 		

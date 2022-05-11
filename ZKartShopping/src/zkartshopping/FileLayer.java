@@ -41,6 +41,7 @@ public class FileLayer {
 	public void infoToFileForZKart(List<ZKartInfo> zKartInfo)  {
 		try(FileOutputStream writer=new FileOutputStream(zKartFile);ObjectOutputStream objWrite= new ObjectOutputStream(writer)){
 			objWrite.writeObject(zKartInfo);
+			objWrite.writeObject(ZCartShopping.orderHistory);
 		}
 		
 		catch(IOException e) {
@@ -51,6 +52,7 @@ public class FileLayer {
 		List<ZKartInfo> zDetails=new ArrayList<>();
 		try(FileInputStream reader=new FileInputStream(zKartFile);ObjectInputStream objRead= new ObjectInputStream(reader)){
 			zDetails=(List<ZKartInfo>) objRead.readObject();
+			ZCartShopping.orderHistory=(Map<String, List<ZKartInfo>>) objRead.readObject();
 		}
 		
 		catch(IOException|ClassNotFoundException e) {

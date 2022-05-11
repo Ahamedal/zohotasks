@@ -1,6 +1,8 @@
 package zkartshopping;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,7 @@ public class ZCartShopping {
 	 return false;
  }
  public String changeEncrypt(String password) {
+	 String lowerCase="bcdefghijklmnopqrstuvwxyza";
 	 String alpha="BCDEFGHIJKLMNOPQRSTUVWXYZA";
 	 String encrypt="";
 	 int temp=0;
@@ -50,18 +53,16 @@ public class ZCartShopping {
 				 encrypt=encrypt+temp;
 			 }
 		 }
+		 else if(password.charAt(i)>='A'&&password.charAt(i)<='Z') {
 		 encrypt=encrypt+alpha.charAt(password.charAt(i)-'A');
+		 }
+		 else {
+		 encrypt=encrypt+lowerCase.charAt(password.charAt(i)-'a');
+		 }
 	 }
 	 return encrypt;
  }
-// public String encryptToPlain(String pWord) {
-//	 String alpha="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//	 String encrypt="";
-//	 for(int i=0;i<pWord.length();i++) {
-//		 encrypt=encrypt+alpha.charAt((pWord.charAt(i)-'A')-1);
-//	 }
-//	 return encrypt;
-// }
+
  public boolean checkPassword(String pass,String reType) {
 	 if(pass.equals(reType)) {
 		 return true;
@@ -80,14 +81,35 @@ public class ZCartShopping {
 	 return false;
 	 
  }
- public List<ZKartInfo> getOrderHistory(String emailId){
-	 return orderHistory.get(emailId);
+ public String convertDate(long time) {
+	 SimpleDateFormat format=new SimpleDateFormat("dd-MM-yyyy");
+	 Date d=new Date(time);
+	 return format.format(d);
+ }
+ public String getOrderHistory(String emailId){
+	 List<ZKartInfo> order=orderHistory.get(emailId);
+	 String orderHistory="";
+	 boolean flag=true;
+	 for(int i=0;i<order.size();i++) {
+		 if(flag) {
+		 orderHistory+="Invoice Number "+order.get(i).getInvoiceNumber()+"\n";
+		 orderHistory+="Date "+convertDate(order.get(i).getDate())+"\n";
+		 orderHistory+="Category    Brand    Model    Price\n";
+		 
+		 }
+		 orderHistory+=order.get(i).getCategory()+"         "+order.get(i).getBrand()+"        "+order.get(i).getModel()+"        "+order.get(i).getPrice()+"\n";
+		flag=false;
+		 
+	 }
+	 return orderHistory;
  }
  public void addOrderHistory(String emailId,List<ZKartInfo> zCart) {
 	 orderHistory.put(emailId, zCart);
+	 file.infoToFileForZKart(zCartInfo);
+	 
  }
  public int generateUniqueInvoice() {
-	 return (int) Math.random();
+	 return (int) (Math.random()*1000)+1;
  }
 
 }
