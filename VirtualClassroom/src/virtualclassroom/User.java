@@ -4,6 +4,8 @@ public class User {
  private String name;
  private int age;
  private String genter;
+ private String emailId;
+ private long mobileNo;
  private String userTyp;
  private int userId;
  private String password;
@@ -49,6 +51,23 @@ public boolean isPending() {
 }
 public void setPending(boolean pending) {
 	this.pending = pending;
+}
+public String getEmailId() {
+	return emailId;
+}
+public void setEmailId(String emailId) {
+	this.emailId = emailId;
+}
+public long getMobileNo() {
+	return mobileNo;
+}
+public void setMobileNo(long mobileNo) {
+	this.mobileNo = mobileNo;
+}
+@Override
+public String toString() {
+	return "[name=" + name + "\nage=" + age + "\ngenter=" + genter + "\nemailId=" + emailId + "\nmobileNo="
+			+ mobileNo + "]";
 }
  
 }

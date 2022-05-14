@@ -43,6 +43,11 @@ public int getUserId() {
 public void setUserId(int userId) {
 	this.userId = userId;
 }
+@Override
+public String toString() {
+	return "[materialType=" + materialType + "\nfileSize=" + fileSize + "\npostTim=" + postTim
+			+ "\nmodifiedTime=" + modifiedTime + "\nuserId=" + userId + "]";
+}
 
 
 
