@@ -1,5 +1,8 @@
 package virtualclassroom;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Answer {
 private int questionId;
 private int userId;
@@ -35,6 +38,15 @@ public long getResolutionTime() {
 }
 public void setResolutionTime(long resolutionTime) {
 	this.resolutionTime = resolutionTime;
+}
+@Override
+public String toString() {
+	Date da1=new Date(answerTime);
+    long hours=resolutionTime/(60*60*1000);
+    long minutes=(resolutionTime/(60*1000))%60;
+    long seconds=(resolutionTime/1000)%60;
+	return "Answer [questionId=" + questionId + ", userId=" + userId + ", ans=" + ans + ", answerTime=" + da1
+			+ ", resolutionTime=" +hours+":"+minutes+":"+seconds+ "]";
 }
 
 }

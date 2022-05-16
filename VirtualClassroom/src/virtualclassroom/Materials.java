@@ -1,5 +1,7 @@
 package virtualclassroom;
 
+import java.util.Date;
+
 public class Materials {
 private String materialType;
 private String subject;
@@ -45,7 +47,8 @@ public void setUserId(int userId) {
 }
 @Override
 public String toString() {
-	return "[materialType=" + materialType + "\nfileSize=" + fileSize + "\npostTim=" + postTim
+	Date da=new Date(postTim);
+	return "[materialType=" + materialType + "\nfileSize=" + fileSize + "\npostTim=" + da
 			+ "\nmodifiedTime=" + modifiedTime + "\nuserId=" + userId + "]";
 }
 

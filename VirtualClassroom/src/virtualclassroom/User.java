@@ -67,7 +67,7 @@ public void setMobileNo(long mobileNo) {
 @Override
 public String toString() {
 	return "[name=" + name + "\nage=" + age + "\ngenter=" + genter + "\nemailId=" + emailId + "\nmobileNo="
-			+ mobileNo + "]";
+			+ mobileNo + "\nuserTyp= " + userTyp + "\nuserId= " + userId+"]";
 }
  
 }

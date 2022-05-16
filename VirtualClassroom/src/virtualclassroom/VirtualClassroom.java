@@ -7,20 +7,34 @@ import java.util.Map;
 
 public class VirtualClassroom {
  
-	List<User> studentList=new ArrayList<>();
-	List<User> teacherList=new ArrayList<>();
-	Map<Integer,User> totalSignUpList=new HashMap<>();
-	Map<Integer,List<Question>> questionList=new HashMap<>();
-	Map<String,String> discussion=new HashMap<>();
-	Map<Integer,Answer> answerList=new HashMap<>();
-	Map<String,List<Materials>> materials=new HashMap<>();
+	static List<User> studentList=new ArrayList<>();
+	static List<User> teacherList=new ArrayList<>();
+	static Map<Integer,User> totalSignUpList=new HashMap<>();
 	
-	int quesId=1000;
+	static Map<Integer,List<Question>> questionList=new HashMap<>();
+	static Map<Integer,Question> answeredQuestion=new HashMap<>();
+	static Map<Integer,Question> notAnsweredQuestionList=new HashMap<>();
+	static Map<Question,Answer> discussion=new HashMap<>();
+	static Map<Integer,Answer> answerList=new HashMap<>();
+	
+	static Map<String,List<Materials>> materials=new HashMap<>();
+	static int userId=0;
+	public int generateUserId() {
+		return ++userId;
+	}
+	static int quesId=1000;
 	public int generateQuesId() {
 		return ++quesId;
 	}
 	public void addUser(User userObj) {
 		totalSignUpList.put(userObj.getUserId(), userObj);
+		if(userObj.getUserTyp().equals("Student")) {
+			studentList.add(userObj);
+		}
+		else if(userObj.getUserTyp().equals("Teacher")) {
+			teacherList.add(userObj);
+		}
+		
 	}
 	public void addQuestions(Question question) {
 		List<Question> lis=questionList.get(question.getUserId());
@@ -29,9 +43,14 @@ public class VirtualClassroom {
 			questionList.put(question.getQuesId(), lis);
 		}
 		lis.add(question);
+		notAnsweredQuestionList.put(question.getQuesId(), question);
 	}
 	public void addAnswer(Answer ans) {
 		answerList.put(ans.getQuestionId(), ans);
+		notAnsweredQuestionList.get(ans.getQuestionId()).setAnswer(true);
+		answeredQuestion.put(ans.getQuestionId(),notAnsweredQuestionList.get(ans.getQuestionId()) );
+		discussion.put(notAnsweredQuestionList.get(ans.getQuestionId()), ans);
+		notAnsweredQuestionList.remove(ans.getQuestionId());
 	}
 	public void addMaterials(Materials mat) {
 		List<Materials> lis=materials.get(mat.getSubject());
@@ -45,11 +64,20 @@ public class VirtualClassroom {
 		User us=totalSignUpList.get(userId);
 		us.setPending(false);
 		if(us.getUserTyp().equals("Student")) {
-			studentList.add(us);
+			studentList.remove(us);
 		}
 		else {
-			teacherList.add(us);
+			teacherList.remove(us);
 		}
+	}
+	public List<User> studentPendingList(){
+		return studentList;
+	}
+	public List<User> teacherPendingList(){
+		return teacherList;
+	}
+	public Map<Integer,User> getSignUp(){
+		return totalSignUpList;
 	}
 	public User getProfile(int usId) {
 		return totalSignUpList.get(usId);
@@ -78,19 +106,43 @@ public class VirtualClassroom {
 		return materials.get(sub);
 	}
 	public boolean matches(int userId,String pass) {
+		if(userId==100001&&pass.equals("admin12")) {
+			return true;
+		}
+		else {
 		if(totalSignUpList.containsKey(userId)) {
 			User us=totalSignUpList.get(userId);
-			if(us.getPassword().equals(pass)&&studentList.contains(us)) {
+			if(us.getUserTyp().equals("Student")) {
+			if((us.getPassword().equals(pass)&&!studentList.contains(us))) {
 				return true;
 			}
+			}
+			else {
+				if(us.getPassword().equals(pass)&&!teacherList.contains(us)) {
+					return true;
+				}
+			}
+		}
 		}
 		return false;
+	}
+	public Map<Integer,List<Question>> getQuestion(){
+		return questionList;
 	}
 	public String getUserType(int userId) {
 		User us=totalSignUpList.get(userId);
 		return us.getUserTyp();
 	}
-	public Map<String,String> getDiscussion(){
+	public Map<Integer,Question> getNotAnsweredQuestionList(){
+		return notAnsweredQuestionList;
+	}
+	public Map<Question,Answer> getDiscussion(){
 		return discussion;
+	}
+	public void deleteQuestion(int quesId) {
+		Question que=answeredQuestion.get(quesId);
+		answeredQuestion.remove(quesId);
+		answerList.remove(quesId);
+		discussion.remove(que);
 	}
 }

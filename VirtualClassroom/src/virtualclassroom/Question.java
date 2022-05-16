@@ -1,5 +1,7 @@
 package virtualclassroom;
 
+import java.util.Date;
+
 public class Question {
 private int quesId;
 private String question;
@@ -35,6 +37,12 @@ public long getSendingTime() {
 }
 public void setSendingTime(long sendingTime) {
 	this.sendingTime = sendingTime;
+}
+@Override
+public String toString() {
+	Date da=new Date(sendingTime);
+	return "Question [quesId=" + quesId + ", question=" + question + ", userId=" + userId + ", answer=" + answer
+			+ ", sendingTime=" + da+ "]";
 }
 
 
