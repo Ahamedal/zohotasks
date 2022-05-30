@@ -1,6 +1,9 @@
 package librarymanagementsystem;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Runner {
 	public void addBook() {
@@ -58,16 +61,40 @@ public class Runner {
 	}
 public static void main(String[] args) {
 	Scanner sc=new Scanner(System.in);
-	Runner runner=new Runner();
+	DBLayer db=new DBLayer();
 	LibraryManagement objForLogic=new LibraryManagement();
+	objForLogic.createTable();
+	//new TimerDemo(1);
+	int minutes=10;
+	Timer time=new Timer();
+	time.schedule(new TimerTask() {
+
+		@Override
+		public void run() {
+			System.out.println("hai");
+			String current=objForLogic.currentTime();
+			List<String> lis=db.getNotification(current);
+			if(!(lis.isEmpty())) {
+				
+				for(int i=0;i<lis.size();i++) {
+		           System.out.println(lis.get(i)+" send to message - today is due date so,return book if no return book fine to book");
+				}
+			}
+			
+		}
+		
+		
+	},5000);
+	Runner runner=new Runner();
+	
 	boolean condition=true;
 	while(condition) {
-		System.out.println("1.create table 2.insert values 3.Search Books 4. CheckOut Book ");
+		System.out.println("1.create table 2.insert values 3.Search Books 4. CheckOut Book 5.return Book");
 		int sel=sc.nextInt();
 		sc.nextLine();
 		switch(sel) {
 		case 1:
-			objForLogic.createTable();
+			
 			break;
 			
 		case 2:
@@ -115,11 +142,25 @@ public static void main(String[] args) {
 				String authorName1=sc.nextLine();
 				if(objForLogic.bookCheckOut(bookTitle1,authorName1)==null) {
 					System.out.println("This book is not available");
-					//objForLogic.reserveBook(bookTitle,authorName);
+					List<Book> lis=objForLogic.addReserve(bookTitle1,authorName1);
+					if(!(lis==null) ){
+						for(int i=0;i<lis.size();i++) {
+							objForLogic.reserveBook(lis.get(i).getUniqueIdNumber(),email);
+						}
+					}
 				}
 				else {
-					System.out.println(objForLogic.bookCheckOut(bookTitle1,authorName1));
+					Book bookOb=objForLogic.bookCheckOut(bookTitle1,authorName1);
+					System.out.println(bookOb);
+					if(objForLogic.allowBook(email)) {
+					int bookId=bookOb.getUniqueIdNumber();
+				    objForLogic.addIssueBook(bookId,email);
+				    objForLogic.changeStatus(bookId,false);
 					objForLogic.updateMember(email);
+					}
+					else {
+						System.out.println("You have already reached maximum limit 5books checkOut");
+					}
 				}
 
 				break;
@@ -136,26 +177,49 @@ public static void main(String[] args) {
 			String bookTitle=sc.nextLine();
 			System.out.println("Enter Author name");
 			String authorName=sc.nextLine();
-			objForLogic.addMember(authorName, emailId, mobileNumber);
+			objForLogic.addMember(name, emailId, mobileNumber);
 			if(objForLogic.bookCheckOut(bookTitle,authorName)==null) {
 				System.out.println("This book is not available");
-				//objForLogic.reserveBook(bookTitle,authorName);
+				List<Book> lis=objForLogic.addReserve(bookTitle,authorName);
+				if(!(lis==null) ){
+					for(int i=0;i<lis.size();i++) {
+						objForLogic.reserveBook(lis.get(i).getUniqueIdNumber(),emailId);
+					}
+				}
 			}
 			else {
 				Book bookObj=objForLogic.bookCheckOut(bookTitle,authorName);
 				
 			    System.out.println(bookObj);
+			    if(objForLogic.allowBook(emailId)) {
 			    int bookId=bookObj.getUniqueIdNumber();
 			    objForLogic.addIssueBook(bookId,emailId);
-			    objForLogic.changeStatus(bookId);
+			    objForLogic.changeStatus(bookId,false);
 				objForLogic.updateMember(emailId);
+			    }
+			    else {
+			    	System.out.println("You have already reached 5 Books");
+			    }
 			}
+			
 			}
 			break;
-			
-		
+		case 5:
+			System.out.println("Enter BookId");
+			int bookId=sc.nextInt();
+			sc.nextLine();
+			objForLogic.changeStatus(bookId,true);
+			String str=objForLogic.sendNotification(bookId);
+			if(!(str==null)) {
+				System.out.println(str+" you reserve book is now available");
+				objForLogic.deleteReserve(bookId);
+			}
+			objForLogic.updateMember2(str);
+			objForLogic.deleteIssueBook(bookId);
+		    System.out.println(objForLogic.calFine(bookId));
 			
 			}
+		
 		}
 	
 
