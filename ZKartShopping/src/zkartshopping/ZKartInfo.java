@@ -11,6 +11,10 @@ private double price;
 private int stock;
 private int invoiceNumber;
 private long date;
+
+private int noOfOrderedItems;
+
+
 public String getCategory() {
 	return category;
 }
@@ -55,10 +59,17 @@ public long getDate() {
 public void setDate(long date) {
 	this.date = date;
 }
+
+public int getNoOfOrderedItems() {
+	return noOfOrderedItems;
+}
+public void setNoOfOrderedItems(int noOfOrderedItems) {
+	this.noOfOrderedItems = noOfOrderedItems;
+}
 @Override
 public String toString() {
 	Date d=new Date(date);
-	return "[category=" + category + ", brand=" + brand + ", model=" + model + ", price=" + price +"]";
+	return "[category=" + category + ", brand=" + brand + ", model=" + model + ", price=" + price +",Stock="+stock+"]";
 }
 
 }

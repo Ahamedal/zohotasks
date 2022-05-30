@@ -20,7 +20,10 @@ public class FileLayer {
 	File zKartFile=new File(zKart);
 	public void infoToFileForCus(Map<String,CustomerInfo> cusInfo)  {
 		try(FileOutputStream writer=new FileOutputStream(cusFile,false);ObjectOutputStream objWrite= new ObjectOutputStream(writer)){
+			
 			objWrite.writeObject(cusInfo);
+			objWrite.writeObject(ZCartShopping.changePassword);
+			objWrite.writeObject(ZCartShopping.discountNo);
 		}
 		
 		catch(IOException e) {
@@ -31,6 +34,8 @@ public class FileLayer {
 		Map<String,CustomerInfo> cusDetails=new HashMap<>();
 		try(FileInputStream reader=new FileInputStream(cusFile);ObjectInputStream objRead= new ObjectInputStream(reader)){
 			cusDetails=(Map<String, CustomerInfo>) objRead.readObject();
+			ZCartShopping.changePassword=(Map<String, List<String>>) objRead.readObject();
+			ZCartShopping.discountNo=(int) objRead.readObject();
 		}
 		
 		catch(IOException|ClassNotFoundException e) {
@@ -42,6 +47,7 @@ public class FileLayer {
 		try(FileOutputStream writer=new FileOutputStream(zKartFile);ObjectOutputStream objWrite= new ObjectOutputStream(writer)){
 			objWrite.writeObject(zKartInfo);
 			objWrite.writeObject(ZCartShopping.orderHistory);
+			objWrite.writeObject(ZCartShopping.invoiceNumber);
 		}
 		
 		catch(IOException e) {
@@ -52,7 +58,8 @@ public class FileLayer {
 		List<ZKartInfo> zDetails=new ArrayList<>();
 		try(FileInputStream reader=new FileInputStream(zKartFile);ObjectInputStream objRead= new ObjectInputStream(reader)){
 			zDetails=(List<ZKartInfo>) objRead.readObject();
-			ZCartShopping.orderHistory=(Map<String, List<ZKartInfo>>) objRead.readObject();
+			ZCartShopping.orderHistory=(Map<String, Map<Integer, List<ZKartInfo>>>) objRead.readObject();
+			ZCartShopping.invoiceNumber=(int) objRead.readObject();
 		}
 		
 		catch(IOException|ClassNotFoundException e) {
