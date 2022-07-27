@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Details</title>
+<style>
+html {
+  font-family: helvetica, arial, sans-serif;
+  letter-spacing: 1px;
+  padding-top: 20px;
+}
+
+p {
+  background-color: red;
+  width:20%;
+  
+  display:inline-grid;
+}
+
+p label {
+  background-color:  black;
+  color: white;
+  font-size:20px;
+  margin: 1px;
+}
+
+p, label {
+  padding: 10px;
+  border-radius: 7px;
+}
+
+p, div {
+  margin: 60px;
+}
+
+
+</style>
+<script src="Validation.js"></script>
+</head>
+<body>
+<h1>Your Personel Details:</h1>
+
+<p class="container">
+  <label>Name:</label>
+  <label>DateOfBirth:</label>
+  <label>Sex:</label>
+  <label>MobileNumber:</label>
+</p>
+
+<p class="container">
+  <label id="name"></label>
+  <label id="dob"></label>
+  <label id="sex"></label>
+  <label id="mno"></label>
+</p>
+<script>
+
+var name=localStorage.getItem("name");
+var dob=localStorage.getItem("dob");
+var sex=localStorage.getItem("sex");
+var mno=localStorage.getItem("mno");
+document.getElementById("name").innerHTML=name;
+document.getElementById("dob").innerHTML=dob;
+document.getElementById("sex").innerHTML=sex;
+document.getElementById("mno").innerHTML=mno;
+
+
+
+
+</script>
+</body>
+</html>

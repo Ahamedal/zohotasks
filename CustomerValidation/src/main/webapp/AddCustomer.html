@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="Validation.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+
+<label>Name:</label><br>
+<input type="text" placeholder="enter name" id="name"><br>
+<span id="nameErr" style="color:red"></span><br>
+<label>DateOfBirth:</label><br>
+<input  placeholder="enter dateofbirth(MM-DD-YYYY)" id="dob"><br>
+<span id="dobErr" style="color:red"></span><br>
+<label>Sex:</label><br>
+<select id="sex">
+<option>Male</option>
+<option>Female</option>
+</select><br><br>
+<label>Mobile No:</label><br>
+<input placeholder="enter mobilenumber" id="mno"><br>
+<span id="mnoErr" style="color:red"></span><br>
+<button onclick="validation()">Submit</button>
+<input onclick="location.reload()" type="reset" value="Reset" >
+
+</body>
+</html>
